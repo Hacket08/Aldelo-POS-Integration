@@ -39,20 +39,20 @@ export const navItems: INavData[] = [
   // },
   {
     name: 'Sales',
-    url: '/base',
+    url: '/sales',
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
         name: 'Sales Monitoring',
-        url: '/buttons/buttons'
+        url: '/sales/sales-monitoring'
       },
       {
-        name: 'Branch Monitoring',
-        url: '/buttons/button-groups'
+        name: 'Branch Sales Monitoring',
+        url: '/sales/branch-sales-monitoring'
       },
       {
         name: 'Report',
-        url: '/buttons/dropdowns'
+        url: '/sales/sales-report'
       },
     ]
   },
