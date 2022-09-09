@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   title = 'Aldelo Integration Backend Portal';
 =======
   title = 'xxxxxx';
@@ -24,6 +25,9 @@ export class AppComponent implements OnInit {
 =======
   title = 'Aldelo Integration Portal';
 >>>>>>> 9442251d301a0c0cfe7e851b4749537e06cb99af
+=======
+  title = 'Aldelo Integration Portal';
+>>>>>>> master
 
   constructor(
     private router: Router,
