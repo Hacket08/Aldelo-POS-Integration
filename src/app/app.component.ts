@@ -12,10 +12,14 @@ import { Title } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit {
 <<<<<<< HEAD
+<<<<<<< HEAD
   title = 'Aldelo Integration Backend Portal';
 =======
   title = 'xxxxxx';
 >>>>>>> 018d55a7bd2344e31dd8ff60ffbf55c85382f13b
+=======
+  title = 'Inspyr Employee Portal';
+>>>>>>> 118de0002f24c59838f64a2025a986f0e54fb64c
 
   constructor(
     private router: Router,
