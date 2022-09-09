@@ -11,7 +11,7 @@ import { Title } from '@angular/platform-browser';
   template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
-  title = 'Inspyr Employee Portal';
+  title = 'Aldelo Integration Backend Portal';
 
   constructor(
     private router: Router,

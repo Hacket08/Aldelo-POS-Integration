@@ -62,19 +62,19 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
-        name: 'Incident Report',
+        name: 'Purchase Order',
         url: '/buttons/buttons'
       },
       {
-        name: 'Notice to Explain',
+        name: 'Goods Receipt',
         url: '/buttons/button-groups'
       },
       {
-        name: 'Disciplinary Action',
+        name: 'Purchase Order Monitoring',
         url: '/buttons/dropdowns'
       },
       {
-        name: 'Memo',
+        name: 'Report',
         url: '/buttons/dropdowns'
       },
 
@@ -86,19 +86,19 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
-        name: 'Incident Report',
+        name: 'Weekly Order Form',
         url: '/buttons/buttons'
       },
       {
-        name: 'Notice to Explain',
+        name: 'Inventory Movement',
         url: '/buttons/button-groups'
       },
       {
-        name: 'Disciplinary Action',
+        name: 'Inventory Count',
         url: '/buttons/dropdowns'
       },
       {
-        name: 'Memo',
+        name: 'Report',
         url: '/buttons/dropdowns'
       },
 
