@@ -16,7 +16,7 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Employee Management'
+    name: 'Data Monitoring'
   },
   // {
   //   name: 'Employee 201 Files',
@@ -38,7 +38,26 @@ export const navItems: INavData[] = [
   //   ]
   // },
   {
-    name: 'Code of Conduct',
+    name: 'Sales',
+    url: '/base',
+    iconComponent: { name: 'cil-puzzle' },
+    children: [
+      {
+        name: 'Sales Monitoring',
+        url: '/buttons/buttons'
+      },
+      {
+        name: 'Branch Monitoring',
+        url: '/buttons/button-groups'
+      },
+      {
+        name: 'Report',
+        url: '/buttons/dropdowns'
+      },
+    ]
+  },
+  {
+    name: 'Purchase',
     url: '/base',
     iconComponent: { name: 'cil-puzzle' },
     children: [
@@ -62,34 +81,33 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    title: true,
-    name: 'Timekeeping Management'
-  },  {
-    name: 'Application',
+    name: 'Inventory',
     url: '/base',
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
-        name: 'Leave Application',
+        name: 'Incident Report',
         url: '/buttons/buttons'
       },
       {
-        name: 'Overtime Application',
+        name: 'Notice to Explain',
         url: '/buttons/button-groups'
       },
       {
-        name: 'Daily Time Record Application',
+        name: 'Disciplinary Action',
         url: '/buttons/dropdowns'
       },
       {
-        name: 'Change Schedule Application',
+        name: 'Memo',
         url: '/buttons/dropdowns'
       },
+
     ]
   },
+
   {
     title: true,
-    name: 'Payroll Management'
+    name: 'System Setup'
   },
   // {
   //   title: true,
