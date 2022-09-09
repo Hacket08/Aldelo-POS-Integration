@@ -43,22 +43,17 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
-        name: 'Incident Report',
+        name: 'Sales Monitoring',
         url: '/buttons/buttons'
       },
       {
-        name: 'Notice to Explain',
+        name: 'Branch Monitoring',
         url: '/buttons/button-groups'
       },
       {
-        name: 'Disciplinary Action',
+        name: 'Report',
         url: '/buttons/dropdowns'
       },
-      {
-        name: 'Memo',
-        url: '/buttons/dropdowns'
-      },
-
     ]
   },
   {
