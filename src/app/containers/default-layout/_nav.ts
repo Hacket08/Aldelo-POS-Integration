@@ -304,15 +304,15 @@ export const navItems: INavData[] = [
   //     }
   //   ]
   // },
-  // {
-  //   name: 'Widgets',
-  //   url: '/widgets',
-  //   iconComponent: { name: 'cil-calculator' },
-  //   badge: {
-  //     color: 'info',
-  //     text: 'NEW'
-  //   }
-  // },
+  {
+    name: 'Widgets',
+    url: '/widgets',
+    iconComponent: { name: 'cil-calculator' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    }
+  },
   // {
   //   title: true,
   //   name: 'Extras'

@@ -41,6 +41,8 @@ import { SalesMonitoringComponent } from './sales-monitoring/sales-monitoring.co
 import { BranchSalesMonitoringComponent } from './branch-sales-monitoring/branch-sales-monitoring.component';
 import { SalesReportComponent } from './sales-report/sales-report.component';
 
+import { WidgetsModule } from '../widgets/widgets.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -70,6 +72,8 @@ import { SalesReportComponent } from './sales-report/sales-report.component';
     PaginationModule,
     PopoverModule,
     TableModule,
+
+    WidgetsModule
     // DocsComponentsModule,
   ],
   declarations: [
