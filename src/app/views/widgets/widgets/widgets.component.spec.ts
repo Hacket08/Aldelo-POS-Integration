@@ -12,6 +12,7 @@ import { WidgetsDropdownComponent } from '../widgets-dropdown/widgets-dropdown.c
 import { WidgetsEComponent } from '../widgets-e/widgets-e.component';
 import { WidgetsComponent } from './widgets.component';
 import { WidgetsSalesComponent } from '../widgets-sales/widgets-sales.component';
+import { WidgetSalesDashboardComponent } from '../widget-sales-dashboard/widget-sales-dashboard.component';
 
 describe('WidgetsComponent', () => {
   let component: WidgetsComponent;
@@ -20,7 +21,7 @@ describe('WidgetsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WidgetsComponent, WidgetsBrandComponent, WidgetsDropdownComponent, WidgetsEComponent, WidgetsSalesComponent],
+      declarations: [WidgetsComponent, WidgetsBrandComponent, WidgetsDropdownComponent, WidgetsEComponent, WidgetsSalesComponent, WidgetSalesDashboardComponent],
       imports: [WidgetModule, ProgressModule, GridModule, DocsComponentsModule, CardModule, RouterTestingModule, ChartjsModule, IconModule],
       providers: [IconSetService]
     })
