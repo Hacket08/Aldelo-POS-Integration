@@ -37,13 +37,17 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
 //Form Declarations
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
+import { PuchaseOrderListComponent } from './puchase-order-list/puchase-order-list.component';
+import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component';
 
 
 
 @NgModule({
   declarations: [
     PurchaseOrderComponent,
-    PurchaseOrderMonitoringComponent
+    PurchaseOrderMonitoringComponent,
+    PuchaseOrderListComponent,
+    PurchaseOrderTransactionComponent
   ],
   imports: [
     CommonModule,
