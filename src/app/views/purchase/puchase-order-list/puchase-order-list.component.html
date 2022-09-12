@@ -1,1 +1,159 @@
-<p>puchase-order-list works!</p>
+<c-card>
+  <div style="text-align: right;">
+    <button cButton color="success" size="sm">
+      <strong>Create New Transaction</strong>
+    </button>
+  </div>
+</c-card>
+
+<c-card>
+  <c-row>
+    <c-col lg="4" md="6" xs="12">
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Document Number"
+          cFormControl
+          placeholder="Document Number"
+        />
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Supplier Name"
+          cFormControl
+          placeholder="Supplier Name"
+        />
+      </c-input-group>
+    </c-col>
+    <c-col lg="4" md="6" xs="12">
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Document Status"
+          cFormControl
+          placeholder="Document Status"
+        />
+      </c-input-group>
+    </c-col>
+    <c-col lg="4" md="6" xs="12">
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Posting Date"
+          cFormControl
+          placeholder="Posting Date"
+          readonly="true"
+        />
+        <button
+          cButton
+          color="secondary"
+          id="button-addon2"
+          type="button"
+          variant="outline"
+        >
+          <svg cIcon name="cilCalendar" size="sm"></svg>
+        </button>
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Delivery Date"
+          cFormControl
+          placeholder="Delivery Date"
+          readonly="true"
+        />
+        <button
+          cButton
+          color="secondary"
+          id="button-addon2"
+          type="button"
+          variant="outline"
+        >
+          <svg cIcon name="cilCalendar" size="sm"></svg>
+        </button>
+      </c-input-group>
+    </c-col>
+  </c-row>
+</c-card>
+
+<c-card>
+  <table cTable [hover]="true" [striped]="true" size="sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Supplier Code</th>
+        <th scope="col">Supplier Name</th>
+        <th scope="col">Posting Date</th>
+        <th scope="col">Delivery Date</th>
+        <th scope="col">Branch Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td><c-badge color="success">success</c-badge></td>
+        <td>
+            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+            <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-check" size="sm"></svg>
+            </button>
+            <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-ban" size="sm"></svg>
+            </button>
+          </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td><c-badge color="primary">primary</c-badge></td>
+        <td>
+            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+            <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-check" size="sm"></svg>
+            </button>
+            <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-ban" size="sm"></svg>
+            </button>
+          </td>
+      </tr>
+      <tr style="padding: 0">
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td><c-badge color="primary">primary</c-badge></td>
+        <td>
+          <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-pencil" size="sm"></svg>
+          </button>
+          <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-check" size="sm"></svg>
+          </button>
+          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-ban" size="sm"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</c-card>

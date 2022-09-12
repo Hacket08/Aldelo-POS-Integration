@@ -40,8 +40,6 @@ import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/pu
 import { PuchaseOrderListComponent } from './puchase-order-list/puchase-order-list.component';
 import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component';
 
-
-
 @NgModule({
   declarations: [
     PurchaseOrderComponent,
@@ -67,6 +65,7 @@ import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/
     ListGroupModule,
     IconModule,
     TableModule,
+    BadgeModule,
   ]
 })
 export class PurchaseModule { }

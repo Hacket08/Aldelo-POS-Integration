@@ -1,1 +1,178 @@
-<p>purchase-order-transaction works!</p>
+<c-card>
+  <c-row>
+    <c-col>
+      <span class="dot warning"></span>
+    </c-col>
+    <c-col>
+      <div style="text-align: right">
+        <button cButton color="success" size="sm">
+          <svg cIcon name="cil-save" size="sm"></svg>
+          <strong> Save</strong>
+        </button>
+      </div>
+    </c-col>
+  </c-row>
+</c-card>
+
+<c-card>
+  <c-row>
+    <c-col lg="4" md="6" xs="12">
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Select Supplier"
+          cFormControl
+          placeholder="Select Supplier"
+          readonly="true"
+        />
+        <button
+          cButton
+          color="secondary"
+          id="button-addon2"
+          type="button"
+          variant="outline"
+        >
+          <svg cIcon name="cilCalendar" size="sm"></svg>
+        </button>
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Name"
+          cFormControl
+          placeholder="Name"
+          readonly="true"
+        />
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Branch Name"
+          cFormControl
+          placeholder="Branch Name"
+          readonly="true"
+        />
+      </c-input-group>
+    </c-col>
+    <c-col lg="4" md="6" xs="12"> </c-col>
+    <c-col lg="4" md="6" xs="12">
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Document Number"
+          cFormControl
+          placeholder="Document Number"
+          readonly="true"
+        />
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Document Status"
+          cFormControl
+          placeholder="Document Status"
+          readonly="true"
+        />
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Posting Date"
+          cFormControl
+          placeholder="Posting Date"
+          readonly="true"
+        />
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Delivery Date"
+          cFormControl
+          placeholder="Delivery Date"
+          readonly="true"
+        />
+        <button
+          cButton
+          color="secondary"
+          id="button-addon2"
+          type="button"
+          variant="outline"
+        >
+          <svg cIcon name="cilCalendar" size="sm"></svg>
+        </button>
+      </c-input-group>
+    </c-col>
+  </c-row>
+</c-card>
+
+<c-card>
+  <table cTable [hover]="true" [striped]="true" size="sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Item Code</th>
+        <th scope="col">Item Description</th>
+        <th scope="col">Item Uom</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td>
+          <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-pencil" size="sm"></svg>
+          </button>
+          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-ban" size="sm"></svg>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+        <td>
+          <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-pencil" size="sm"></svg>
+          </button>
+          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-ban" size="sm"></svg>
+          </button>
+        </td>
+      </tr>
+      <tr style="padding: 0">
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+        <td>
+          <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-pencil" size="sm"></svg>
+          </button>
+          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-ban" size="sm"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <button cButton color="success" size="sm">
+      <svg cIcon name="cil-playlist-add" size="1xl"></svg><strong> Add Item</strong>
+    </button>
+  </div>
+</c-card>
