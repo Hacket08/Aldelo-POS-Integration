@@ -62,10 +62,11 @@
 // );
 // scss-docs-end colors-map
 
-// $primary-dark:  #1f1498;
-// $primary:       #321fdb;
-// $primary-50:    #988fed;
-// $primary-25:    #ccc7f6;
+
+$primary-dark:  rgb(12, 59, 88);
+$primary:       rgb(28,132,198);
+$primary-50:    rgb(28,132,198,0.5);
+$primary-25:    rgb(28,132,198,0.25);
 
 // $secondary-dark:  #212233;
 // $secondary:       #9da5b1;
@@ -91,6 +92,28 @@
 // $danger:       #e55353;
 // $danger-50:    #f2a9a9;
 // $danger-25:    #f9d4d4;
+
+$primary:       rgb(28,132,198);
+$primary-50:    rgb(28,132,198,0.5);
+$primary-25:    rgb(28,132,198,0.25);
+
+$success:       rgb(26,179,148);
+$success-50:    rgb(26,179,148,0.5);
+$success-25:    rgb(26,179,148,0.25);
+
+$info:       rgb(35,198,200);
+$info-50:    rgb(35,198,200,0.5);
+$info-25:    rgb(35,198,200,0.25);
+
+$warning:       rgb(248,172,89);
+$warning-50:    rgb(248,172,89,0.5);
+$warning-25:    rgb(248,172,89,0.25);
+
+$danger:       rgb(237,85,101);
+$danger-50:    rgb(237,85,101,0.5);
+$danger-25:    rgb(237,85,101,0.25);
+
+
 
 // $light-dark:     $gray-100;
 // $light:          $gray-100;
@@ -1087,6 +1110,9 @@
 
 // Cards
 // scss-docs-start card-variables
+// $card-spacer-y:                     0;
+// $card-spacer-x:                     0;
+
 // $card-spacer-y:                     $spacer;
 // $card-spacer-x:                     $spacer;
 // $card-title-spacer-y:               $spacer / 2;

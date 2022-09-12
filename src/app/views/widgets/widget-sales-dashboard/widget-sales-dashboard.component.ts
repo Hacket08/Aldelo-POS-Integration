@@ -10,6 +10,10 @@ import {
 import { getStyle } from '@coreui/utils/src';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 
+
+import { IconSetService } from '@coreui/icons-angular';
+import { brandSet, flagSet, freeSet } from '@coreui/icons';
+
 @Component({
   selector: 'app-widget-sales-dashboard',
   templateUrl: './widget-sales-dashboard.component.html',
@@ -18,9 +22,14 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
 })
 export class WidgetSalesDashboardComponent implements OnInit, AfterContentInit {
 
+  // public title = 'CoreUI Icons';
+  // public icons!: [string, string[]][];
+
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    private changeDetectorRef: ChangeDetectorRef,  public iconSet: IconSetService
+  ) {
+    iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
+  }
 
   data: any[] = [];
   options: any[] = [];
@@ -117,8 +126,6 @@ export class WidgetSalesDashboardComponent implements OnInit, AfterContentInit {
       }
     }
   };
-
-  
 
   ngOnInit(): void {
     this.setData();

@@ -58,12 +58,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Purchase',
-    url: '/base',
+    url: '/purchase',
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
         name: 'Purchase Order',
-        url: '/buttons/buttons'
+        url: '/purchase/purchase-order'
       },
       {
         name: 'Goods Receipt',
@@ -71,7 +71,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Purchase Order Monitoring',
-        url: '/buttons/dropdowns'
+        url: '/purchase/purchase-order-monitoring'
       },
       {
         name: 'Report',

@@ -14,7 +14,74 @@
   }
 }
   
+
+
 .container-fluid{
   font-size: 80%;
 }
 
+.card-body{
+  padding: 0.25rem 1rem 0.25rem 1rem;
+}
+
+
+.info{
+  background-color: rgb(35,198,200);
+}
+
+.info-5{
+  background-color: rgb(35,198,200,0.5);
+}
+
+.secondary{
+  background-color: rgb(28,132,198);
+}
+
+.secondary-5{
+  background-color: rgb(28,132,198,0.5);
+}
+
+.danger{
+  background-color: rgb(237,85,101);
+}
+
+.danger-5{
+  background-color: rgb(237,85,101,0.5);
+}
+
+.warning{
+  background-color: rgb(248,172,89);
+}
+
+.warning-5{
+  background-color: rgb(248,172,89,0.5);
+}
+
+.success{
+  background-color: rgb(26,179,148);
+}
+
+.success-5{
+  background-color: rgb(26,179,148,0.5);
+}
+
+
+.color-info{
+  color: rgb(35,198,200);
+}
+
+.color-secondary{
+  color: rgb(28,132,198);
+}
+
+.color-danger{
+  color: rgb(237,85,101);
+}
+
+.color-warning{
+  color: rgb(248,172,89);
+}
+
+.color-success{
+  color: rgb(26,179,148);
+}

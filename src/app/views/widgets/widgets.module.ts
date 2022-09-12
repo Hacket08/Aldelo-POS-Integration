@@ -13,6 +13,10 @@ import {
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 
+
+import { IconSetService } from '@coreui/icons-angular';
+import { brandSet, flagSet, freeSet } from '@coreui/icons';
+
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
 
 import { WidgetsRoutingModule } from './widgets-routing.module';
@@ -22,6 +26,8 @@ import { ChartSample, WidgetsDropdownComponent } from './widgets-dropdown/widget
 import { WidgetsEComponent } from './widgets-e/widgets-e.component';
 import { WidgetsSalesComponent } from './widgets-sales/widgets-sales.component';
 import { WidgetSalesDashboardComponent } from './widget-sales-dashboard/widget-sales-dashboard.component';
+
+
 
 @NgModule({
   declarations: [
