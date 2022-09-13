@@ -28,6 +28,9 @@ import {
   TooltipModule,
   UtilitiesModule,  
   ButtonGroupModule,
+  AlertModule,
+  ModalModule,
+  ToastModule,
 } from '@coreui/angular';
 
 
@@ -39,13 +42,15 @@ import { PurchaseOrderComponent } from './purchase-order/purchase-order.componen
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
 import { PuchaseOrderListComponent } from './puchase-order-list/puchase-order-list.component';
 import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component';
+import { ItemDataEntryComponent } from './item-data-entry/item-data-entry.component';
 
 @NgModule({
   declarations: [
     PurchaseOrderComponent,
     PurchaseOrderMonitoringComponent,
     PuchaseOrderListComponent,
-    PurchaseOrderTransactionComponent
+    PurchaseOrderTransactionComponent,
+    ItemDataEntryComponent
   ],
   imports: [
     CommonModule,
@@ -66,6 +71,7 @@ import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/
     IconModule,
     TableModule,
     BadgeModule,
+    ModalModule,
   ]
 })
 export class PurchaseModule { }

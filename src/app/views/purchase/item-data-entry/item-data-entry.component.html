@@ -1,0 +1,101 @@
+<c-input-group class="mb-1" sizing="sm">
+  <input
+    aria-describedby="button-addon2"
+    aria-label="Select Item"
+    cFormControl
+    placeholder="Select Item"
+    readonly="true"
+  />
+  <button
+    cButton
+    color="secondary"
+    id="button-addon2"
+    type="button"
+    variant="outline"
+    style="border: 0rem"
+  >
+    <svg cIcon name="cil-list" size="sm"></svg>
+  </button>
+</c-input-group>
+
+<c-input-group class="mb-1" sizing="sm">
+  <input
+    aria-describedby="button-addon2"
+    aria-label="Item Name"
+    cFormControl
+    placeholder="Item Name"
+    readonly="true"
+  />
+</c-input-group>
+
+<c-input-group class="mb-1" sizing="sm">
+    <input
+      aria-describedby="button-addon2"
+      aria-label="Item Uom"
+      cFormControl
+      placeholder="Item Uom"
+      readonly="true"
+    />
+</c-input-group>
+
+
+
+<c-card>
+    <c-col sm="6">
+        <c-input-group class="mb-1" sizing="sm">
+            <input
+            aria-describedby="button-addon2"
+            aria-label="Search Item"
+            cFormControl
+            placeholder="Search Item"
+            />  <button
+            cButton
+            color="secondary"
+            id="button-addon2"
+            type="button"
+            variant="outline"
+            style="border: 0rem"
+          >
+            <svg cIcon name="cil-magnifying-glass" size="sm"></svg>
+          </button>
+        </c-input-group>
+    </c-col>
+    <table cTable [hover]="true" [striped]="true" size="sm" class="mt-1">
+      <thead>
+        <tr>
+          <th scope="col">Item Code</th>
+          <th scope="col">Item Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>
+            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem"> Select
+              <svg cIcon name="cil-check" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>
+            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem"> Select
+              <svg cIcon name="cil-check" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+        <tr style="padding: 0">
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>
+            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem"> Select
+              <svg cIcon name="cil-check" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card>
