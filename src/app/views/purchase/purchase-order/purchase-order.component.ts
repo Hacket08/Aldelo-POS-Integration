@@ -11,13 +11,38 @@ import { brandSet, flagSet, freeSet } from '@coreui/icons';
   styleUrls: ['./purchase-order.component.scss'],
 })
 export class PurchaseOrderComponent implements OnInit {
-  // title = 'appBootstrap';
 
-  // model;
+  public liveDemoVisible = false;
+  isHidden = false;
+  isListViewHidden = false;
+  isTransactionViewHidden = false;
 
   constructor(public iconSet: IconSetService) {
     iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isTransactionViewHidden = true;
+  }
+
+  toggleLiveDemo() {
+    this.liveDemoVisible = !this.liveDemoVisible;
+  }
+
+  handleLiveDemoChange(event: boolean) {
+    this.liveDemoVisible = event;
+  }
+  
+  eventNewTransaction()
+  {
+    this.isListViewHidden = true;
+    this.isTransactionViewHidden = false;
+  }
+
+  eventSaveTransaction()
+  {
+    this.isListViewHidden = false;
+    this.isTransactionViewHidden = true;
+    console.log("Child Event Triggered");
+  }
 }

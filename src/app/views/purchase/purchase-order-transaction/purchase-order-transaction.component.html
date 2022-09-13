@@ -5,7 +5,7 @@
     </c-col>
     <c-col>
       <div style="text-align: right">
-        <button cButton color="success" size="sm">
+        <button (click)="PassEvent()" cButton color="success" size="sm">
           <svg cIcon name="cil-save" size="sm"></svg>
           <strong> Save</strong>
         </button>
@@ -112,11 +112,10 @@
   </c-row>
 </c-card>
 
-<c-card>
+<c-card class="table-responsive">
   <table cTable [hover]="true" [striped]="true" size="sm">
     <thead>
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Item Code</th>
         <th scope="col">Item Description</th>
         <th scope="col">Item Uom</th>
@@ -125,47 +124,23 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
+      <tr *ngFor="let o of poitem;let i=index">
+        <td> {{ o.itemcode }}</td>
+        <td> {{ o.itemname }}</td>
         <td>@mdo</td>
-        <td>@mdo</td>
+        <td><input 
+          aria-describedby="button-addon2"
+          aria-label="Quantity"
+          cFormControl
+
+          sizing="sm"
+          type="number"
+          name="Quantity"
+          ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+          step="0.001"
+        /></td>
         <td>
-          <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-pencil" size="sm"></svg>
-          </button>
-          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-ban" size="sm"></svg>
-          </button>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>@mdo</td>
-        <td>
-          <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-pencil" size="sm"></svg>
-          </button>
-          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-ban" size="sm"></svg>
-          </button>
-        </td>
-      </tr>
-      <tr style="padding: 0">
-        <th scope="row">3</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>@mdo</td>
-        <td>
-          <button cButton [cModalToggle]="itemDataEntry.id" color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-pencil" size="sm"></svg>
-          </button>
-          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+          <button cButton (click)="deleteItem(i)" color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
             <svg cIcon name="cil-ban" size="sm"></svg>
           </button>
         </td>
@@ -187,7 +162,7 @@
   </c-modal-header>
 
   <c-modal-body>
-    <app-item-data-entry></app-item-data-entry>
+    <app-item-data-entry (passedEvent)="eventAddRow($event)"></app-item-data-entry>
   </c-modal-body>
 
   <c-modal-footer>

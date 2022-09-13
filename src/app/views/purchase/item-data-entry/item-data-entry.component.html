@@ -1,4 +1,4 @@
-<c-input-group class="mb-1" sizing="sm">
+<!-- <c-input-group class="mb-1" sizing="sm">
   <input
     aria-describedby="button-addon2"
     aria-label="Select Item"
@@ -36,9 +36,7 @@
       placeholder="Item Uom"
       readonly="true"
     />
-</c-input-group>
-
-
+</c-input-group> -->
 
 <c-card>
     <c-col sm="6">
@@ -69,29 +67,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Mark</td>
-          <td>Otto</td>
+        <tr *ngFor="let o of items">
+          <td> {{ o.itemcode }}</td>
+          <td> {{ o.itemname }}</td>
           <td>
-            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem"> Select
-              <svg cIcon name="cil-check" size="sm"></svg>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>
-            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem"> Select
-              <svg cIcon name="cil-check" size="sm"></svg>
-            </button>
-          </td>
-        </tr>
-        <tr style="padding: 0">
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>
-            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem"> Select
+            <button (click)="eventReadData(o)" [cModalToggle]=""  cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem"> Select
               <svg cIcon name="cil-check" size="sm"></svg>
             </button>
           </td>

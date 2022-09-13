@@ -1,4 +1,4 @@
 <!-- hidden to hide elements -->
 
-<app-puchase-order-list></app-puchase-order-list>
-<app-purchase-order-transaction></app-purchase-order-transaction>
+<app-puchase-order-list (passedEvent)="eventNewTransaction()" *ngIf="!isListViewHidden"></app-puchase-order-list>
+<app-purchase-order-transaction (passedEvent)="eventSaveTransaction()"  *ngIf="!isTransactionViewHidden"></app-purchase-order-transaction>

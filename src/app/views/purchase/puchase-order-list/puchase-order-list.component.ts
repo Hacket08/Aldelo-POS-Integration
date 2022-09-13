@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-puchase-order-list',
@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./puchase-order-list.component.scss']
 })
 export class PuchaseOrderListComponent implements OnInit {
+  @Output() passedEvent= new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  PassEvent(){
+    this.passedEvent.emit();
+  }
 }
