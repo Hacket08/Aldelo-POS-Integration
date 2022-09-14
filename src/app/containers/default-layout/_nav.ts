@@ -9,10 +9,6 @@ export const navItems: INavData[] = [
     name: 'Dashboard',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
-    badge: {
-      color: 'info',
-      text: 'NEW'
-    }
   },
   {
     title: true,
@@ -104,7 +100,30 @@ export const navItems: INavData[] = [
 
     ]
   },
+  {
+    name: 'Master Data',
+    url: '/master-data',
+    iconComponent: { name: 'cil-puzzle' },
+    children: [
+      {
+        name: 'Items',
+        url: '/master-data/items'
+      },
+      {
+        name: 'Branch',
+        url: '/buttons/button-groups'
+      },
+      {
+        name: 'Supplier',
+        url: '/master-data/supplier'
+      },
+      {
+        name: 'Customer',
+        url: '/buttons/dropdowns'
+      },
 
+    ]
+  },
   {
     title: true,
     name: 'System Setup'
@@ -304,15 +323,15 @@ export const navItems: INavData[] = [
   //     }
   //   ]
   // },
-  {
-    name: 'Widgets',
-    url: '/widgets',
-    iconComponent: { name: 'cil-calculator' },
-    badge: {
-      color: 'info',
-      text: 'NEW'
-    }
-  },
+  // {
+  //   name: 'Widgets',
+  //   url: '/widgets',
+  //   iconComponent: { name: 'cil-calculator' },
+  //   badge: {
+  //     color: 'info',
+  //     text: 'NEW'
+  //   }
+  // },
   // {
   //   title: true,
   //   name: 'Extras'

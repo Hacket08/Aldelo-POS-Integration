@@ -14,7 +14,6 @@ export class ItemDataEntryComponent implements OnInit {
   constructor(public itemservice: ItemService
   ) { }
 
-
   item = new Item();
   items: Item[] = [];
 

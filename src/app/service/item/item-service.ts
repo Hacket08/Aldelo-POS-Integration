@@ -6,8 +6,6 @@ import { HttpClient } from '@angular/common/http';
 export class ItemService {
   constructor()
   {}
-  
-  // list: Item[] = [];
 
   getList()
   {

@@ -35,6 +35,7 @@ export class Users {
 
     public getUserFullName() : string {
         const data = this.getCurrentUser();
-        return data.lastName + ", " + data.firstName + " " + data.middleInitial;
+        // return data.lastName + ", " + data.firstName + " " + data.middleInitial;
+        return data[0].ins_FullName;
     }
 }

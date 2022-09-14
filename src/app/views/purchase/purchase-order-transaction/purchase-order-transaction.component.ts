@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ItemService } from '../../../service/item/item-service';
 import { Item } from '../../../shared/item/item';
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { SupplierService } from '../../../service/supplier/supplier-service';
+import { Supplier } from '../../../shared/supplier/supplier';
+import { Users } from '../../../../_services/user.service';
 
 class POItem {
   itemcode: string = '';
   itemname: string = '';
-  itemuom: string = '';
 }
 
 @Component({
@@ -17,43 +19,57 @@ class POItem {
 export class PurchaseOrderTransactionComponent implements OnInit {
   @Input() childPost: any[] = [];
   @Output() passedEvent = new EventEmitter();
-  model!: NgbDateStruct;
-  
+  datepipe: DatePipe = new DatePipe('en-US');
+  postingdate = this.datepipe.transform(new Date(), 'MM/dd/YYYY');
+
   poitem: any[] = [];
+  suppliers: any[] = [];
 
-  constructor() {}
+  supplier?: Supplier;
 
-  ngOnInit(): void {}
+  suppliercode: string = '';
+  suppliername: string = '';
+  branchname: string = '';
+  docstatus: string = 'Pending';
 
-  // toggleLiveDemo() {
-  //   this.liveDemoVisible = !this.liveDemoVisible;
-  // }
+  constructor(public user: Users) {}
 
-  // handleLiveDemoChange(event: boolean) {
-  //   this.liveDemoVisible = event;
-  // }
+  ngOnInit(): void {
+
+  }
 
   PassEvent() {
     this.passedEvent.emit();
   }
 
-  eventAddRow(items: any[]) {
-    console.log("Data trigger from item", items);
-    this.poitem.push(items);
-    console.log("pos items", this.poitem);
-  //   for(let item of items){
-  //     console.log("Data trigger from item", item);
-  //  }
+  eventAddRow(data: Item) {
+    this.poitem.push(data);
   }
 
-  numericOnly(event: any): boolean {    
+  eventSelectSupplier(data: Supplier) {
+    this.suppliers.length = 0;
+
+    
+    // localStorage.setItem('supplierData', JSON.stringify(data));
+    // let redirect = localStorage.getItem('supplierData');
+    // console.log('localstorage', JSON.stringify(redirect));
+
+    const userInfo = this.user.getCurrentUser();
+
+    this.supplier = data;
+    // this.suppliers.push(data);
+    this.suppliercode = this.supplier.suppliercode;
+    this.suppliername = this.supplier.suppliername;
+    this.branchname = userInfo[0].ins_BranchName;
+  }
+
+  numericOnly(event: any): boolean {
     let patt = /^[0-9]+(\.[0-9]{1,2})?$/;
     let result = patt.test(event.key);
     return result;
   }
 
-  deleteItem(i: any)
-  {
-    this.poitem.splice(i,1);
+  deleteItem(i: any) {
+    this.poitem.splice(i, 1);
   }
 }

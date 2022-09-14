@@ -36,6 +36,7 @@ import {
 
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { PurchaseRoutingModule } from './purchase-routing.module';
+// import { NgbDatepicker } from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker";
 
 //Form Declarations
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
@@ -43,6 +44,7 @@ import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/pu
 import { PuchaseOrderListComponent } from './puchase-order-list/puchase-order-list.component';
 import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component';
 import { ItemDataEntryComponent } from './item-data-entry/item-data-entry.component';
+import { SupplierDataEntryComponent } from './supplier-data-entry/supplier-data-entry.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { ItemDataEntryComponent } from './item-data-entry/item-data-entry.compon
     PurchaseOrderMonitoringComponent,
     PuchaseOrderListComponent,
     PurchaseOrderTransactionComponent,
-    ItemDataEntryComponent
+    ItemDataEntryComponent,
+    SupplierDataEntryComponent
   ],
   imports: [
     CommonModule,
@@ -72,6 +75,7 @@ import { ItemDataEntryComponent } from './item-data-entry/item-data-entry.compon
     TableModule,
     BadgeModule,
     ModalModule,
+    // NgbDatepicker,
   ]
 })
 export class PurchaseModule { }

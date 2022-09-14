@@ -27,21 +27,27 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
         path: 'sales',
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/sales/sales.module').then((m) => m.SalesModule)
       },
       {
         path: 'purchase',
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/purchase/purchase.module').then((m) => m.PurchaseModule)
+      },
+      {
+        path: 'master-data',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/master-data/master-data.module').then((m) => m.MasterDataModule)
       },
       {
         path: 'theme',
