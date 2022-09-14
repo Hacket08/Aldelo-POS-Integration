@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconModule } from '@coreui/icons-angular';
 
+import { MasterDataModule } from '../master-data/master-data.module'
+
 // CoreUI Modules
 import {
   AccordionModule,
@@ -41,10 +43,11 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
 //Form Declarations
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
-import { PuchaseOrderListComponent } from './puchase-order-list/puchase-order-list.component';
-import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component';
+import { PuchaseOrderListComponent } from './purchase-order/puchase-order-list/puchase-order-list.component';
+import { PurchaseOrderTransactionComponent } from '../purchase/purchase-order/purchase-order-transaction/purchase-order-transaction.component';
 import { ItemDataEntryComponent } from './item-data-entry/item-data-entry.component';
-import { SupplierDataEntryComponent } from './supplier-data-entry/supplier-data-entry.component';
+// import { SupplierDataEntryComponent } from './supplier-data-entry/supplier-data-entry.component';
+
 
 @NgModule({
   declarations: [
@@ -52,8 +55,7 @@ import { SupplierDataEntryComponent } from './supplier-data-entry/supplier-data-
     PurchaseOrderMonitoringComponent,
     PuchaseOrderListComponent,
     PurchaseOrderTransactionComponent,
-    ItemDataEntryComponent,
-    SupplierDataEntryComponent
+    ItemDataEntryComponent
   ],
   imports: [
     CommonModule,
@@ -75,6 +77,7 @@ import { SupplierDataEntryComponent } from './supplier-data-entry/supplier-data-
     TableModule,
     BadgeModule,
     ModalModule,
+    MasterDataModule,
     // NgbDatepicker,
   ]
 })

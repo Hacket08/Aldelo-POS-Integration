@@ -1,1 +1,126 @@
-<p>supplier-data-entry works!</p>
+<form
+  cForm
+  [formGroup]="simpleForm"
+  novalidate
+  (ngSubmit)="onSubmit()"
+  class="needs-validation"
+>
+  <c-card>
+    <c-row>
+      <c-col>
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="dot warning"></span>
+          <div
+            class="d-flex align-items-center"
+            style="margin-top: 0.25rem; margin-left: 1rem"
+          >
+            <!-- <strong>docstatus</strong> -->
+          </div>
+        </div>
+      </c-col>
+      <c-col>
+        <div style="text-align: right">
+          <!-- <button (click)="PassEvent()" cButton color="success" size="sm"> -->
+          <button cButton color="success" size="sm" type="submit" >
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong> Save</strong>
+          </button>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col lg="6" md="6" xs="12">
+        <c-row class="mb-1">
+          <label [sm]="3" cCol cLabel="col" for="supplierCode" sizing="sm"
+            >Supplier Code</label
+          >
+          <c-col [sm]="9">
+            <input formControlName="supplierCode" cFormControl id="supplierCode" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+
+        <c-row class="mb-1">
+          <label [sm]="3" cCol cLabel="col" for="supplierName" sizing="sm"
+            >Supplier Name</label
+          >
+          <c-col [sm]="9">
+            <input formControlName="supplierName" cFormControl id="supplierName" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+      </c-col>
+      <c-col lg="6" md="6" xs="12">
+        <c-row class="mb-1">
+          <label [sm]="3" cCol cLabel="col" for="contactPerson" sizing="sm"
+            >Contact Person</label
+          >
+          <c-col [sm]="9">
+            <input formControlName="contactPerson"  cFormControl id="contactPerson" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+
+        <c-row class="mb-1">
+          <label [sm]="3" cCol cLabel="col" for="position" sizing="sm"
+            >Position</label
+          >
+          <c-col [sm]="9">
+            <input formControlName="position"  cFormControl id="position" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+
+        <c-row class="mb-1">
+          <label [sm]="3" cCol cLabel="col" for="phone" sizing="sm"
+            >Phone</label
+          >
+          <c-col [sm]="9">
+            <input formControlName="phone" cFormControl id="phone" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+
+        <c-row class="mb-1">
+          <label [sm]="3" cCol cLabel="col" for="emailAddress" sizing="sm"
+            >Email Address</label
+          >
+          <c-col [sm]="9">
+            <input formControlName="emailAddress" cFormControl id="emailAddress" sizing="sm" type="email" />
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col lg="12" md="12" xs="12">
+        <c-row class="mb-1">
+          <label [sm]="2" cCol cLabel="col" for="address1" sizing="sm"
+            >Address 1</label
+          >
+          <c-col [sm]="10">
+            <input formControlName="address1" cFormControl id="address1" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+
+        <c-row class="mb-1">
+          <label [sm]="2" cCol cLabel="col" for="address2" sizing="sm"
+            >Address 2</label
+          >
+          <c-col [sm]="10">
+            <input formControlName="address2" cFormControl id="address2" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+
+        <c-row class="mb-1">
+          <label [sm]="2" cCol cLabel="col" for="address3" sizing="sm"
+            >Address 3</label
+          >
+          <c-col [sm]="10">
+            <input formControlName="address3" cFormControl id="address3" sizing="sm" type="text" />
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+</form>

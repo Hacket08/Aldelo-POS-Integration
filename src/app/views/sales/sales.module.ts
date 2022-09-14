@@ -72,7 +72,6 @@ import { WidgetsModule } from '../widgets/widgets.module';
     PaginationModule,
     PopoverModule,
     TableModule,
-
     WidgetsModule
     // DocsComponentsModule,
   ],

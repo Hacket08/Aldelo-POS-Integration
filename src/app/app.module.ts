@@ -43,10 +43,13 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
+  ModalModule,
+  TableModule,
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -89,6 +92,8 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     NgbModule,
+    ModalModule,
+    TableModule,
   ],
   providers: [
     {

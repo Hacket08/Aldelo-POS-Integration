@@ -11,18 +11,18 @@ export class SupplierService {
     {
       let list: Supplier[] = [];
       let s = new Supplier();
-      s.suppliercode = "something";
-      s.suppliername = "something";
+      s.ins_SupplierCode = "something";
+      s.ins_SupplierName = "something";
       list.push(s);
       
       s = new Supplier();
-      s.suppliercode = "1";
-      s.suppliername = "2";
+      s.ins_SupplierCode = "1";
+      s.ins_SupplierName = "2";
       list.push(s);
   
       s = new Supplier();
-      s.suppliercode = "1s";
-      s.suppliername = "2s";
+      s.ins_SupplierCode = "1s";
+      s.ins_SupplierName = "2s";
       list.push(s);
   
       return list;

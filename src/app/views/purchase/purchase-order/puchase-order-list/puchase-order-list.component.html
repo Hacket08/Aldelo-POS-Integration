@@ -1,5 +1,5 @@
 <c-card>
-  <div style="text-align: right;">
+  <div class="d-flex justify-content-end">
     <button (click)="PassEvent()" cButton color="success" size="sm">
       <strong>Create New Transaction</strong>
     </button>
@@ -81,7 +81,7 @@
   </c-row>
 </c-card>
 
-<c-card>
+<c-card class="table-responsive">
   <table cTable [hover]="true" [striped]="true" size="sm">
     <thead>
       <tr>

@@ -1,23 +1,85 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IconModule } from '@coreui/icons-angular';
 
+// CoreUI Modules
+import {
+  AccordionModule,
+  BadgeModule,
+  BreadcrumbModule,
+  ButtonModule,
+  CardModule,
+  CarouselModule,
+  CollapseModule,
+  DropdownModule,
+  FormModule,
+  GridModule,
+  ListGroupModule,
+  NavModule,
+  PaginationModule,
+  PlaceholderModule,
+  PopoverModule,
+  ProgressModule,
+  SharedModule,
+  SpinnerModule,
+  TableModule,
+  TabsModule,
+  TooltipModule,
+  UtilitiesModule,  
+  ButtonGroupModule,
+  AlertModule,
+  ModalModule,
+  ToastModule,
+} from '@coreui/angular';
+
+
+import { DocsComponentsModule } from '@docs-components/docs-components.module';
+
+//Form Declarations
 import { MasterDataRoutingModule } from './master-data-routing.module';
 import { ItemsComponent } from './items/items.component';
 import { SupplierComponent } from './supplier/supplier.component';
-import { SupplierDataListComponent } from './supplier/supplier-data-list/supplier-data-list.component';
+
 import { SupplierDataEntryComponent } from './supplier/supplier-data-entry/supplier-data-entry.component';
+import { SupplierDataListComponent } from './supplier/supplier-data-list/supplier-data-list.component';
+import { SupplierDataSelectionComponent } from './supplier/supplier-data-selection/supplier-data-selection.component';
 
 
 @NgModule({
   declarations: [
     ItemsComponent,
     SupplierComponent,
+    SupplierDataEntryComponent,
     SupplierDataListComponent,
-    SupplierDataEntryComponent
+    SupplierDataSelectionComponent
   ],
   imports: [
     CommonModule,
-    MasterDataRoutingModule
+    MasterDataRoutingModule,
+    DocsComponentsModule,
+    CardModule,
+    FormModule,
+    GridModule,
+    ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormModule,
+    ButtonModule,
+    ButtonGroupModule,
+    DropdownModule,
+    SharedModule,
+    ListGroupModule,
+    IconModule,
+    TableModule,
+    BadgeModule,
+    ModalModule,
+  ],
+  exports: [
+    SupplierDataSelectionComponent
   ]
 })
+
+
+
 export class MasterDataModule { }

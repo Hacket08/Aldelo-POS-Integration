@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ItemService } from '../../../service/item/item-service';
-import { Item } from '../../../shared/item/item';
-import { SupplierService } from '../../../service/supplier/supplier-service';
-import { Supplier } from '../../../shared/supplier/supplier';
-import { Users } from '../../../../_services/user.service';
+import { ItemService } from '../../../../service/item/item-service';
+import { Item } from '../../../../shared/item/item';
+import { SupplierService } from '../../../../service/supplier/supplier-service';
+import { Supplier } from '../../../../shared/supplier/supplier';
+
+import { Users } from '../../../../../_services/user.service';
 
 class POItem {
   itemcode: string = '';
@@ -48,18 +49,11 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   eventSelectSupplier(data: Supplier) {
     this.suppliers.length = 0;
-
-    
-    // localStorage.setItem('supplierData', JSON.stringify(data));
-    // let redirect = localStorage.getItem('supplierData');
-    // console.log('localstorage', JSON.stringify(redirect));
-
     const userInfo = this.user.getCurrentUser();
 
     this.supplier = data;
-    // this.suppliers.push(data);
-    this.suppliercode = this.supplier.suppliercode;
-    this.suppliername = this.supplier.suppliername;
+    this.suppliercode = this.supplier.ins_SupplierCode;
+    this.suppliername = this.supplier.ins_SupplierName;
     this.branchname = userInfo[0].ins_BranchName;
   }
 

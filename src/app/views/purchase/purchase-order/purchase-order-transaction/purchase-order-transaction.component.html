@@ -12,7 +12,7 @@
       </div>
     </c-col>
     <c-col>
-      <div style="text-align: right">
+      <div class="d-flex justify-content-end">
         <button (click)="PassEvent()" cButton color="success" size="sm">
           <svg cIcon name="cil-save" size="sm"></svg>
           <strong> Save</strong>
@@ -191,9 +191,9 @@
   </c-modal-header> -->
 
   <c-modal-body>
-    <app-supplier-data-entry
+    <app-supplier-data-selection
       (passedEvent)="eventSelectSupplier($event)"
-    ></app-supplier-data-entry>
+    ></app-supplier-data-selection>
   </c-modal-body>
 
   <!-- <c-modal-footer>

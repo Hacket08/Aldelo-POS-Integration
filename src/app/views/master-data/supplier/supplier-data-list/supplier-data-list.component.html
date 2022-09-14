@@ -1,1 +1,107 @@
-<p>supplier-data-list works!</p>
+<c-card>
+  <div style="text-align: right">
+    <!-- <button (click)="PassEvent()" cButton color="success" size="sm"> -->
+    <button cButton color="success" size="sm">
+      <strong>Create New Transaction</strong>
+    </button>
+  </div>
+</c-card>
+
+<c-card>
+  <c-row>
+    <c-col lg="4" md="6" xs="12">
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Supplier Code"
+          cFormControl
+          placeholder="Supplier Code"
+        />
+      </c-input-group>
+
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Supplier Name"
+          cFormControl
+          placeholder="Supplier Name"
+        />
+      </c-input-group>
+    </c-col>
+    <c-col lg="4" md="6" xs="12">
+      <c-input-group class="mb-1" sizing="sm">
+        <input
+          aria-describedby="button-addon2"
+          aria-label="Contact Person"
+          cFormControl
+          placeholder="Contact Person"
+        />
+      </c-input-group>
+    </c-col>
+    <c-col lg="4" md="6" xs="12"> </c-col>
+  </c-row>
+</c-card>
+
+<c-card class="table-responsive">
+  <table cTable [hover]="true" [striped]="true" size="sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Supplier Code</th>
+        <th scope="col">Supplier Name</th>
+        <th scope="col">Contact Person</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>
+            <button
+              cButton
+              color="info"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+            >
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+          </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>
+            <button
+              cButton
+              color="info"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+            >
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+          </td>
+      </tr>
+      <tr style="padding: 0">
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>
+          <button
+            cButton
+            color="info"
+            size="sm"
+            style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+          >
+            <svg cIcon name="cil-pencil" size="sm"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</c-card>

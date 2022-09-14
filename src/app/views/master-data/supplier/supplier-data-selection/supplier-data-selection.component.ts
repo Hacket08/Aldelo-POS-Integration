@@ -1,14 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { SupplierService } from '../../../service/supplier/supplier-service';
-import { Supplier } from '../../../shared/supplier/supplier';
+import { SupplierService } from '../../../../service/supplier/supplier-service';
+import { Supplier } from '../../../../shared/supplier/supplier';
 
 @Component({
-  selector: 'app-supplier-data-entry',
-  templateUrl: './supplier-data-entry.component.html',
-  styleUrls: ['./supplier-data-entry.component.scss']
+  selector: 'app-supplier-data-selection',
+  templateUrl: './supplier-data-selection.component.html',
+  styleUrls: ['./supplier-data-selection.component.scss']
 })
-export class SupplierDataEntryComponent implements OnInit {
-
+export class SupplierDataSelectionComponent implements OnInit {
   @Output() passedEvent= new EventEmitter();
 
   constructor(public supplierservice: SupplierService) { }

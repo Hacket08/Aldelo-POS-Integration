@@ -14,7 +14,7 @@ constructor( private http: HttpClient, public swalService: SwalService ) { }
         return this.http.get(url, options); 
     } 
     public post(url: string, data: any, options?: any) { 
-        return this.http.post(url, data, options); 
+        return this.http.post(url, data, options);
     } 
     public put(url: string, data: any, options?: any) { 
         return this.http.put(url, data, options); 
@@ -30,5 +30,4 @@ constructor( private http: HttpClient, public swalService: SwalService ) { }
     public getAPI(module: string = '') {
         return Constants.API_ENDPOINT + "api/" + module;
     }
-
 }
