@@ -7,12 +7,17 @@ import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 
+import { AuthGuard } from '../_guard/auth.guard';
+
+let redirect = JSON.parse(localStorage.getItem('userData')) !== null ? 'dashboard' : 'login'; 
+
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
-  },
+  {path: '', redirectTo: redirect, pathMatch: 'full'},
+  // {
+  //   path: '',
+  //   redirectTo: 'dashboard',
+  //   pathMatch: 'full'
+  // },
   {
     path: '',
     component: DefaultLayoutComponent,
@@ -22,16 +27,19 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        // canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
         path: 'sales',
+        // canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/sales/sales.module').then((m) => m.SalesModule)
       },
       {
         path: 'purchase',
+        // canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/purchase/purchase.module').then((m) => m.PurchaseModule)
       },

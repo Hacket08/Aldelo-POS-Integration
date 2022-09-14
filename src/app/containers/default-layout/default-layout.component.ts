@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IconModule } from '@coreui/icons-angular';
 
 import { navItems } from './_nav';
 

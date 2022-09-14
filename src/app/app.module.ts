@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Import app component
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 
 // Import containers
 import {
@@ -62,6 +63,7 @@ const APP_CONTAINERS = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     AvatarModule,
     BreadcrumbModule,
@@ -91,7 +93,7 @@ const APP_CONTAINERS = [
   providers: [
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy,
+      useClass: PathLocationStrategy,
     },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,

@@ -3,6 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 
+import { IconSetService } from '@coreui/icons-angular';
+import { brandSet, flagSet, freeSet } from '@coreui/icons';
+
 interface IUser {
   name: string;
   state: string;
@@ -22,7 +25,11 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
+
+  constructor(
+    private chartsData: DashboardChartsData,  public iconSet: IconSetService
+  ) {
+    iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
   }
 
   public users: IUser[] = [

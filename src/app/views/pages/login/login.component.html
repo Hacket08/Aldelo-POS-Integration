@@ -3,54 +3,105 @@
     <c-row class="justify-content-center">
       <c-col md="8">
         <c-card-group>
-          <c-card class="p-4">
+          <c-card class="p-8">
             <c-card-body>
-              <form cForm>
-                <h1>Login</h1>
-                <p class="text-medium-emphasis">Sign In to your account</p>
+              <form cForm [formGroup]="simpleForm" novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+                
+                <c-row class="text-center mt-0">
+                  <!-- <img cImg height="80" src="../../../../assets/logo/pos_logo.png" alt=""/> -->
+                </c-row>
+          
+                <c-row class="mt-3">
+                  <p class="text-medium-emphasis">Sign In to your account</p>
+                </c-row>
+          
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
                   </span>
-                  <input autoComplete="username" cFormControl placeholder="Username" />
+                  <input cFormControl id="username" formControlName="username"
+                    placeholder="Username" autocomplete="none" required [autofocus]="true"
+                    [ngClass]=
+                    "{ 'is-invalid': (submitted || f['username'].touched) && 
+                      f['username'].errors, 'is-valid': f['username'].touched && 
+                      !f['username'].errors 
+                    }"
+                  />
+                  <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                    <div *ngIf="f['username'].errors['required']">Username is required</div>
+                    <div *ngIf="f['username'].errors['minlength']">{{formErrors.username.minLength}}</div>
+                    <div *ngIf="f['username'].errors['pattern']">{{formErrors.username.pattern}}</div>
+                  </div>
                 </c-input-group>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
-                  <input
-                    autoComplete="current-password"
-                    cFormControl
-                    placeholder="Password"
-                    type="password"
+                  <input cFormControl id="password" formControlName="password" type="password"
+                    placeholder="Password" autocomplete="new-password" required
+                    [ngClass]="{ 
+                      'is-invalid': (submitted || f['password'].touched) && 
+                      f['password'].invalid, 'is-valid': f['password'].touched && 
+                      f['password'].valid 
+                    }"
                   />
+
+                  <div *ngIf="submitted && f['password'].invalid" class="invalid-feedback">
+                    <div *ngIf="f['password'].errors['required']">Password is required</div>
+                    <div *ngIf="f['password'].errors['minlength']">{{formErrors['password'].minLength}}</div>
+                    <div *ngIf="f['password'].errors['pattern']">{{formErrors['password'].pattern}}</div>
+                  </div>
+
                 </c-input-group>
+                
                 <c-row>
-                  <c-col xs="6">
-                    <button cButton class="px-4" color="primary">
+
+                  <c-col class="mt-2" xs="8">
+                    <c-form-check>
+                      <input cFormCheckInput id="checkOne" type="checkbox" />
+                      <label cFormCheckLabel for="checkOne">Remember Me</label>
+                    </c-form-check>
+                  </c-col>
+
+                  <c-col xs="4">
+                    <button cButton class="px-4" color="primary" type="submit" 
+                      [disabled]="simpleForm.pristine || simpleForm.invalid" 
+                      [tabindex]="'0'"
+                    >
                       Login
                     </button>
                   </c-col>
-                  <c-col class="text-right" xs="6">
-                    <button cButton class="px-0" color="link">
+
+                </c-row>
+               
+                <hr cDropdownDivider/>
+
+                <c-row>
+                  <c-col class="text-left" xs="6">
+                    <button cButton class="px-0" color="link" routerLink="/forgot">
                       Forgot password?
                     </button>
                   </c-col>
                 </c-row>
+                  
+                <!-- <c-row>
+                  <c-col class="text-left" xs="12">
+                    <button type="submit" cButton class="px-0" color="link" routerLink="/register">
+                      Create a New Account
+                    </button>
+                  </c-col>
+                </c-row> -->
+
               </form>
             </c-card-body>
           </c-card>
-          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+
+          <c-card [ngStyle]="{'width.%': 44}" id="login_card_back"
+            class="text-white bg-primary py-5"
+          >
             <c-card-body class="text-center">
               <div>
-                <h2>Sign up</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
-                  Register Now!
-                </button>
+                
               </div>
             </c-card-body>
           </c-card>
