@@ -12,8 +12,7 @@ import { brandSet, flagSet, freeSet } from '@coreui/icons';
 })
 export class PurchaseOrderComponent implements OnInit {
 
-  public liveDemoVisible = false;
-  isHidden = false;
+
   isListViewHidden = false;
   isTransactionViewHidden = false;
 
@@ -25,21 +24,13 @@ export class PurchaseOrderComponent implements OnInit {
     this.isTransactionViewHidden = true;
   }
 
-  toggleLiveDemo() {
-    this.liveDemoVisible = !this.liveDemoVisible;
-  }
-
-  handleLiveDemoChange(event: boolean) {
-    this.liveDemoVisible = event;
-  }
-  
   eventNewTransaction()
   {
     this.isListViewHidden = true;
     this.isTransactionViewHidden = false;
   }
 
-  eventSaveTransaction()
+  eventListTransaction()
   {
     this.isListViewHidden = false;
     this.isTransactionViewHidden = true;

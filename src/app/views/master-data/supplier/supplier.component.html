@@ -1,3 +1,3 @@
-<app-supplier-data-list></app-supplier-data-list>
-<app-supplier-data-entry></app-supplier-data-entry>
+<app-supplier-data-list (passedEvent)="eventNewTransaction()" *ngIf="!isListViewHidden"></app-supplier-data-list>
+<app-supplier-data-entry (passedEvent)="eventListTransaction()" *ngIf="!isTransactionViewHidden"></app-supplier-data-entry>
 
