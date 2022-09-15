@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ItemService } from '../../../../../_shared/item/item-service';
+import { ItemService } from '../../../../../_shared/item/item.service';
 import { Item } from '../../../../../_model/item/item';
 import { SupplierService } from '../../../../../_shared/supplier/supplier.service';
 import { Supplier } from '../../../../../_model/supplier/supplier';

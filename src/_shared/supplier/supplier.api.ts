@@ -31,6 +31,26 @@ export class SupplierApi {
     );
   }
 
+  public put_supplier(data: Supplier) {
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http.put(this.http.getAPI('Supplier'), data, headers).subscribe(
+      (result) => {
+        this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
+        return result;
+      },
+      (error) => {
+        this.swal.commonSwalCentered(
+          'No Data Added Transaction failed!.',
+          'error'
+        );
+        return error;
+      }
+    );
+  }
+
   public get_supplier() {
     const output = new Promise((resolve) => {
       this.http.get(this.http.getAPI('Supplier')).subscribe(
@@ -49,7 +69,6 @@ export class SupplierApi {
 
     return output;
   }
-
 
   public get_supplier_details(data: string) {
     const output = new Promise((resolve) => {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ItemService } from '../../../../_shared/item/item-service';
+import { ItemService } from '../../../../_shared/item/item.service';
 import { Item } from '../../../../_model/item/item';
 
 @Component({
