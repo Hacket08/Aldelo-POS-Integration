@@ -16,3 +16,10 @@ export class Supplier {
     ins_EmailAddress: string = '';
     ins_InActive: number = 0;
 }
+
+
+export class SupplierList {
+    ins_SupplierCode: string = '';
+    ins_SupplierName: string = '';
+    ins_ContactPerson: string = '';
+}

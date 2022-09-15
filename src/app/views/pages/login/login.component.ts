@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ValidationFormsService } from '../../../../_services/validation-forms.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SwalService } from '../../../../_services/swal-service';
-import { Users } from '../../../../_services/user.service';
+import { Users } from '../../../../_services/user.api';
 import { ApiHttpService } from '../../../../_services/api-http.service';
 
 @Component({

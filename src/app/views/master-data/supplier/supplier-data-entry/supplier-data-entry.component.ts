@@ -4,8 +4,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SwalService } from '../../../../../_services/swal-service';
 import { ApiHttpService } from '../../../../../_services/api-http.service';
 
-import { Supplier } from '../../../../shared/supplier/supplier';
-import { SupplierServices } from '../../../../../_services/supplier.service';
+import {
+  Supplier,
+  SupplierList,
+} from '../../../../../_model/supplier/supplier';
+import { SupplierApi } from '../../../../../_shared/supplier/supplier.api';
 
 @Component({
   selector: 'app-supplier-data-entry',
@@ -13,8 +16,11 @@ import { SupplierServices } from '../../../../../_services/supplier.service';
   styleUrls: ['./supplier-data-entry.component.scss'],
 })
 export class SupplierDataEntryComponent implements OnInit {
-  @Input() childPost: any[] = [];
-  @Output() passedEvent = new EventEmitter();
+  @Output() passedDataEvent = new EventEmitter();
+  @Input() supplierData: Supplier[] = [];
+
+  data: Supplier[] = [];
+
   datepipe: DatePipe = new DatePipe('en-US');
   postingdate = this.datepipe.transform(new Date(), 'MM/dd/YYYY');
 
@@ -26,7 +32,7 @@ export class SupplierDataEntryComponent implements OnInit {
     public swal: SwalService,
     public http: ApiHttpService,
     public supplier: Supplier,
-    public supplierservice: SupplierServices
+    public supplierapi: SupplierApi
   ) {
     this.simpleForm = this.fb.group({
       supplierCode: [],
@@ -41,10 +47,39 @@ export class SupplierDataEntryComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    for (var val of this.supplierData as any) {
+      this.simpleForm.reset();
+      this.simpleForm.setValue({
+        supplierCode: val.ins_SupplierCode,
+        supplierName: val.ins_SupplierName,
+        contactPerson: val.ins_ContactPerson,
+        position: val.ins_Position,
+        phone: val.ins_Phone,
+        emailAddress: val.ins_EmailAddress,
+        address1: val.ins_Address1,
+        address2: val.ins_Address2,
+        address3: val.ins_Address3,
+      });
+    }
+  }
+
+  async loadData(a: any) {
+    this.simpleForm.setValue({
+      supplierCode: a.ins_SupplierCode,
+      supplierName: a.ins_SupplierName,
+      contactPerson: a.ins_ContactPerson,
+      position: a.ins_Position,
+      phone: a.ins_Phone,
+      emailAddress: a.ins_EmailAddress,
+      address1: a.ins_Address1,
+      address2: a.ins_Address2,
+      address3: a.ins_Address3,
+    });
+  }
 
   PassEvent() {
-    this.passedEvent.emit();
+    this.passedDataEvent.emit();
   }
 
   get f() {
@@ -63,16 +98,8 @@ export class SupplierDataEntryComponent implements OnInit {
     this.supplier.ins_Address3 = this.simpleForm.value.address3;
     this.supplier.ins_InActive = 0;
 
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json' };
-    this.http.post(this.supplierservice.supplier_post(), this.supplier, headers).subscribe(result => {
-      console.log(result);
-    }, error => {
-      console.log(error);
-      this.swal.commonSwalCentered('No Data Added Transaction failed!.', 'error');
-    })
-
-    this.passedEvent.emit();
+    this.supplierapi.post_supplier(this.supplier);
+    this.passedDataEvent.emit();
   }
-
 
 }

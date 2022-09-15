@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ItemService } from '../../../../service/item/item-service';
-import { Item } from '../../../../shared/item/item';
-import { SupplierService } from '../../../../service/supplier/supplier-service';
-import { Supplier } from '../../../../shared/supplier/supplier';
+import { ItemService } from '../../../../../_shared/item/item-service';
+import { Item } from '../../../../../_model/item/item';
+import { SupplierService } from '../../../../../_shared/supplier/supplier.service';
+import { Supplier } from '../../../../../_model/supplier/supplier';
 
-import { Users } from '../../../../../_services/user.service';
+import { Users } from '../../../../../_services/user.api';
 
 class POItem {
   itemcode: string = '';

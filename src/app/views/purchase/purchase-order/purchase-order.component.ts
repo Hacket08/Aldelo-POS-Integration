@@ -34,6 +34,5 @@ export class PurchaseOrderComponent implements OnInit {
   {
     this.isListViewHidden = false;
     this.isTransactionViewHidden = true;
-    console.log("Child Event Triggered");
   }
 }

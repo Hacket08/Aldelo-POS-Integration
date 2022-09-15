@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ItemService } from '../../../service/item/item-service';
-import { Item } from '../../../shared/item/item';
+import { ItemService } from '../../../../_shared/item/item-service';
+import { Item } from '../../../../_model/item/item';
 
 @Component({
   selector: 'app-item-data-entry',
@@ -24,7 +24,6 @@ export class ItemDataEntryComponent implements OnInit {
   }
 
   eventReadData(e: any) {
-    console.log("test", e);
     this.passedEvent.emit(e);
   }
 

@@ -45,7 +45,6 @@
   <table cTable [hover]="true" [striped]="true" size="sm">
     <thead>
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Supplier Code</th>
         <th scope="col">Supplier Name</th>
         <th scope="col">Contact Person</th>
@@ -53,45 +52,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+      <tr *ngFor="let o of suppliers">
+        <td>{{ o.ins_SupplierCode }}</td>
+        <td>{{ o.ins_SupplierName }}</td>
+        <td>{{ o.ins_ContactPerson }}</td>
         <td>
-            <button
-              cButton
-              color="info"
-              size="sm"
-              style="margin-left: 0.25rem; margin-bottom: 0.25rem"
-            >
-              <svg cIcon name="cil-pencil" size="sm"></svg>
-            </button>
-          </td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>
-            <button
-              cButton
-              color="info"
-              size="sm"
-              style="margin-left: 0.25rem; margin-bottom: 0.25rem"
-            >
-              <svg cIcon name="cil-pencil" size="sm"></svg>
-            </button>
-          </td>
-      </tr>
-      <tr style="padding: 0">
-        <th scope="row">3</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>
-          <button
+          <button (click)="DataLoadEvent(o)"
             cButton
             color="info"
             size="sm"
@@ -100,7 +66,6 @@
             <svg cIcon name="cil-pencil" size="sm"></svg>
           </button>
         </td>
-      </tr>
     </tbody>
   </table>
 </c-card>

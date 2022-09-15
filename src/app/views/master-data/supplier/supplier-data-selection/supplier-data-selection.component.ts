@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { SupplierService } from '../../../../service/supplier/supplier-service';
-import { Supplier } from '../../../../shared/supplier/supplier';
+import { SupplierService } from '../../../../../_shared/supplier/supplier.service';
+import { Supplier } from '../../../../../_model/supplier/supplier';
 
 @Component({
   selector: 'app-supplier-data-selection',
@@ -15,10 +15,12 @@ export class SupplierDataSelectionComponent implements OnInit {
   supplier = new Supplier();
   suppliers: Supplier[] = [];
 
-  ngOnInit(): void {
-    for(let child of this.supplierservice.getList()){
-      this.suppliers.push(child)
-   }
+   ngOnInit(): void {
+  //   for(let child of this.supplierservice.getList()){
+  //     this.suppliers.push(child)
+  //  }
+
+  
   }
 
   eventReadData(e: any) {

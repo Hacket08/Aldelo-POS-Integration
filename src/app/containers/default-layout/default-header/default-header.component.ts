@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { SwalService } from '../../../../_services/swal-service';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
-import { Users } from '../../../../_services/user.service';
+import { Users } from '../../../../_services/user.api';
 
 
 import { IconSetService } from '@coreui/icons-angular';
