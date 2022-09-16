@@ -1,1 +1,2 @@
-<p>items works!</p>
+<app-items-data-list (itemListEvent)="eventNewTransaction($event)" *ngIf="!isListViewHidden"></app-items-data-list>
+<app-items-data-entry [itemData]="itemParentData" (itemDataEvent)="eventListTransaction()" *ngIf="!isTransactionViewHidden"></app-items-data-entry>

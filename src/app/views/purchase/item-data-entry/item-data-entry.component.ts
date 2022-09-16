@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ItemService } from '../../../../_shared/item/item.service';
+import { ItemService } from '../../../../_shared/items/item.service';
 import { Item } from '../../../../_model/item/item';
 
 @Component({
@@ -18,9 +18,9 @@ export class ItemDataEntryComponent implements OnInit {
   items: Item[] = [];
 
   ngOnInit(): void {
-    for(let child of this.itemservice.getList()){
-      this.items.push(child)
-   }
+  //   for(let child of this.itemservice.getList()){
+  //     this.items.push(child)
+  //  }
   }
 
   eventReadData(e: any) {

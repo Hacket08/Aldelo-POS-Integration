@@ -44,22 +44,24 @@ export class SupplierDataEntryComponent implements OnInit {
       address1: [],
       address2: [],
       address3: [],
+      inactive: 0,
     });
   }
 
   ngOnInit(): void {
-    for (var val of this.supplierData as any) {
+    for (var a of this.supplierData as any) {
       this.simpleForm.reset();
       this.simpleForm.setValue({
-        supplierCode: val.ins_SupplierCode,
-        supplierName: val.ins_SupplierName,
-        contactPerson: val.ins_ContactPerson,
-        position: val.ins_Position,
-        phone: val.ins_Phone,
-        emailAddress: val.ins_EmailAddress,
-        address1: val.ins_Address1,
-        address2: val.ins_Address2,
-        address3: val.ins_Address3,
+        supplierCode: a.ins_SupplierCode,
+        supplierName: a.ins_SupplierName,
+        contactPerson: a.ins_ContactPerson,
+        position: a.ins_Position,
+        phone: a.ins_Phone,
+        emailAddress: a.ins_EmailAddress,
+        address1: a.ins_Address1,
+        address2: a.ins_Address2,
+        address3: a.ins_Address3,
+        inactive: a.ins_InActive === 1 ? true : false,
       });
     }
   }
@@ -75,6 +77,7 @@ export class SupplierDataEntryComponent implements OnInit {
       address1: a.ins_Address1,
       address2: a.ins_Address2,
       address3: a.ins_Address3,
+      inactive: a.ins_InActive === 1 ? true : false,
     });
   }
 
@@ -96,7 +99,7 @@ export class SupplierDataEntryComponent implements OnInit {
     this.supplier.ins_Address1 = this.simpleForm.value.address1;
     this.supplier.ins_Address2 = this.simpleForm.value.address2;
     this.supplier.ins_Address3 = this.simpleForm.value.address3;
-    this.supplier.ins_InActive = 0;
+    this.supplier.ins_InActive = this.simpleForm.value.inactive === true ? 1 : 0;
 
     console.log(this.supplier);
     if (this.checkActionAdd() == true) {

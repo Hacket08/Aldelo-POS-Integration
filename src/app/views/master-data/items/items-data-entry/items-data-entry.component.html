@@ -1,1 +1,606 @@
-<p>items-data-entry works!</p>
+<form
+  cForm
+  [formGroup]="simpleForm"
+  novalidate
+  (ngSubmit)="onSubmit()"
+  class="needs-validation"
+>
+  <c-card>
+    <c-row>
+      <c-col>
+        <div style="padding-left: 0.5rem; padding-top: 0.25rem"> 
+          <c-form-check [switch]="true">
+            <input
+              formControlName="inactive"
+              cFormControl
+              cFormCheckInput
+              type="checkbox"
+            />
+            <label style="font-size: 0.875rem" cFormCheckLabel>In Active</label>
+          </c-form-check>
+        </div>
+      </c-col>
+      <c-col>
+        <div style="text-align: right">
+          <button cButton color="success" size="sm" type="submit">
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong> Save</strong>
+          </button>
+          <button
+            cButton
+            (click)="PassEvent()"
+            color="danger"
+            size="sm"
+            style="margin-left: 0.25rem"
+          >
+            <svg cIcon name="cil-exit-to-app" size="sm"></svg>
+            <strong></strong>
+          </button>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <!-- Item Details -->
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+        <!-- Item Code -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="itemcode" sizing="sm"
+              >Item Code</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="itemcode"
+              cFormControl
+              id="itemcode"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Item Name -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="itemname" sizing="sm"
+              >Item Name</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="itemname"
+              cFormControl
+              id="itemname"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Foreign Code -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="frgnname" sizing="sm"
+              >Foreign Name</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="frgnname"
+              cFormControl
+              id="frgnname"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Long Code -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="longname" sizing="sm"
+              >Long Name</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="longname"
+              cFormControl
+              id="longname"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Barcode -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="barcode" sizing="sm">Barcode</label>
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="barcode"
+              cFormControl
+              id="barcode"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col sm="6" xs="12">
+        <!-- Vat Group -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="vatgroup" sizing="sm"
+              >Vat Group</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="vatgroup"
+              cFormControl
+              id="vatgroup"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Item Type -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="itemtype" sizing="sm"
+              >Item Type</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="itemtype"
+              cFormControl
+              id="itemtype"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Item Group -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="itemgroup" sizing="sm"
+              >Item Group</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="itemgroup"
+              cFormControl
+              id="itemgroup"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Item Category -->
+        <c-row class="mb-1">
+          <c-col xl="3" lg="4" md="12">
+            <label cCol cLabel="col" for="itemcategory" sizing="sm"
+              >Item Category</label
+            >
+          </c-col>
+          <c-col xl="9" lg="8" md="12">
+            <input
+              formControlName="itemcategory"
+              cFormControl
+              id="itemcategory"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <!-- General Details -->
+  <c-card>
+    <c-row>
+      <c-col lg="4" md="12">
+        <!-- Purchase Item -->
+        <c-row style="margin-left: 0.5rem; margin-top: 0.5rem" class="mb-1">
+          <c-form-check [switch]="true">
+            <input
+              formControlName="purchaseitem"
+              cFormControl
+              cFormCheckInput
+              type="checkbox"
+            />
+            <label style="font-size: 0.875rem" cFormCheckLabel
+              >Purchase Item</label
+            >
+          </c-form-check>
+        </c-row>
+
+        <!-- Purchase UOM -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="purchaseuom" sizing="sm"
+              >Purchase UOM</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="purchaseuom"
+              cFormControl
+              id="purchaseuom"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Purchase Quantity Unit -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="numinpurchase" sizing="sm"
+              >Purchase Quantity Unit</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="numinpurchase"
+              cFormControl
+              id="numinpurchase"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+
+        <!-- Purchase Package UOM -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="purchasepackageuom" sizing="sm"
+              >Purchase Package UOM</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="purchasepackageuom"
+              cFormControl
+              id="purchasepackageuom"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Purchase Package Quantity Unit -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="purchasepackquantity" sizing="sm"
+              >Purchase Package Quantity Unit</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="purchasepackquantity"
+              cFormControl
+              id="purchasepackquantity"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+      </c-col>
+
+      <c-col lg="4" md="12">
+        <!-- Sales Item -->
+        <c-row style="margin-left: 0.5rem; margin-top: 0.5rem" class="mb-1">
+          <c-form-check [switch]="true">
+            <input
+              formControlName="salesitem"
+              cFormControl
+              cFormCheckInput
+              type="checkbox"
+            />
+            <label style="font-size: 0.875rem" cFormCheckLabel
+              >Sales Item
+            </label>
+          </c-form-check>
+        </c-row>
+
+        <!-- Sales UOM -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="salesuom" sizing="sm"
+              >Sales UOM</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="salesuom"
+              cFormControl
+              id="salesuom"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Sales Quantity Unit -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="numinsales" sizing="sm"
+              >Sales Quantity Unit</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="numinsales"
+              cFormControl
+              id="numinsales"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        
+        <!-- Sales Package UOM -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="salespackageuom" sizing="sm"
+              >Sales Package UOM</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="salespackageuom"
+              cFormControl
+              id="salespackageuom"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Sales Package Quantity Unit -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="salespackquantity" sizing="sm"
+              >Sales Package Quantity Unit</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="salespackquantity"
+              cFormControl
+              id="salespackquantity"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col lg="4" md="12">
+        <!-- Inventory Item -->
+        <c-row style="margin-left: 0.5rem; margin-top: 0.5rem" class="mb-1">
+          <c-form-check [switch]="true">
+            <input
+              formControlName="inventoryitem"
+              cFormControl
+              cFormCheckInput
+              type="checkbox"
+            />
+            <label style="font-size: 0.875rem" cFormCheckLabel
+              >Inventory Item
+            </label>
+          </c-form-check>
+        </c-row>
+
+        <!-- Inventory UOM -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="inventoryuom" sizing="sm"
+              >Inventory UOM</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="inventoryuom"
+              cFormControl
+              id="inventoryuom"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Inventory Quantity Unit -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="numininventory" sizing="sm"
+              >Inventory Quantity Unit</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="numininventory"
+              cFormControl
+              id="numininventory"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        
+        <!-- Inventory Package UOM -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="inventorypackageuom" sizing="sm"
+              >Inventory Package UOM</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="inventorypackageuom"
+              cFormControl
+              id="inventorypackageuom"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Inventory Package Quantity Unit -->
+        <c-row class="mb-1">
+          <c-col xxl="6" xl="7" lg="12">
+            <label cCol cLabel="col" for="inventorypackquantity" sizing="sm"
+              >Inventory Package Quantity Unit</label
+            >
+          </c-col>
+          <c-col xxl="6" xl="5" lg="12">
+            <input
+              formControlName="inventorypackquantity"
+              cFormControl
+              id="inventorypackquantity"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <!-- Item Details -->
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+        <!-- Default Warehouse -->
+        <c-row class="mb-1">
+          <c-col xxl="4" xl="5" lg="12">
+            <label cCol cLabel="col" for="defaultwhs" sizing="sm"
+              >Default Warehouse</label
+            >
+          </c-col>
+          <c-col xxl="8" xl="7" lg="12">
+            <input
+              formControlName="defaultwhs"
+              cFormControl
+              id="defaultwhs"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Quantity On Hand -->
+        <c-row class="mb-1">
+          <c-col xxl="4" xl="5" lg="12">
+            <label cCol cLabel="col" for="onhand" sizing="sm"
+              >Quantity On Hand</label
+            >
+          </c-col>
+          <c-col xxl="8" xl="7" lg="12">
+            <input
+              formControlName="onhand"
+              cFormControl
+              id="onhand"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Quantity Is Committed -->
+        <c-row class="mb-1">
+          <c-col xxl="4" xl="5" lg="12">
+            <label cCol cLabel="col" for="iscommited" sizing="sm"
+              >Quantity Is Committed</label
+            >
+          </c-col>
+          <c-col xxl="8" xl="7" lg="12">
+            <input
+              formControlName="iscommited"
+              cFormControl
+              id="iscommited"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Quantity On Order -->
+        <c-row class="mb-1">
+          <c-col xxl="4" xl="5" lg="12">
+            <label cCol cLabel="col" for="onorder" sizing="sm"
+              >Quantity On Order</label
+            >
+          </c-col>
+          <c-col xxl="8" xl="7" lg="12">
+            <input
+              formControlName="onorder"
+              cFormControl
+              id="onorder"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col sm="6" xs="12">
+        <!-- Unit Price -->
+        <c-row class="mb-1">
+          <c-col xxl="4" xl="5" lg="12">
+            <label cCol cLabel="col" for="unitprice" sizing="sm"
+              >Unit Price</label
+            >
+          </c-col>
+          <c-col xxl="8" xl="7" lg="12">
+            <input
+              formControlName="unitprice"
+              cFormControl
+              id="unitprice"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+
+        <!-- Purchase Price -->
+        <c-row class="mb-1">
+          <c-col xxl="4" xl="5" lg="12">
+            <label cCol cLabel="col" for="purchaseprice" sizing="sm"
+              >Purchase Price</label
+            >
+          </c-col>
+          <c-col xxl="8" xl="7" lg="12">
+            <input
+              formControlName="purchaseprice"
+              cFormControl
+              id="purchaseprice"
+              sizing="sm"
+              type="text"
+            />
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+</form>

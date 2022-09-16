@@ -7,7 +7,7 @@
 >
   <c-card>
     <c-row>
-      <c-col>
+      <!-- <c-col>
         <div class="d-flex justify-content-start align-items-center">
           <span class="dot warning"></span>
           <div
@@ -16,7 +16,22 @@
           >
           </div>
         </div>
+      </c-col> -->
+
+      <c-col>
+        <c-row style="margin-left: 1rem; margin-top: 0.5rem;" class="mb-1">
+          <c-form-check [switch]="true">
+            <input 
+              formControlName="inactive"
+              cFormControl
+              cFormCheckInput
+              type="checkbox"
+            />
+            <label style="font-size: 0.875rem;" cFormCheckLabel>In Active</label>
+          </c-form-check>
+        </c-row>
       </c-col>
+
       <c-col>
         <div style="text-align: right">
           <!-- <button (click)="PassEvent()" cButton color="success" size="sm"> -->
@@ -30,6 +45,7 @@
           </button>
         </div>
       </c-col>
+      
     </c-row>
   </c-card>
 

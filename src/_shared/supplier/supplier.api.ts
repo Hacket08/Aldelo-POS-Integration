@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiHttpService } from '../../_services/api-http.service';
 import { SwalService } from '../../_services/swal-service';
 import { Supplier } from '../../_model/supplier/supplier';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class SupplierApi {
@@ -23,7 +24,7 @@ export class SupplierApi {
       },
       (error) => {
         this.swal.commonSwalCentered(
-          'No Data Added Transaction failed!.',
+          'No Supplier Added Transaction failed!.',
           'error'
         );
         return error;
@@ -38,12 +39,12 @@ export class SupplierApi {
     };
     this.http.put(this.http.getAPI('Supplier'), data, headers).subscribe(
       (result) => {
-        this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
+        this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
         return result;
       },
       (error) => {
         this.swal.commonSwalCentered(
-          'No Data Added Transaction failed!.',
+          'No Data Found in Supplier',
           'error'
         );
         return error;
@@ -51,18 +52,18 @@ export class SupplierApi {
     );
   }
 
-  public get_supplier() {
-    const output = new Promise((resolve) => {
-      this.http.get(this.http.getAPI('Supplier')).subscribe(
+  public async get_supplier() {
+    const output = await new Promise((resolve) => {
+      this.http.get(this.http.getAPI('Supplier')).subscribe( 
         (result) => {
           resolve(result);
         },
-        (error) => {
+        (error: HttpErrorResponse) => {
           this.swal.commonSwalCentered(
-            'No Data Added Transaction failed!.',
+            'No Data Found for Supplier',
             'error'
           );
-          resolve(error);
+          resolve(error.ok);
         }
       );
     });
@@ -76,12 +77,12 @@ export class SupplierApi {
         (result) => {
           resolve(result);
         },
-        (error) => {
+        (error: HttpErrorResponse) => {
           this.swal.commonSwalCentered(
-            'No Data Added Transaction failed!.',
+            'Selected Supplier is not Available',
             'error'
           );
-          resolve(error);
+          resolve(error.ok);
         }
       );
     });

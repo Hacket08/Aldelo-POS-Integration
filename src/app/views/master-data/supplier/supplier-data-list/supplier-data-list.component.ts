@@ -21,13 +21,20 @@ export class SupplierDataListComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    let data: [];
+    let data: any;
     this.suppliers = [];
 
-    data = (await this.suplierservice.getList()) as [];
-    for (var val of data) {
-      this.suppliers.push(val);
+    data = (await this.suplierservice.getList()) as any;
+    if (data !== false) {
+      for (var val of data) {
+        this.suppliers.push(val);
+      }
     }
+
+    // data = (await this.suplierservice.getList()) as [];
+    // for (var val of data) {
+    //   this.suppliers.push(val);
+    // }
   }
 
   PassEvent() {

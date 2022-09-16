@@ -1,1 +1,85 @@
-<p>items-data-list works!</p>
+<c-card>
+    <c-col style="text-align: right">
+      <button (click)="PassEvent()" cButton color="success" size="sm">
+        <strong>Create New Data</strong>
+      </button>
+    </c-col>
+  </c-card>
+  
+  <c-card>
+    <c-row>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Item Code"
+            cFormControl
+            placeholder="Item Code"
+          />
+        </c-input-group>
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Item Name"
+            cFormControl
+            placeholder="Item Name"
+          />
+        </c-input-group>
+      </c-col>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Barcode"
+            cFormControl
+            placeholder="Barcode"
+          />
+        </c-input-group>
+      </c-col>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="On Hand"
+            cFormControl
+            placeholder="On Hand"
+          />
+        </c-input-group>
+      </c-col>
+    </c-row>
+  </c-card>
+  
+  <c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+      <thead>
+        <tr>
+          <th scope="col">Item Code</th>
+          <th scope="col">Item Name</th>
+          <th scope="col">Barcode</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">On Hand</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of items">
+          <td>{{ o.ins_ItemCode }}</td>
+          <td>{{ o.ins_ItemName }}</td>
+          <td>{{ o.ins_Barcode }}</td>
+          <td>{{ o.ins_UnitPrice }}</td>
+          <td>{{ o.ins_OnHand }}</td>
+          <td>
+            <button (click)="DataLoadEvent(o)"
+              cButton
+              color="info"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+            >
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card>
+  

@@ -2,28 +2,29 @@ import { Injectable } from '@angular/core';
 import { ApiHttpService } from '../../_services/api-http.service';
 import { SwalService } from '../../_services/swal-service';
 import { Item } from '../../_model/item/item';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
-export class SupplierApi {
+export class ItemApi {
     constructor(
       public http: ApiHttpService,
       public swal: SwalService,
       public item: Item
     ) {}
   
-    public post_supplier(data: Item) {
+    public post_item(data: Item) {
       const headers = {
         accept: 'text/plain',
         'Content-Type': 'application/json',
       };
-      this.http.post(this.http.getAPI('Supplier'), data, headers).subscribe(
+      this.http.post(this.http.getAPI('Item'), data, headers).subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
           return result;
         },
         (error) => {
           this.swal.commonSwalCentered(
-            'No Data Added Transaction failed!.',
+            'No Item Added Transaction failed!.',
             'error'
           );
           return error;
@@ -31,19 +32,19 @@ export class SupplierApi {
       );
     }
   
-    public put_supplier(data: Item) {
+    public put_item(data: Item) {
       const headers = {
         accept: 'text/plain',
         'Content-Type': 'application/json',
       };
-      this.http.put(this.http.getAPI('Supplier'), data, headers).subscribe(
+      this.http.put(this.http.getAPI('Item'), data, headers).subscribe(
         (result) => {
-          this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
+          this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
           return result;
         },
         (error) => {
           this.swal.commonSwalCentered(
-            'No Data Added Transaction failed!.',
+            'No Item Updated Transaction failed!.',
             'error'
           );
           return error;
@@ -51,18 +52,18 @@ export class SupplierApi {
       );
     }
   
-    public get_supplier() {
+    public get_item() {
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Supplier')).subscribe(
+        this.http.get(this.http.getAPI('Item')).subscribe(
           (result) => {
             resolve(result);
           },
-          (error) => {
+          (error: HttpErrorResponse) => {
             this.swal.commonSwalCentered(
-              'No Data Added Transaction failed!.',
+              'No Data Found for Items',
               'error'
             );
-            resolve(error);
+            resolve(error.ok);
           }
         );
       });
@@ -70,18 +71,18 @@ export class SupplierApi {
       return output;
     }
   
-    public get_supplier_details(data: string) {
+    public get_item_details(data: string) {
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Supplier') + "/" + data).subscribe(
+        this.http.get(this.http.getAPI('Item') + "/" + data).subscribe(
           (result) => {
             resolve(result);
           },
-          (error) => {
+          (error: HttpErrorResponse) => {
             this.swal.commonSwalCentered(
-              'No Data Added Transaction failed!.',
+              'Selected Item is not Available',
               'error'
             );
-            resolve(error);
+            resolve(error.ok);
           }
         );
       });
