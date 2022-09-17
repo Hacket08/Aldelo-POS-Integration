@@ -15,12 +15,16 @@ export class SupplierDataSelectionComponent implements OnInit {
   supplier = new Supplier();
   suppliers: Supplier[] = [];
 
-   ngOnInit(): void {
-  //   for(let child of this.supplierservice.getList()){
-  //     this.suppliers.push(child)
-  //  }
+  async ngOnInit(): Promise<void> {
+    let data: any;
+    this.suppliers = [];
 
-  
+    data = (await this.supplierservice.getList()) as any;
+    if (data !== false) {
+      for (var val of data) {
+        this.suppliers.push(val);
+      }
+    }
   }
 
   eventReadData(e: any) {

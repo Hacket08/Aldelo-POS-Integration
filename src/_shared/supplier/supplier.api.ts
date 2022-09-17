@@ -12,12 +12,12 @@ export class SupplierApi {
     public supplier: Supplier
   ) {}
 
-  public post_supplier(data: Supplier) {
+  public post_supplier(data: Supplier, dataApi: string = "") {
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
-    this.http.post(this.http.getAPI('Supplier'), data, headers).subscribe(
+    this.http.post(this.http.getAPI('Supplier') + "/" + dataApi, data, headers).subscribe(
       (result) => {
         this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
         return result;
@@ -32,12 +32,12 @@ export class SupplierApi {
     );
   }
 
-  public put_supplier(data: Supplier) {
+  public put_supplier(data: Supplier, dataApi: string = "") {
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
-    this.http.put(this.http.getAPI('Supplier'), data, headers).subscribe(
+    this.http.put(this.http.getAPI('Supplier') + "/" + dataApi, data, headers).subscribe(
       (result) => {
         this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
         return result;
@@ -71,9 +71,9 @@ export class SupplierApi {
     return output;
   }
 
-  public get_supplier_details(data: string) {
+  public get_supplier_details(dataApi: string) {
     const output = new Promise((resolve) => {
-      this.http.get(this.http.getAPI('Supplier') + "/" + data).subscribe(
+      this.http.get(this.http.getAPI('Supplier') + "/" + dataApi).subscribe(
         (result) => {
           resolve(result);
         },

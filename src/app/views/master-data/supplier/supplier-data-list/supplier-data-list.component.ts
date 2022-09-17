@@ -30,11 +30,6 @@ export class SupplierDataListComponent implements OnInit {
         this.suppliers.push(val);
       }
     }
-
-    // data = (await this.suplierservice.getList()) as [];
-    // for (var val of data) {
-    //   this.suppliers.push(val);
-    // }
   }
 
   PassEvent() {

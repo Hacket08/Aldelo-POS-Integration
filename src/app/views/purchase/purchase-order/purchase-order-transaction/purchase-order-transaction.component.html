@@ -1,110 +1,117 @@
-<c-card>
-  <c-row>
-    <c-col>
-      <div class="d-flex justify-content-start align-items-center">
-        <span class="dot warning"></span>
-        <div
-          class="d-flex align-items-center"
-          style="margin-top: 0.25rem; margin-left: 1rem"
-        >
-          <strong>{{ docstatus }}</strong>
+<form cForm [formGroup]="headerForm" (ngSubmit)="onSubmit()">
+  <c-card>
+    <c-row>
+      <c-col>
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="dot warning"></span>
+          <div
+            class="d-flex align-items-center"
+            style="margin-top: 0.25rem; margin-left: 1rem"
+          >
+            <strong>{{ docstatus }}</strong>
+          </div>
         </div>
-      </div>
-    </c-col>
-    <c-col>
-      <div class="d-flex justify-content-end">
-        <button (click)="PassEvent()" cButton color="success" size="sm">
-          <svg cIcon name="cil-save" size="sm"></svg>
-          <strong> Save</strong>
-        </button>
-      </div>
-    </c-col>
-  </c-row>
-</c-card>
+      </c-col>
+      <c-col>
+        <div class="d-flex justify-content-end">
+          <button cButton color="success" size="sm" type="submit">
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong> Save</strong>
+          </button>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card>
 
-<c-card>
-  <c-row>
-    <c-col lg="4" md="6" xs="12">
-      <c-input-group class="mb-1" sizing="sm">
-        <input
-          value="{{ suppliercode }}"
-          id="supplier-code"
-          aria-describedby="button-addon2"
-          aria-label="Select Supplier"
-          cFormControl
-          placeholder="Select Supplier"
-          readonly="true"
-        />
-        <button
-          cButton
-          color="secondary"
-          id="button-addon2"
-          type="button"
-          variant="outline"
-          style="border: 0rem"
-          [cModalToggle]="itemSupplierEntry.id"
-        >
-          <svg cIcon name="cil-list" size="sm"></svg>
-        </button>
-      </c-input-group>
+  <c-card>
+    <c-row>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            formControlName="suppliercode"
+            id="supplier-code"
+            aria-describedby="button-addon2"
+            aria-label="Select Supplier"
+            cFormControl
+            placeholder="Select Supplier"
+            readonly="true"
+          />
+          <button
+            cButton
+            color="secondary"
+            id="button-addon2"
+            type="button"
+            variant="outline"
+            style="border: 0rem"
+            [cModalToggle]="itemSupplierEntry.id"
+          >
+            <svg cIcon name="cil-list" size="sm"></svg>
+          </button>
+        </c-input-group>
 
-      <c-input-group class="mb-1" sizing="sm">
-        <input
-          value="{{ suppliername }}"
-          aria-describedby="button-addon2"
-          aria-label="Name"
-          cFormControl
-          placeholder="Name"
-          readonly="true"
-        />
-      </c-input-group>
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            formControlName="suppliername"
+            aria-describedby="button-addon2"
+            aria-label="Name"
+            cFormControl
+            placeholder="Name"
+            readonly="true"
+          />
+        </c-input-group>
 
-      <c-input-group class="mb-1" sizing="sm">
-        <input
-          value="{{ branchname }}"
-          aria-describedby="button-addon2"
-          aria-label="Branch Name"
-          cFormControl
-          placeholder="Branch Name"
-          readonly="true"
-        />
-      </c-input-group>
-    </c-col>
-    <c-col lg="4" md="6" xs="12"> </c-col>
-    <c-col lg="4" md="6" xs="12">
-      <c-input-group class="mb-1" sizing="sm">
-        <input
-          aria-describedby="button-addon2"
-          aria-label="Document Number"
-          cFormControl
-          placeholder="Document Number"
-          readonly="true"
-        />
-      </c-input-group>
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            formControlName="branchname"
+            aria-describedby="button-addon2"
+            aria-label="Branch Name"
+            cFormControl
+            placeholder="Branch Name"
+            readonly="true"
+          />
+        </c-input-group>
+      </c-col>
 
-      <c-input-group class="mb-1" sizing="sm">
-        <input
-          value="{{ postingdate }}"
-          aria-describedby="button-addon2"
-          aria-label="Posting Date"
-          cFormControl
-          placeholder="Posting Date"
-          readonly="true"
-        />
-      </c-input-group>
+      <c-col lg="4" md="6" xs="12"> </c-col>
 
-      <c-input-group class="mb-1" sizing="sm">
-        <input
-          type="date"
-          aria-describedby="button-addon2"
-          aria-label="Delivery Date"
-          cFormControl
-          placeholder="Delivery Date"
-        />
-      </c-input-group>
-    </c-col>
-  </c-row>
-</c-card>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            formControlName="docnum"
+            aria-describedby="button-addon2"
+            aria-label="Document Number"
+            cFormControl
+            placeholder="Document Number"
+            readonly="true"
+          />
+        </c-input-group>
+
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            formControlName="docdate"
+            type="date"
+            aria-describedby="button-addon2"
+            aria-label="Posting Date"
+            cFormControl
+            placeholder="Posting Date"
+            readonly="true"
+          />
+        </c-input-group>
+
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            formControlName="deldate"
+            type="date"
+            aria-describedby="button-addon2"
+            aria-label="Delivery Date"
+            cFormControl
+            placeholder="Delivery Date"
+          />
+        </c-input-group>
+      </c-col>
+    </c-row>
+  </c-card>
+</form>
 
 <c-card class="table-responsive">
   <table cTable [hover]="true" [striped]="true" size="sm">
@@ -118,20 +125,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let o of poitem; let i = index">
-        <td>{{ o.itemcode }}</td>
-        <td>{{ o.itemname }}</td>
-        <td>@mdo</td>
+      <tr *ngFor="let o of purchaseorderdetails; let i = index">
+        <td>{{ o.ins_ItemCode }}</td>
+        <td>{{ o.ins_ItemDescription }}</td>
+        <td>{{ o.ins_PurchaseUom }}</td>
         <td>
           <input
+            id="{{ i }}"
             aria-describedby="button-addon2"
             aria-label="Quantity"
-            cFormControl
             sizing="sm"
             type="number"
             name="Quantity"
             ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
             step="0.001"
+            (change)="change($event)"
           />
         </td>
         <td>
@@ -149,11 +157,19 @@
     </tbody>
   </table>
   <div>
-    <button cButton [cModalToggle]="itemDataEntry.id" color="success" size="sm">
-      <svg cIcon name="cil-playlist-add" size="1xl"></svg><strong> Add Item</strong>
+    <button
+      cButton
+      [cModalToggle]="itemDataEntry.id"
+      color="success"
+      size="sm"
+    >
+      <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+      <strong> Add Item</strong>
     </button>
   </div>
 </c-card>
+
+
 
 <c-modal
   #itemDataEntry
@@ -162,20 +178,11 @@
   id="itemDataEntry"
   size="lg"
 >
-  <!-- <c-modal-header>
-    <h3 cModalTitle>Item List</h3>
-    <button [cModalToggle]="itemDataEntry.id" cButtonClose></button>
-  </c-modal-header> -->
-
   <c-modal-body>
-    <app-item-data-entry
-      (passedEvent)="eventAddRow($event)"
-    ></app-item-data-entry>
+    <app-items-data-selection
+      (itemListEvent)="eventAddRow($event)"
+    ></app-items-data-selection>
   </c-modal-body>
-
-  <!-- <c-modal-footer>
-    <button [cModalToggle]="itemDataEntry.id"  cButton color="success">OK</button>
-  </c-modal-footer> -->
 </c-modal>
 
 <c-modal
@@ -185,18 +192,9 @@
   id="itemSupplierEntry"
   size="lg"
 >
-  <!-- <c-modal-header>
-    <h3 cModalTitle>Item List</h3>
-    <button [cModalToggle]="itemDataEntry.id" cButtonClose></button>
-  </c-modal-header> -->
-
   <c-modal-body>
     <app-supplier-data-selection
       (passedEvent)="eventSelectSupplier($event)"
     ></app-supplier-data-selection>
   </c-modal-body>
-
-  <!-- <c-modal-footer>
-    <button [cModalToggle]="itemDataEntry.id"  cButton color="success">OK</button>
-  </c-modal-footer> -->
 </c-modal>

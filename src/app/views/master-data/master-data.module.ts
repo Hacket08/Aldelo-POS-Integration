@@ -83,7 +83,8 @@ import { ItemsDataSelectionComponent } from './items/items-data-selection/items-
     ModalModule,
   ],
   exports: [
-    SupplierDataSelectionComponent
+    SupplierDataSelectionComponent,
+    ItemsDataSelectionComponent
   ]
 })
 

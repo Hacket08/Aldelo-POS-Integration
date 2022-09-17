@@ -1,30 +1,31 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from '../../_services/api-http.service';
 import { SwalService } from '../../_services/swal-service';
-import { Item } from '../../_model/item/item';
+import { PurchaseOrder } from '../../_model/purchase-order/purchase-order';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ItemApi {
+export class PurchaseOrderApi {
     constructor(
       public http: ApiHttpService,
       public swal: SwalService,
-      public item: Item
+      public PurchaseOrder: PurchaseOrder
     ) {}
   
-    public post_item(data: Item) {
+    public post_PurchaseOrder(data: PurchaseOrder, dataApi: string = "") {
       const headers = {
         accept: 'text/plain',
         'Content-Type': 'application/json',
       };
-      this.http.post(this.http.getAPI('Item'), data, headers).subscribe(
+      this.http.post(this.http.getAPI('Purchaseorders') + "/" + dataApi, data, headers).subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
           return result;
         },
         (error) => {
           this.swal.commonSwalCentered(
-            'No Item Added Transaction failed!.',
+            'No PurchaseOrder Added Transaction failed!.',
             'error'
           );
           return error;
@@ -32,19 +33,19 @@ export class ItemApi {
       );
     }
   
-    public put_item(data: Item) {
+    public put_PurchaseOrder(data: PurchaseOrder, dataApi: string = "") {
       const headers = {
         accept: 'text/plain',
         'Content-Type': 'application/json',
       };
-      this.http.put(this.http.getAPI('Item'), data, headers).subscribe(
+      this.http.put(this.http.getAPI('Purchaseorders') + "/" + dataApi, data, headers).subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
           return result;
         },
         (error) => {
           this.swal.commonSwalCentered(
-            'No Item Updated Transaction failed!.',
+            'No PurchaseOrder Updated Transaction failed!.',
             'error'
           );
           return error;
@@ -52,15 +53,15 @@ export class ItemApi {
       );
     }
   
-    public get_item() {
+    public get_PurchaseOrder() {
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Item')).subscribe(
+        this.http.get(this.http.getAPI('Purchaseorders')).subscribe(
           (result) => {
             resolve(result);
           },
           (error: HttpErrorResponse) => {
             this.swal.commonSwalCentered(
-              'No Data Found for Items',
+              'No Data Found for PurchaseOrders',
               'error'
             );
             resolve(error.ok);
@@ -71,25 +72,43 @@ export class ItemApi {
       return output;
     }
   
-    public get_item_details(data: string) {
+  
+    public get_PurchaseOrderBy(apitype: string){
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Item') + "/" + data).subscribe(
+        this.http.get(this.http.getAPI('Purchaseorders') + "/" + apitype, {responseType: 'text'}).subscribe(
           (result) => {
             resolve(result);
           },
           (error: HttpErrorResponse) => {
             this.swal.commonSwalCentered(
-              'Selected Item is not Available',
+              'No Data Found for PurchaseOrders',
               'error'
             );
             resolve(error.ok);
           }
         );
       });
-  
       return output;
     }
-    
 
-    
+
+    public get_PurchaseOrder_details(objcode: string) {
+      const output = new Promise((resolve) => {
+        this.http.get(this.http.getAPI('Purchaseorders') + "/" + objcode).subscribe(
+          (result) => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            this.swal.commonSwalCentered(
+              'Selected PurchaseOrder is not Available',
+              'error'
+            );
+            resolve(error.ok);
+          }
+        );
+      });
+  
+      return output;
+    }
+
   }

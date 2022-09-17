@@ -96,65 +96,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
+      <tr *ngFor="let o of purchaseorders" style="padding: 0">
+        <th>{{ o.ins_DocNum }}</th>
+        <td>{{ o.ins_SupplierCode }}</td>
+        <td>{{ o.ins_SupplierName }}</td>
+        <td>{{ o.ins_PostingDate | date: 'MM-dd-yyyy' }}</td>
+        <td>{{ o.ins_DeliveryDate | date: 'MM-dd-yyyy' }}</td>
+        <td>{{ o.ins_BranchName }}</td>
         <td><c-badge color="success">success</c-badge></td>
         <td>
             <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
               <svg cIcon name="cil-pencil" size="sm"></svg>
             </button>
-            <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <!-- <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
               <svg cIcon name="cil-check" size="sm"></svg>
-            </button>
-            <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            </button> -->
+            <!-- <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
               <svg cIcon name="cil-ban" size="sm"></svg>
-            </button>
+            </button> -->
           </td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td><c-badge color="primary">primary</c-badge></td>
-        <td>
-            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-              <svg cIcon name="cil-pencil" size="sm"></svg>
-            </button>
-            <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-              <svg cIcon name="cil-check" size="sm"></svg>
-            </button>
-            <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-              <svg cIcon name="cil-ban" size="sm"></svg>
-            </button>
-          </td>
-      </tr>
-      <tr style="padding: 0">
-        <th scope="row">3</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td><c-badge color="primary">primary</c-badge></td>
-        <td>
-          <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-pencil" size="sm"></svg>
-          </button>
-          <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-check" size="sm"></svg>
-          </button>
-          <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-            <svg cIcon name="cil-ban" size="sm"></svg>
-          </button>
-        </td>
       </tr>
     </tbody>
   </table>

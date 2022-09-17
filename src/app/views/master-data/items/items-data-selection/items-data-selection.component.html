@@ -1,1 +1,64 @@
-<p>items-data-selection works!</p>
+<c-card>
+    <c-row  class="mb-1" >
+      <c-col sm="6">
+        <c-input-group sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Search Item"
+            cFormControl
+            placeholder="Search Item"
+          />
+          <button
+            cButton
+            color="secondary"
+            id="button-addon2"
+            type="button"
+            variant="outline"
+            style="border: 0rem"
+          >
+            <svg cIcon name="cil-magnifying-glass" size="sm"></svg>
+          </button>
+        </c-input-group>
+      </c-col>
+      <c-col style="text-align: right ; margin-top: 0rem;" sm="6">
+        <button
+        [cModalToggle]=""
+        cButton
+        color="transparent"
+        size="sm"
+        style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+      >
+      Close  <svg cIcon name="cil-ban" size="sm"></svg>
+      </button>
+      </c-col>
+    </c-row>
+  
+    <table cTable [hover]="true" [striped]="true" size="sm" class="mt-1">
+      <thead>
+        <tr>
+          <th scope="col">Item Code</th>
+          <th scope="col">Item Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of items">
+          <td>{{ o.ins_ItemCode }}</td>
+          <td>{{ o.ins_ItemName }}</td>
+          <td>
+            <button
+              (click)="eventReadData(o)"
+              [cModalToggle]=""
+              cButton
+              color="info"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              Select
+              <svg cIcon name="cil-check" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card>
+  
