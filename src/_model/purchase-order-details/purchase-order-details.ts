@@ -13,9 +13,11 @@ export class PurchaseOrderDetails {
     ins_VatGroup: string = '';
     ins_PurchaseUom: string = '';
     ins_Quantity: number = 0;
+    ins_ReceivedQuantity: number = 0;
 
     ins_InventoryUom: string = '';
     ins_InventoryQuantity: number = 0;
+    ins_ReceivedInventoryQuantity: number = 0;
 
     ins_PurchasePackageQuantity: number = 0;
 

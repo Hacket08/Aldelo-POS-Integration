@@ -52,7 +52,7 @@
           id="button-addon2"
           type="button"
           variant="outline"
-          style="border: 0rem;"
+          style="border: 0rem"
         >
           <svg cIcon name="cilCalendar" size="sm"></svg>
         </button>
@@ -72,7 +72,7 @@
           id="button-addon2"
           type="button"
           variant="outline"
-          style="border: 0rem;"
+          style="border: 0rem"
         >
           <svg cIcon name="cilCalendar" size="sm"></svg>
         </button>
@@ -100,21 +100,26 @@
         <th>{{ o.ins_DocNum }}</th>
         <td>{{ o.ins_SupplierCode }}</td>
         <td>{{ o.ins_SupplierName }}</td>
-        <td>{{ o.ins_PostingDate | date: 'MM-dd-yyyy' }}</td>
-        <td>{{ o.ins_DeliveryDate | date: 'MM-dd-yyyy' }}</td>
+        <td>{{ o.ins_PostingDate | date: "MM-dd-yyyy" }}</td>
+        <td>{{ o.ins_DeliveryDate | date: "MM-dd-yyyy" }}</td>
         <td>{{ o.ins_BranchName }}</td>
         <td><c-badge color="success">success</c-badge></td>
         <td>
-            <button cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-              <svg cIcon name="cil-pencil" size="sm"></svg>
-            </button>
-            <!-- <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+          <button (click)="DataLoadEvent(o)"
+            cButton
+            color="info"
+            size="sm"
+            style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+          >
+            <svg cIcon name="cil-pencil" size="sm"></svg>
+          </button>
+          <!-- <button cButton color="success" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
               <svg cIcon name="cil-check" size="sm"></svg>
             </button> -->
-            <!-- <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+          <!-- <button cButton color="danger" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
               <svg cIcon name="cil-ban" size="sm"></svg>
             </button> -->
-          </td>
+        </td>
       </tr>
     </tbody>
   </table>

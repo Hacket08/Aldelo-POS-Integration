@@ -1,6 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { SwalService } from '../../../../../_services/swal-service';
 
 import { ItemService } from '../../../../../_shared/items/item.service';
@@ -26,18 +38,23 @@ class POItem {
   styleUrls: ['./purchase-order-transaction.component.scss'],
 })
 export class PurchaseOrderTransactionComponent implements OnInit {
-
   @Output() purchaseOrderEvent = new EventEmitter();
   @Input() purchaseData: PurchaseOrder[] = [];
+
+  isViewHidden = false;
+  isEditHidden = false;
 
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
   postingdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
-  deliverydate = this.datepipe.transform(this.date.setDate(this.date.getDate() + 3), 'yyyy-MM-dd');
+  deliverydate = this.datepipe.transform(
+    this.date.setDate(this.date.getDate() + 3),
+    'yyyy-MM-dd'
+  );
   headerForm!: FormGroup;
 
   purchaseorderdetails: PurchaseOrderDetails[] = [];
-  
+
   suppliers: any[] = [];
 
   supplier?: Supplier;
@@ -49,7 +66,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     public swal: SwalService,
     private fb: FormBuilder,
     private purchaseorderitem: PurchaseOrderDetails,
-    private purchaseorder: PurchaseOrder,
+    private purchaseorder: PurchaseOrder
   ) {
     this.headerForm = this.fb.group({
       suppliercode: '',
@@ -59,18 +76,49 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       docnum: '',
       docdate: '',
       deldate: '',
-      owner: ''
+      owner: '',
     });
   }
 
   async ngOnInit(): Promise<void> {
-    const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy('GetMaxId');
-    console.log('Supplier Data', _docnum);
-    this.headerForm.patchValue({ 
-      docnum: _docnum,
-      docdate: this.postingdate,
-      deldate: this.deliverydate,
-     });
+    console.log('Order Transaction Component', this.purchaseData);
+    console.log('Order Transaction Component', this.purchaseData.length);
+
+    if (this.purchaseData.length <= 0) {
+      this.isViewHidden = false;
+      this.isEditHidden = true;
+
+      const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy(
+        'GetMaxId'
+      );
+      this.headerForm.patchValue({
+        docnum: _docnum,
+        docdate: this.postingdate,
+        deldate: this.deliverydate,
+      });
+
+    } else {
+      this.isViewHidden = true;
+      this.isEditHidden = false;
+
+      for (var a of this.purchaseData as any) {
+        console.log('PO Data', a);
+        this.headerForm.setValue({
+          suppliercode: a.ins_SupplierCode,
+          suppliername: a.ins_SupplierName,
+          branchcode: a.ins_BranchCode,
+          branchname: a.ins_BranchName,
+          docnum: a.ins_DocNum,
+          docdate: this.datepipe.transform(a.ins_PostingDate, 'yyyy-MM-dd'),
+          deldate: this.datepipe.transform(a.ins_DeliveryDate, 'yyyy-MM-dd'),
+          owner: a.ins_CreatedBy,
+        });
+
+        for (var list of a.ins_PurchaseOrderDetails ) {
+          this.purchaseorderdetails.push(list);
+        }
+      }
+    }
   }
 
   PassEvent() {
@@ -81,7 +129,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     console.log(data);
 
     const userInfo = this.user.getCurrentUser();
-    this.purchaseorderitem = new PurchaseOrderDetails;
+    this.purchaseorderitem = new PurchaseOrderDetails();
 
     this.purchaseorderitem.ins_ItemCode = data.ins_ItemCode;
     this.purchaseorderitem.ins_ItemDescription = data.ins_ItemName;
@@ -92,6 +140,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderitem.ins_BranchName = userInfo[0].ins_BranchName;
     this.purchaseorderitem.ins_InventoryUom = data.ins_InventoryUom;
     this.purchaseorderitem.ins_Quantity = 0;
+    this.purchaseorderitem.ins_UnitCost = data.ins_PurchasePrice;
 
     this.purchaseorderdetails.push(this.purchaseorderitem);
   }
@@ -102,13 +151,13 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
     this.supplier = data;
 
-    this.headerForm.patchValue({     
-      suppliercode: this.supplier.ins_SupplierCode, 
-      suppliername: this.supplier.ins_SupplierName, 
+    this.headerForm.patchValue({
+      suppliercode: this.supplier.ins_SupplierCode,
+      suppliername: this.supplier.ins_SupplierName,
       branchcode: userInfo[0].ins_BranchCode,
       branchname: userInfo[0].ins_BranchName,
       owner: userInfo[0].ins_FullName,
-     });
+    });
   }
 
   numericOnly(event: any): boolean {
@@ -127,16 +176,18 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorder.ins_DeliveryDate = this.headerForm.value.deldate;
     this.purchaseorder.ins_CreatedBy = this.headerForm.value.owner;
 
-    // if (this.checkActionAdd() == true) {
-    //   this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, "PostAsync");
-    // } else {
-    //   this.purchaseorderapi.put_PurchaseOrder(this.purchaseorder);
-    // }
+    this.purchaseorder.ins_PurchaseOrderDetails = this.purchaseorderdetails;
 
-    console.log("Items", this.purchaseorderdetails);
+    if (this.checkActionAdd() == true) {
+      this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, 'PostAsync');
+    } else {
+      this.purchaseorderapi.put_PurchaseOrder(this.purchaseorder);
+    }
+
+    console.log('Purchase Order', this.purchaseorder);
+    console.log('Purchase Order Items', this.purchaseorderdetails);
     this.purchaseOrderEvent.emit();
   }
-
 
   checkActionAdd() {
     if (this.purchaseData.length > 0) {
@@ -150,11 +201,18 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderdetails.splice(i, 1);
   }
 
-  change(event: any) 
-  {
-    this.purchaseorderdetails[event.target.id].ins_Quantity = event.target.value;
+  change(event: any) {
+    const _qty = event.target.value;
+    const _packageqty =
+      this.purchaseorderdetails[event.target.id].ins_PurchasePackageQuantity;
+    const _inventoryqty = _packageqty * _qty;
 
-    // console.log(this.purchaseorderdetails[event.target.id]);
+    this.purchaseorderdetails[event.target.id].ins_Quantity =
+      event.target.value;
+    this.purchaseorderdetails[event.target.id].ins_InventoryQuantity =
+      _inventoryqty;
+
+    console.log("sample", this.purchaseorderdetails[event.target.id]);
     // console.log("Items", this.purchaseorderdetails);
   }
 }

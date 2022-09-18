@@ -18,6 +18,16 @@
             <svg cIcon name="cil-save" size="sm"></svg>
             <strong> Save</strong>
           </button>
+          <button
+            cButton
+            (click)="PassEvent()"
+            color="danger"
+            size="sm"
+            style="margin-left: 0.25rem"
+          >
+            <svg cIcon name="cil-exit-to-app" size="sm"></svg>
+            <strong></strong>
+          </button>
         </div>
       </c-col>
     </c-row>
@@ -129,8 +139,10 @@
         <td>{{ o.ins_ItemCode }}</td>
         <td>{{ o.ins_ItemDescription }}</td>
         <td>{{ o.ins_PurchaseUom }}</td>
-        <td>
+        <td *ngIf="isViewHidden">{{ o.ins_Quantity }}</td>
+        <td *ngIf="isEditHidden">
           <input
+            value="{{ o.ins_Quantity }}"
             id="{{ i }}"
             aria-describedby="button-addon2"
             aria-label="Quantity"
@@ -157,19 +169,12 @@
     </tbody>
   </table>
   <div>
-    <button
-      cButton
-      [cModalToggle]="itemDataEntry.id"
-      color="success"
-      size="sm"
-    >
+    <button cButton [cModalToggle]="itemDataEntry.id" color="success" size="sm">
       <svg cIcon name="cil-playlist-add" size="1xl"></svg>
       <strong> Add Item</strong>
     </button>
   </div>
 </c-card>
-
-
 
 <c-modal
   #itemDataEntry

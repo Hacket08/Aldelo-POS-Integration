@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PurchaseOrderDetails } from '../../_model/purchase-order-details/purchase-order-details';
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,8 @@ export class PurchaseOrder {
     ins_ModifiedDate: Date;
     ins_BranchCode: string = '';
     ins_BranchName: string = '';
+
+    ins_PurchaseOrderDetails: {};
 }
 
 export class PurchaseOrderList {

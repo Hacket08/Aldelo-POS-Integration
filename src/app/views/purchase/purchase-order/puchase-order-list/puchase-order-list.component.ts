@@ -20,7 +20,7 @@ export class PuchaseOrderListComponent implements OnInit {
     let data: any;
     this.purchaseorders = [];
 
-    data = (await this.purchaseorderservice.getList())  as any;
+    data = (await this.purchaseorderservice.getList()) as any;
     if (data !== false) {
       for (var val of data) {
         console.log(val.ins_DeliveryDate);
