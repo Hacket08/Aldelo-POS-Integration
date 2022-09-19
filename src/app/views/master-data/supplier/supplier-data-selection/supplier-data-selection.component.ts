@@ -8,7 +8,7 @@ import { Supplier } from '../../../../../_model/supplier/supplier';
   styleUrls: ['./supplier-data-selection.component.scss']
 })
 export class SupplierDataSelectionComponent implements OnInit {
-  @Output() passedEvent= new EventEmitter();
+  @Output() supplierSelectionEvent= new EventEmitter();
 
   constructor(public supplierservice: SupplierService) { }
 
@@ -28,11 +28,11 @@ export class SupplierDataSelectionComponent implements OnInit {
   }
 
   eventReadData(e: any) {
-    this.passedEvent.emit(e);
+    this.supplierSelectionEvent.emit(e);
   }
 
   PassEvent(){
-    this.passedEvent.emit();
+    this.supplierSelectionEvent.emit();
   }
 
 }

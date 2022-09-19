@@ -22,8 +22,8 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isTransactionViewHidden = true;
-    this.isListViewHidden = false;
+    this.isTransactionViewHidden = false;
+    this.isListViewHidden = true;
   }
 
   async eventNewTransaction(a: any) {
@@ -35,12 +35,12 @@ export class PurchaseOrderComponent implements OnInit {
         this.purchaseOrderParentData.push(val as any);
       }
     }
-    this.isListViewHidden = true;
-    this.isTransactionViewHidden = false;
+    this.isListViewHidden = false;
+    this.isTransactionViewHidden = true;
   }
 
   eventListTransaction() {
-    this.isListViewHidden = false;
-    this.isTransactionViewHidden = true;
+    this.isListViewHidden = true;
+    this.isTransactionViewHidden = false;
   }
 }

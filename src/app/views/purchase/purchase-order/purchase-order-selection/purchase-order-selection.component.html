@@ -1,4 +1,3 @@
-
 <c-card>
     <c-row  class="mb-1" >
       <c-col sm="6">
@@ -37,24 +36,25 @@
     <table cTable [hover]="true" [striped]="true" size="sm" class="mt-1">
       <thead>
         <tr>
-          <th scope="col">Supplier Code</th>
+          <th scope="col">PO Number</th>
           <th scope="col">Supplier Name</th>
+          <th scope="col">Delivery Date</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let o of suppliers">
-          <td>{{ o.ins_SupplierCode }}</td>
+        <tr *ngFor="let o of purchaseorders">
+          <td>{{ o.ins_DocNum }}</td>
           <td>{{ o.ins_SupplierName }}</td>
+          <td>{{ o.ins_DeliveryDate }}</td>
           <td>
             <button
-              (click)="eventReadData(o)"
+              (click)="purchaseOrderSelectEvent(o)"
               [cModalToggle]=""
               cButton
               color="info"
               size="sm"
-              style="margin-left: 0.25rem; margin-bottom: 0.25rem"
-            >
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem">
               Select
               <svg cIcon name="cil-check" size="sm"></svg>
             </button>
@@ -63,4 +63,4 @@
       </tbody>
     </table>
   </c-card>
- 
+  

@@ -8,7 +8,7 @@ import { Item } from '../../../../../_model/item/item';
   styleUrls: ['./items-data-selection.component.scss']
 })
 export class ItemsDataSelectionComponent implements OnInit {
-  @Output() itemListEvent = new EventEmitter();
+  @Output() itemSelectionEvent = new EventEmitter();
   items: Item[] = [];
   
   constructor(public itemservice: ItemService) { }
@@ -27,11 +27,11 @@ export class ItemsDataSelectionComponent implements OnInit {
   }
 
   eventReadData(e: any) {
-    this.itemListEvent.emit(e);
+    this.itemSelectionEvent.emit(e);
   }
 
   PassEvent(){
-    this.itemListEvent.emit();
+    this.itemSelectionEvent.emit();
   }
 
 }

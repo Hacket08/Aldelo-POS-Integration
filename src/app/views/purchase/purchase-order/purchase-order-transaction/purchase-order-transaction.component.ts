@@ -138,6 +138,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderitem.ins_PurchasePackageQuantity = data.ins_PurchasePackQuantity;
     this.purchaseorderitem.ins_BranchCode = userInfo[0].ins_BranchCode;
     this.purchaseorderitem.ins_BranchName = userInfo[0].ins_BranchName;
+    this.purchaseorderitem.ins_CreatedBy = userInfo[0].ins_FullName;
     this.purchaseorderitem.ins_InventoryUom = data.ins_InventoryUom;
     this.purchaseorderitem.ins_Quantity = 0;
     this.purchaseorderitem.ins_UnitCost = data.ins_PurchasePrice;
@@ -145,7 +146,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderdetails.push(this.purchaseorderitem);
   }
 
-  eventSelectSupplier(data: Supplier) {
+  supplierSelected(data: Supplier) {
     this.suppliers.length = 0;
     const userInfo = this.user.getCurrentUser();
 

@@ -185,7 +185,7 @@
 >
   <c-modal-body>
     <app-items-data-selection
-      (itemListEvent)="eventAddRow($event)"
+      (itemSelectionEvent)="eventAddRow($event)"
     ></app-items-data-selection>
   </c-modal-body>
 </c-modal>
@@ -199,7 +199,7 @@
 >
   <c-modal-body>
     <app-supplier-data-selection
-      (passedEvent)="eventSelectSupplier($event)"
+      (supplierSelectionEvent)="supplierSelected($event)"
     ></app-supplier-data-selection>
   </c-modal-body>
 </c-modal>

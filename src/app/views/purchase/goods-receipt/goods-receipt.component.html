@@ -1,0 +1,7 @@
+<!-- <app-goods-receipt-list (goodsReceiptEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-goods-receipt-list>
+<app-goods-receipt-transaction [goodsReceiptData]="goodsReceiptParentData" (goodsReceiptEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-goods-receipt-transaction> -->
+
+
+
+<app-goods-receipt-list (goodsReceiptEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-goods-receipt-list>
+<app-goods-receipt-transaction (goodsReceiptEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-goods-receipt-transaction>

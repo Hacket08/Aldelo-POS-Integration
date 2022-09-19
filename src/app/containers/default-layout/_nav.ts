@@ -63,7 +63,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Goods Receipt',
-        url: '/buttons/button-groups'
+        url: '/purchase/goods-receipt'
       },
       {
         name: 'Purchase Order Monitoring',

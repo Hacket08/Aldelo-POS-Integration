@@ -45,6 +45,10 @@ import { PurchaseOrderComponent } from './purchase-order/purchase-order.componen
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
 import { PuchaseOrderListComponent } from './purchase-order/puchase-order-list/puchase-order-list.component';
 import { PurchaseOrderTransactionComponent } from '../purchase/purchase-order/purchase-order-transaction/purchase-order-transaction.component';
+import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component';
+import { GoodsReceiptListComponent } from './goods-receipt/goods-receipt-list/goods-receipt-list.component';
+import { GoodsReceiptTransactionComponent } from './goods-receipt/goods-receipt-transaction/goods-receipt-transaction.component';
+import { PurchaseOrderSelectionComponent } from './purchase-order/purchase-order-selection/purchase-order-selection.component';
 // import { ItemDataEntryComponent } from './item-data-entry/item-data-entry.component';
 // import { SupplierDataEntryComponent } from './supplier-data-entry/supplier-data-entry.component';
 
@@ -55,6 +59,10 @@ import { PurchaseOrderTransactionComponent } from '../purchase/purchase-order/pu
     PurchaseOrderMonitoringComponent,
     PuchaseOrderListComponent,
     PurchaseOrderTransactionComponent,
+    GoodsReceiptComponent,
+    GoodsReceiptListComponent,
+    GoodsReceiptTransactionComponent,
+    PurchaseOrderSelectionComponent,
     // ItemDataEntryComponent
   ],
   imports: [

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component'
+import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component'
 
 
 const routes: Routes = [
@@ -29,6 +30,13 @@ const routes: Routes = [
         component: PurchaseOrderComponent,
         data: {
           title: 'Purchase Order',
+        },
+      },
+      {
+        path: 'goods-receipt',
+        component: GoodsReceiptComponent,
+        data: {
+          title: 'Goods Receipt',
         },
       }
     ],
