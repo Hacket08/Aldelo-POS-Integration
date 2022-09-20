@@ -22,6 +22,8 @@ export class PurchaseOrder {
     ins_CreatedBy: string = '';
     ins_BranchCode: string = '';
     ins_BranchName: string = '';
+    ins_Badge: string = '';
+    ins_BadgeName: string = '';
 
     ins_PurchaseOrderDetails: {};
 }

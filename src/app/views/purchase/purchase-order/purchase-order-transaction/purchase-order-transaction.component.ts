@@ -43,6 +43,8 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   isViewHidden = false;
   isEditHidden = false;
+  isReadOnly = false;
+  state = 'add';
 
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
@@ -58,7 +60,9 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   suppliers: any[] = [];
 
   supplier?: Supplier;
-  docstatus: string = 'Pending';
+
+  badge: string = 'warning';
+  badgename: string = 'Pending';
 
   constructor(
     public user: Users,
@@ -69,6 +73,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     private purchaseorder: PurchaseOrder
   ) {
     this.headerForm = this.fb.group({
+      purchaseorderid: '',
       suppliercode: '',
       suppliername: '',
       branchcode: '',
@@ -87,6 +92,8 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     if (this.purchaseData.length <= 0) {
       this.isViewHidden = false;
       this.isEditHidden = true;
+      this.isReadOnly = false;
+      this.state = 'add';
 
       const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy(
         'GetMaxId'
@@ -96,14 +103,40 @@ export class PurchaseOrderTransactionComponent implements OnInit {
         docdate: this.postingdate,
         deldate: this.deliverydate,
       });
-
     } else {
       this.isViewHidden = true;
       this.isEditHidden = false;
+      this.isReadOnly = true;
+      this.state = 'edit';
 
       for (var a of this.purchaseData as any) {
-        console.log('PO Data', a);
+        console.log('PO', a);
+
+        switch (a.ins_DocStatus) {
+          case 0: // Pending
+            this.badge = 'warning';
+            this.badgename = 'PENDING';
+            break;
+          case 1: // Approved
+            this.badge = 'success';
+            this.badgename = 'APPROVED';
+            break;
+          case 2: // Reject
+            this.badge = 'danger';
+            this.badgename = 'REJECTED';
+            break;
+          default:
+            break;
+        }
+
+        if (a.ins_DocStatus == 0) {
+          this.isViewHidden = false;
+          this.isEditHidden = true;
+          this.isReadOnly = false;
+        }
+
         this.headerForm.setValue({
+          purchaseorderid: a.ins_PurchaseOrderID,
           suppliercode: a.ins_SupplierCode,
           suppliername: a.ins_SupplierName,
           branchcode: a.ins_BranchCode,
@@ -114,7 +147,8 @@ export class PurchaseOrderTransactionComponent implements OnInit {
           owner: a.ins_CreatedBy,
         });
 
-        for (var list of a.ins_PurchaseOrderDetails ) {
+        this.purchaseorderdetails.length = 0;
+        for (var list of a.ins_PurchaseOrderDetails) {
           this.purchaseorderdetails.push(list);
         }
       }
@@ -135,12 +169,14 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderitem.ins_ItemDescription = data.ins_ItemName;
     this.purchaseorderitem.ins_PurchaseUom = data.ins_PurchaseUom;
     this.purchaseorderitem.ins_VatGroup = data.ins_VatGroup;
-    this.purchaseorderitem.ins_PurchasePackQuantity = data.ins_PurchasePackQuantity;
+    this.purchaseorderitem.ins_PurchasePackQuantity =
+      data.ins_PurchasePackQuantity;
     this.purchaseorderitem.ins_PurchasePackageUom = data.ins_PurchasePackageUom;
     this.purchaseorderitem.ins_BranchCode = userInfo[0].ins_BranchCode;
     this.purchaseorderitem.ins_BranchName = userInfo[0].ins_BranchName;
     this.purchaseorderitem.ins_CreatedBy = userInfo[0].ins_FullName;
     this.purchaseorderitem.ins_InventoryUom = data.ins_InventoryUom;
+    this.purchaseorderitem.ins_BalanceQuantity = 0;
     this.purchaseorderitem.ins_Quantity = 0;
     this.purchaseorderitem.ins_UnitCost = data.ins_PurchasePrice;
 
@@ -169,6 +205,10 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   onSubmit() {
+    this.purchaseorder.ins_Badge = "";
+    this.purchaseorder.ins_BadgeName = "";
+
+    this.purchaseorder.ins_PurchaseOrderID = this.headerForm.value.purchaseorderid;
     this.purchaseorder.ins_SupplierCode = this.headerForm.value.suppliercode;
     this.purchaseorder.ins_SupplierName = this.headerForm.value.suppliername;
     this.purchaseorder.ins_BranchCode = this.headerForm.value.branchcode;
@@ -180,14 +220,13 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
     this.purchaseorder.ins_PurchaseOrderDetails = this.purchaseorderdetails;
 
-    if (this.checkActionAdd() == true) {
+    if (this.state == "add") {
       this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, 'PostAsync');
     } else {
       this.purchaseorderapi.put_PurchaseOrder(this.purchaseorder);
     }
 
     console.log('Purchase Order', this.purchaseorder);
-    console.log('Purchase Order Items', this.purchaseorderdetails);
     this.purchaseOrderEvent.emit();
   }
 
@@ -205,13 +244,16 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   onchange(event: any) {
     const _qty = event.target.value;
-    const _packageqty = this.purchaseorderdetails[event.target.id].ins_PurchasePackQuantity;
+    const _packageqty =
+      this.purchaseorderdetails[event.target.id].ins_PurchasePackQuantity;
     const _inventoryqty = _packageqty * _qty;
 
-    this.purchaseorderdetails[event.target.id].ins_Quantity = event.target.value;
-    this.purchaseorderdetails[event.target.id].ins_InventoryQuantity = _inventoryqty;
+    this.purchaseorderdetails[event.target.id].ins_Quantity =
+      event.target.value;
+    this.purchaseorderdetails[event.target.id].ins_InventoryQuantity =
+      _inventoryqty;
 
-    console.log("sample", this.purchaseorderdetails[event.target.id]);
+    console.log('sample', this.purchaseorderdetails[event.target.id]);
     // console.log("Items", this.purchaseorderdetails);
   }
 }

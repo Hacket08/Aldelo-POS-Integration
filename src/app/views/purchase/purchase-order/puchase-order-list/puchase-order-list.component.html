@@ -103,7 +103,7 @@
         <td>{{ o.ins_PostingDate | date: "MM-dd-yyyy" }}</td>
         <td>{{ o.ins_DeliveryDate | date: "MM-dd-yyyy" }}</td>
         <td>{{ o.ins_BranchName }}</td>
-        <td><c-badge color="success">success</c-badge></td>
+        <td><c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge></td>
         <td>
           <button (click)="DataLoadEvent(o)"
             cButton

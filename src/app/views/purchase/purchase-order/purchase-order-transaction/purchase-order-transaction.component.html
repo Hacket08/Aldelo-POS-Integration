@@ -3,12 +3,12 @@
     <c-row>
       <c-col>
         <div class="d-flex justify-content-start align-items-center">
-          <span class="dot warning"></span>
+          <span class="dot {{ badge }}"></span>
           <div
             class="d-flex align-items-center"
             style="margin-top: 0.25rem; margin-left: 1rem"
           >
-            <strong>{{ docstatus }}</strong>
+            <strong>{{ badgename }}</strong>
           </div>
         </div>
       </c-col>
@@ -35,89 +35,137 @@
 
   <c-card>
     <c-row>
-      <c-col lg="4" md="6" xs="12">
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            formControlName="suppliercode"
-            id="supplier-code"
-            aria-describedby="button-addon2"
-            aria-label="Select Supplier"
-            cFormControl
-            placeholder="Select Supplier"
-            readonly="true"
-          />
-          <button
-            cButton
-            color="secondary"
-            id="button-addon2"
-            type="button"
-            variant="outline"
-            style="border: 0rem"
-            [cModalToggle]="itemSupplierEntry.id"
-          >
-            <svg cIcon name="cil-list" size="sm"></svg>
-          </button>
-        </c-input-group>
+      <c-col sm="6" xs="12">
+        <!-- Supplier Code -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="suppliercode" sizing="sm"
+              >Supplier Code</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="suppliercode"
+                id="suppliercode"
+                placeholder="Select Supplier"
+                readonly="true"
+              />
+              <button
+                cButton
+                color="secondary"
+                type="button"
+                variant="outline"
+                style="border: 0rem"
+                [cModalToggle]="supplierEntry.id"
+              >
+                <svg cIcon name="cil-list" size="sm"></svg>
+              </button>
+            </c-input-group>
+          </c-col>
+        </c-row>
 
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            formControlName="suppliername"
-            aria-describedby="button-addon2"
-            aria-label="Name"
-            cFormControl
-            placeholder="Name"
-            readonly="true"
-          />
-        </c-input-group>
+        <!-- Supplier Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="suppliername" sizing="sm"
+              >Supplier Name</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="suppliername"
+                readonly="true"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
 
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            formControlName="branchname"
-            aria-describedby="button-addon2"
-            aria-label="Branch Name"
-            cFormControl
-            placeholder="Branch Name"
-            readonly="true"
-          />
-        </c-input-group>
+        <!-- Branch Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="branchname" sizing="sm"
+              >Branch Name</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="branchname"
+                readonly="true"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
       </c-col>
 
-      <c-col lg="4" md="6" xs="12"> </c-col>
 
-      <c-col lg="4" md="6" xs="12">
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            formControlName="docnum"
-            aria-describedby="button-addon2"
-            aria-label="Document Number"
-            cFormControl
-            placeholder="Document Number"
-            readonly="true"
-          />
-        </c-input-group>
+      <c-col sm="6" xs="12">
+        <!-- Document Number -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docnum" sizing="sm"
+              >Document Number</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="docnum" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
 
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            formControlName="docdate"
-            type="date"
-            aria-describedby="button-addon2"
-            aria-label="Posting Date"
-            cFormControl
-            placeholder="Posting Date"
-            readonly="true"
-          />
-        </c-input-group>
+        <!-- Posting Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docdate" sizing="sm"
+              >Posting Date</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="docdate"                 
+                type="text"
+                name="date"
+                onfocus="(this.type='date')"
+                onblur="if(!this.value)
+                this.type ='text'"
+                readonly="true"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
 
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            formControlName="deldate"
-            type="date"
-            aria-describedby="button-addon2"
-            aria-label="Delivery Date"
-            cFormControl
-            placeholder="Delivery Date"
-          />
-        </c-input-group>
+        <!-- Delivery Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="deldate" sizing="sm"
+              >Delivery Date</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="deldate"
+                type="text"
+                name="date"
+                onfocus="(this.type='date')"
+                onblur="if(!this.value)
+                this.type ='text'"
+                
+                [readonly]="isReadOnly"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
       </c-col>
     </c-row>
   </c-card>
@@ -131,6 +179,7 @@
         <th scope="col">Item Description</th>
         <th scope="col">Item Uom</th>
         <th scope="col">Quantity</th>
+        <th scope="col">Balance</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -154,6 +203,7 @@
             (change)="onchange($event)"
           />
         </td>
+        <td>{{ o.ins_BalanceQuantity }}</td>
         <td>
           <button
             cButton
@@ -191,10 +241,10 @@
 </c-modal>
 
 <c-modal
-  #itemSupplierEntry
+  #supplierEntry
   alignment="center"
   backdrop="static"
-  id="itemSupplierEntry"
+  id="supplierEntry"
   size="lg"
 >
   <c-modal-body>

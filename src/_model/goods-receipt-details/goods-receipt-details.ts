@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 })
 
 export class GoodsReceiptDetails {
+    
+    ins_GoodsReceiptID: number = 0;
+    ins_GoodsReceiptDetailID: number = 0;
     ins_ItemCode: string = '';
     ins_ItemDescription: string = '';
     ins_LineNum: number = 0;
@@ -12,6 +15,8 @@ export class GoodsReceiptDetails {
 
     ins_VatGroup: string = '';
     ins_PurchaseUom: string = '';
+    ins_PurchaseOrderQuantity: number = 0;
+    
     ins_Quantity: number = 0;
     ins_ReceivedQuantity: number = 0;
 
