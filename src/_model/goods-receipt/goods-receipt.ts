@@ -7,8 +7,11 @@ import { Injectable } from '@angular/core';
 
 export class GoodsReceipt {
     ins_DocNum: string = '';
+    ins_PurchaseOrderID: number = 0;
+    ins_PurchaseOrderDocNum: string = '';
     ins_PostingDate: Date;
     ins_DeliveryDate: Date;
+    ins_ReceivedDate: Date;
     ins_SupplierCode: string = '';
     ins_SupplierName: string = '';
     ins_Received: number = 0;
@@ -24,5 +27,5 @@ export class GoodsReceipt {
     ins_BranchCode: string = '';
     ins_BranchName: string = '';
 
-    ins_PurchaseOrderDetails: {};
+    ins_GoodsReceiptDetails: {};
 }

@@ -135,7 +135,8 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderitem.ins_ItemDescription = data.ins_ItemName;
     this.purchaseorderitem.ins_PurchaseUom = data.ins_PurchaseUom;
     this.purchaseorderitem.ins_VatGroup = data.ins_VatGroup;
-    this.purchaseorderitem.ins_PurchasePackageQuantity = data.ins_PurchasePackQuantity;
+    this.purchaseorderitem.ins_PurchasePackQuantity = data.ins_PurchasePackQuantity;
+    this.purchaseorderitem.ins_PurchasePackageUom = data.ins_PurchasePackageUom;
     this.purchaseorderitem.ins_BranchCode = userInfo[0].ins_BranchCode;
     this.purchaseorderitem.ins_BranchName = userInfo[0].ins_BranchName;
     this.purchaseorderitem.ins_CreatedBy = userInfo[0].ins_FullName;
@@ -202,16 +203,13 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderdetails.splice(i, 1);
   }
 
-  change(event: any) {
+  onchange(event: any) {
     const _qty = event.target.value;
-    const _packageqty =
-      this.purchaseorderdetails[event.target.id].ins_PurchasePackageQuantity;
+    const _packageqty = this.purchaseorderdetails[event.target.id].ins_PurchasePackQuantity;
     const _inventoryqty = _packageqty * _qty;
 
-    this.purchaseorderdetails[event.target.id].ins_Quantity =
-      event.target.value;
-    this.purchaseorderdetails[event.target.id].ins_InventoryQuantity =
-      _inventoryqty;
+    this.purchaseorderdetails[event.target.id].ins_Quantity = event.target.value;
+    this.purchaseorderdetails[event.target.id].ins_InventoryQuantity = _inventoryqty;
 
     console.log("sample", this.purchaseorderdetails[event.target.id]);
     // console.log("Items", this.purchaseorderdetails);

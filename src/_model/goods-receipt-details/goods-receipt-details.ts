@@ -19,7 +19,8 @@ export class GoodsReceiptDetails {
     ins_InventoryQuantity: number = 0;
     ins_ReceivedInventoryQuantity: number = 0;
 
-    ins_PurchasePackageQuantity: number = 0;
+    ins_PurchasePackageUom: string = '';
+    ins_PurchasePackQuantity: number = 0;
 
     ins_UnitCost: number = 0;
     ins_UnitCostEx: number = 0;
@@ -28,8 +29,6 @@ export class GoodsReceiptDetails {
     ins_TaxAmount: number = 0;
     ins_ModifiedBy: string = '';
     ins_CreatedBy: string = '';
-    ins_CreateDate: Date;
-    ins_ModifiedDate: Date;
     ins_BranchCode: string = '';
     ins_BranchName: string = '';
 }

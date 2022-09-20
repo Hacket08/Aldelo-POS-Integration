@@ -6,6 +6,7 @@ import { PurchaseOrderDetails } from '../../_model/purchase-order-details/purcha
 })
 
 export class PurchaseOrder {
+    ins_PurchaseOrderID: number = 0;
     ins_DocNum: string = '';
     ins_PostingDate: Date;
     ins_DeliveryDate: Date;
@@ -19,8 +20,6 @@ export class PurchaseOrder {
     ins_InternalNumber: string = '';
     ins_ModifiedBy: string = '';
     ins_CreatedBy: string = '';
-    ins_CreateDate: Date;
-    ins_ModifiedDate: Date;
     ins_BranchCode: string = '';
     ins_BranchName: string = '';
 

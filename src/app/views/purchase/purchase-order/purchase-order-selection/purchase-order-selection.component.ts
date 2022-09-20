@@ -28,8 +28,7 @@ export class PurchaseOrderSelectionComponent implements OnInit {
   }
 
   purchaseOrderSelectEvent(e: any) {
-    console.log(e)
+    console.log(e);
     this.purchaseorderSelectionEvent.emit(e);
   }
-
 }
