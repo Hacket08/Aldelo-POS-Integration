@@ -43,6 +43,18 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   isReadOnly = false;
   state = 'add';
 
+
+  isHiddenSave = false;
+  isHiddenAction = false;
+  isHiddenActionRow = false;
+  isHiddenAddItem = false;
+  isHiddenApproveBtn = false;
+  isHiddenRejectBtn = false;
+  isHiddenDiv = false;
+  isHiddenDeleteBtn = false;
+  isReadOnlyRecDate = false;
+
+
   // initialized values
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
@@ -63,7 +75,8 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     private supplier: Supplier,
     private goodsreceiptapi: GoodsReceiptApi,
     private goodsreceipt: GoodsReceipt,
-    private goodsreceiptlines: GoodsReceiptDetails
+    private goodsreceiptlines: GoodsReceiptDetails,
+    public swal: SwalService
   ) {
     // declare the form group fields
     this.userInfo = this.user.getCurrentUser();
@@ -112,7 +125,6 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     this.state = 'edit';
 
     for (var a of this.goodsreceiptData as any) {
-      console.log('GR', a);
       switch (a.ins_DocStatus) {
         case 0: // Pending
           this.badge = 'warning';
@@ -121,10 +133,18 @@ export class GoodsReceiptTransactionComponent implements OnInit {
         case 1: // Approved
           this.badge = 'success';
           this.badgename = 'APPROVED';
+
+          this.isHiddenSave = true;
+          this.isHiddenActionRow = true;
+          this.isReadOnlyRecDate = true;
           break;
         case 2: // Reject
           this.badge = 'danger';
           this.badgename = 'REJECTED';
+          break;
+        case 3: // Reject
+          this.badge = 'danger';
+          this.badgename = 'CLOSED';
           break;
         default:
           break;
@@ -181,7 +201,11 @@ export class GoodsReceiptTransactionComponent implements OnInit {
         this.goodsreceiptlines.ins_UnitCostEx = val.ins_UnitCostEx;
         this.goodsreceiptlines.ins_UnitCostInc = val.ins_UnitCostInc;
         this.goodsreceiptlines.ins_VatGroup = val.ins_VatGroup;
-        this.goodsreceiptlines.ins_PurchaseOrderQuantity = val.ins_Quantity;
+
+        this.goodsreceiptlines.ins_PurchaseOrderQuantity =
+          val.ins_BalanceQuantity;
+        // this.goodsreceiptlines.ins_PurchaseOrderQuantity = val.ins_Quantity;
+        this.goodsreceiptlines.ins_BaseLineNum = val.ins_LineNum;
 
         this.goodsreceiptdetails.push(val);
       }
@@ -220,17 +244,22 @@ export class GoodsReceiptTransactionComponent implements OnInit {
       this.goodsreceiptlines.ins_Quantity = val.ins_Quantity;
       this.goodsreceiptlines.ins_ReceivedInventoryQuantity =
         val.ins_ReceivedInventoryQuantity;
-      this.goodsreceiptlines.ins_ReceivedQuantity = val.ins_ReceivedQuantity;
       this.goodsreceiptlines.ins_TaxAmount = val.ins_TaxAmount;
       this.goodsreceiptlines.ins_UnitCost = val.ins_UnitCost;
       this.goodsreceiptlines.ins_UnitCostEx = val.ins_UnitCostEx;
       this.goodsreceiptlines.ins_UnitCostInc = val.ins_UnitCostInc;
       this.goodsreceiptlines.ins_VatGroup = val.ins_VatGroup;
-      this.goodsreceiptlines.ins_PurchaseOrderQuantity = val.ins_Quantity;
+
+      // this.goodsreceiptlines.ins_PurchaseOrderQuantity = val.ins_Quantity;
+      // this.goodsreceiptlines.ins_ReceivedQuantity = val.ins_ReceivedQuantity;
+      this.goodsreceiptlines.ins_ReceivedQuantity = 0;
+      this.goodsreceiptlines.ins_PurchaseOrderQuantity =
+        val.ins_BalanceQuantity;
+
+      this.goodsreceiptlines.ins_BaseLineNum = val.ins_LineNum;
 
       this.goodsreceiptdetails.push(this.goodsreceiptlines);
     }
-    console.log('val', this.goodsreceiptdetails);
   }
 
   supplierSelected(e: Supplier) {
@@ -298,11 +327,8 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     } else {
       this.goodsreceiptapi.put_GoodsReceipt(this.goodsreceipt);
     }
-
-    console.log('Purchase Order', this.purchaseorder);
   }
 
-  
   checkActionAdd() {
     if (this.goodsreceiptData.length > 0) {
       return false;
@@ -320,14 +346,24 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   }
   onchange(a: any) {
     const _qty = a.target.value;
+    const _recqty = this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity;
+    const _poqty =
+      this.goodsreceiptdetails[a.target.id].ins_PurchaseOrderQuantity;
     const _packageqty =
       this.goodsreceiptdetails[a.target.id].ins_PurchasePackQuantity;
     const _inventoryqty = _packageqty * _qty;
 
-    this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity = a.target.value;
-    this.goodsreceiptdetails[a.target.id].ins_ReceivedInventoryQuantity =
-      _inventoryqty;
-
-    console.log('sample', this.goodsreceiptdetails[a.target.id]);
+    if (_poqty < _qty) {
+      this.swal.commonSwalCentered(
+        'Recieve Quantity is Greater Than PO Quantity',
+        'error'
+      );
+      this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity = _recqty;
+    } else {
+      this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity =
+        a.target.value;
+      this.goodsreceiptdetails[a.target.id].ins_ReceivedInventoryQuantity =
+        _inventoryqty;
+    }
   }
 }

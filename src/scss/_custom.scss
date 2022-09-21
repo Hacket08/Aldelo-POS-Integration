@@ -13,8 +13,24 @@
     padding: 0.25rem 1rem 0.25rem 1rem ;  
   }
 }
-  
 
+
+.col-form-label-sm {
+  padding-top: calc(0.25rem + 1px);
+  padding-bottom: calc(0.25rem + 1px);
+  font-size: 0.8rem;
+}
+
+.input-group-sm > .form-control, .input-group-sm > .form-select, .input-group-sm > .input-group-text, .input-group-sm > .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 0.2rem;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.25rem 0.25rem;
+  // border-bottom-width: 1px;
+}
 
 .container-fluid{
   font-size: 80%;

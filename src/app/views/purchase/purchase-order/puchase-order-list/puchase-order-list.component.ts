@@ -21,25 +21,26 @@ export class PuchaseOrderListComponent implements OnInit {
     data = (await this.purchaseorderservice.getList()) as any;
     if (data !== false) {
       for (var val of data) {
-
         switch (val.ins_DocStatus) {
           case 0: // Pending
             val.ins_Badge = 'warning';
-            val.ins_BadgeName = "PENDING"
+            val.ins_BadgeName = 'PENDING';
             break;
           case 1: // Approved
             val.ins_Badge = 'success';
-            val.ins_BadgeName = "APPROVED"
+            val.ins_BadgeName = 'APPROVED';
             break;
           case 2: // Reject
             val.ins_Badge = 'danger';
-            val.ins_BadgeName = "REJECTED"
+            val.ins_BadgeName = 'REJECTED';
+            break;
+          case 3: // Reject
+            val.ins_Badge = 'danger';
+            val.ins_BadgeName = 'CLOSED';
             break;
           default:
             break;
         }
-
-        console.log(val);
         this.purchaseorders.push(val);
       }
     }
@@ -50,7 +51,6 @@ export class PuchaseOrderListComponent implements OnInit {
   }
 
   async DataLoadEvent(e: any) {
-    console.log("Purchase List Selection", e);
     await this.purchaseOrderEvent.emit(await e);
   }
 }

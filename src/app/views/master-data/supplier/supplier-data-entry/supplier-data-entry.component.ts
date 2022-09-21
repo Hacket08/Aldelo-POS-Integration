@@ -101,7 +101,6 @@ export class SupplierDataEntryComponent implements OnInit {
     this.supplier.ins_Address3 = this.simpleForm.value.address3;
     this.supplier.ins_InActive = this.simpleForm.value.inactive === true ? 1 : 0;
 
-    console.log(this.supplier);
     if (this.checkActionAdd() == true) {
       this.supplierapi.post_supplier(this.supplier);
     } else {

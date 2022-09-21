@@ -7,18 +7,20 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PurchaseOrderApi {
-    constructor(
-      public http: ApiHttpService,
-      public swal: SwalService,
-      public PurchaseOrder: PurchaseOrder
-    ) {}
-  
-    public post_PurchaseOrder(data: PurchaseOrder, dataApi: string = "") {
-      const headers = {
-        accept: 'text/plain',
-        'Content-Type': 'application/json',
-      };
-      this.http.post(this.http.getAPI('Purchaseorders') + "/" + dataApi, data, headers).subscribe(
+  constructor(
+    public http: ApiHttpService,
+    public swal: SwalService,
+    public PurchaseOrder: PurchaseOrder
+  ) {}
+
+  public post_PurchaseOrder(data: PurchaseOrder, dataApi: string = '') {
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http
+      .post(this.http.getAPI('Purchaseorders') + '/' + dataApi, data, headers)
+      .subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
           return result;
@@ -31,14 +33,16 @@ export class PurchaseOrderApi {
           return error;
         }
       );
-    }
-  
-    public put_PurchaseOrder(data: PurchaseOrder, dataApi: string = "") {
-      const headers = {
-        accept: 'text/plain',
-        'Content-Type': 'application/json',
-      };
-      this.http.put(this.http.getAPI('Purchaseorders') + "/" + dataApi, data, headers).subscribe(
+  }
+
+  public put_PurchaseOrder(data: PurchaseOrder, dataApi: string = '') {
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http
+      .put(this.http.getAPI('Purchaseorders') + '/' + dataApi, data, headers)
+      .subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
           return result;
@@ -51,11 +55,55 @@ export class PurchaseOrderApi {
           return error;
         }
       );
-    }
-  
-    public get_PurchaseOrder() {
-      const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Purchaseorders')).subscribe(
+  }
+
+  public get_PurchaseOrder() {
+    const output = new Promise((resolve) => {
+      this.http.get(this.http.getAPI('Purchaseorders')).subscribe(
+        (result) => {
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            'No Data Found for PurchaseOrders',
+            'error'
+          );
+          resolve(error.ok);
+        }
+      );
+    });
+
+    return output;
+  }
+
+
+  public get_PurchaseOrderByApi(apitype: string) {
+    const output = new Promise((resolve) => {
+      this.http.get(this.http.getAPI('Purchaseorders')+ '/' + apitype).subscribe(
+        (result) => {
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            'No Data Found for PurchaseOrders',
+            'error'
+          );
+          resolve(error.ok);
+        }
+      );
+    });
+
+    return output;
+  }
+
+
+  public get_PurchaseOrderBy(apitype: string) {
+    const output = new Promise((resolve) => {
+      this.http
+        .get(this.http.getAPI('Purchaseorders') + '/' + apitype, {
+          responseType: 'text',
+        })
+        .subscribe(
           (result) => {
             resolve(result);
           },
@@ -67,34 +115,15 @@ export class PurchaseOrderApi {
             resolve(error.ok);
           }
         );
-      });
-  
-      return output;
-    }
-  
-  
-    public get_PurchaseOrderBy(apitype: string){
-      const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Purchaseorders') + "/" + apitype, {responseType: 'text'}).subscribe(
-          (result) => {
-            resolve(result);
-          },
-          (error: HttpErrorResponse) => {
-            this.swal.commonSwalCentered(
-              'No Data Found for PurchaseOrders',
-              'error'
-            );
-            resolve(error.ok);
-          }
-        );
-      });
-      return output;
-    }
+    });
+    return output;
+  }
 
-
-    public get_PurchaseOrder_details(objcode: string) {
-      const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Purchaseorders') + "/" + objcode).subscribe(
+  public get_PurchaseOrder_details(objcode: string) {
+    const output = new Promise((resolve) => {
+      this.http
+        .get(this.http.getAPI('Purchaseorders') + '/' + objcode)
+        .subscribe(
           (result) => {
             resolve(result);
           },
@@ -106,9 +135,71 @@ export class PurchaseOrderApi {
             resolve(error.ok);
           }
         );
-      });
-  
-      return output;
-    }
+    });
+
+    return output;
+  }
+
+  public approve_PurchaseOrder(id: number) {
+    
+    console.log(id);
+    const body = { title: 'Angular PUT Request' };
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http
+      .put(this.http.getAPI('Purchaseorders') + '/Approved/' + id, body)
+      .subscribe(
+        (result: any) => {
+          if (result.Code == "200") {
+            this.swal.commonSwalCentered(result.Message, 'success');
+          }
+          else
+          {
+            this.swal.commonSwalCentered(result.Message, 'error');
+          }
+          return result;
+        },
+        (error: HttpErrorResponse) => {
+          console.log("error", error);
+          this.swal.commonSwalCentered(
+            'No PurchaseOrder Updated Transaction failed!.',
+            'error'
+          );
+          return error;
+        }
+      );
 
   }
+
+  public reject_PurchaseOrder(id: number) {
+    const body = { title: 'Angular PUT Request' };
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http
+      .put(this.http.getAPI('Purchaseorders') + '/Rejected/' + id, body)
+      .subscribe(
+        (result: any) => {
+          if (result.Code == "200") {
+            this.swal.commonSwalCentered(result.Message, 'success');
+          }
+          else
+          {
+            this.swal.commonSwalCentered(result.Message, 'error');
+          }
+          return result;
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            'No PurchaseOrder Updated Transaction failed!.',
+            'error'
+          );
+          return error;
+        }
+      );
+  }
+  
+}

@@ -19,7 +19,7 @@ export class PurchaseOrderSelectionComponent implements OnInit {
     let data: any;
     this.purchaseorders = [];
 
-    data = (await this.purchaseorderservice.getList()) as any;
+    data = (await this.purchaseorderservice.getApprovedList()) as any;
     if (data !== false) {
       for (var a of data) {
         this.purchaseorders.push(a);
@@ -28,7 +28,6 @@ export class PurchaseOrderSelectionComponent implements OnInit {
   }
 
   purchaseOrderSelectEvent(e: any) {
-    console.log(e);
     this.purchaseorderSelectionEvent.emit(e);
   }
 }

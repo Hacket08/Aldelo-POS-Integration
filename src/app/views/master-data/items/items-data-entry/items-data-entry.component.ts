@@ -67,7 +67,6 @@ export class ItemsDataEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Child Component" ,this.itemData);
     for (var a of this.itemData as any) {
       this.simpleForm.reset();
       this.simpleForm.setValue({
@@ -193,7 +192,6 @@ export class ItemsDataEntryComponent implements OnInit {
     this.item.ins_PurchasePrice = this.simpleForm.value.purchaseprice;
     this.item.ins_InActive = this.simpleForm.value.inactive === true ? 1 : 0;
 
-    console.log(this.item);
     if (this.checkActionAdd() == true) {
       this.itemapi.post_item(this.item);
     } else {

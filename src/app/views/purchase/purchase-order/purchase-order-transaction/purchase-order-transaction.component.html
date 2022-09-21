@@ -1,4 +1,4 @@
-<form cForm [formGroup]="headerForm" (ngSubmit)="onSubmit()">
+<form cForm [formGroup]="headerForm">
   <c-card>
     <c-row>
       <c-col>
@@ -14,11 +14,39 @@
       </c-col>
       <c-col>
         <div class="d-flex justify-content-end">
-          <button cButton color="success" size="sm" type="submit">
+
+          <button cButton color="success" size="sm" (click)="onSubmit()" [hidden]="isHiddenSave">
             <svg cIcon name="cil-save" size="sm"></svg>
             <strong> Save</strong>
           </button>
-          <button
+
+          <c-dropdown variant="btn-group" style="margin-left: 0.25rem">
+            <button color="info" size="sm" cButton cDropdownToggle>
+              <strong>Action</strong>
+            </button>
+            <ul cDropdownMenu style="font-size:100%;">
+              <li>
+                <button cDropdownItem (click)="onApprove(docId)" [hidden]="isHiddenApproveBtn"><svg cIcon name="cil-check" size="sm"></svg> Approve</button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="onReject(docId)" [hidden]="isHiddenRejectBtn"><svg cIcon name="cil-ban" size="sm"></svg> Reject</button>
+              </li>
+              <li>
+                <hr cDropdownDivider [hidden]="isHiddenDiv">
+              </li>
+              <!-- <li>
+                <button routerLink="./" cDropdownItem>Something else here</button>
+              </li> -->
+              <li>
+                <button cDropdownItem [hidden]="isHiddenDeleteBtn"><svg cIcon name="cil-trash" size="sm"></svg> Delete</button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="PassEvent()"><svg cIcon name="cil-exit-to-app" size="sm"></svg> Back To List</button>
+              </li>
+            </ul>
+          </c-dropdown>
+
+          <!-- <button
             cButton
             (click)="PassEvent()"
             color="danger"
@@ -27,8 +55,12 @@
           >
             <svg cIcon name="cil-exit-to-app" size="sm"></svg>
             <strong></strong>
-          </button>
+          </button> -->
         </div>
+
+
+
+
       </c-col>
     </c-row>
   </c-card>
@@ -180,7 +212,7 @@
         <th scope="col">Item Uom</th>
         <th scope="col">Quantity</th>
         <th scope="col">Balance</th>
-        <th scope="col">Action</th>
+        <th scope="col" [hidden]="isHiddenActionRow">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -211,6 +243,7 @@
             color="danger"
             size="sm"
             style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+            [hidden]="isHiddenActionRow"
           >
             <svg cIcon name="cil-ban" size="sm"></svg>
           </button>
@@ -219,7 +252,7 @@
     </tbody>
   </table>
   <div>
-    <button cButton [cModalToggle]="itemDataEntry.id" color="success" size="sm">
+    <button cButton [cModalToggle]="itemDataEntry.id" color="success" size="sm" [hidden]="isHiddenAddItem">
       <svg cIcon name="cil-playlist-add" size="1xl"></svg>
       <strong> Add Item</strong>
     </button>

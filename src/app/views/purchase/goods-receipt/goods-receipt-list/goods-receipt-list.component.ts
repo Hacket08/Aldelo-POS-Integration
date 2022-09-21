@@ -38,8 +38,6 @@ export class GoodsReceiptListComponent implements OnInit {
           default:
             break;
         }
-
-        console.log(val);
         this.goodsreceipts.push(val);
       }
     }

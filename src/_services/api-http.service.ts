@@ -17,7 +17,7 @@ constructor( private http: HttpClient, public swalService: SwalService ) { }
         return this.http.post(url, data, options);
     } 
     public put(url: string, data: any, options?: any) { 
-        return this.http.put(url, data, options); 
+        return this.http.put(url, data, options);
     } 
     public delete(url: string, options?: any) { 
         return this.http.delete(url, options); 

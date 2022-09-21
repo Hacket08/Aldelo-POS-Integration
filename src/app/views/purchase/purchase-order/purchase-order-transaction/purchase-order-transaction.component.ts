@@ -44,7 +44,18 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   isViewHidden = false;
   isEditHidden = false;
   isReadOnly = false;
+
+  isHiddenSave = false;
+  isHiddenAction = false;
+  isHiddenActionRow = false;
+  isHiddenAddItem = false;
+  isHiddenApproveBtn = false;
+  isHiddenRejectBtn = false;
+  isHiddenDiv = false;
+  isHiddenDeleteBtn = false;
+
   state = 'add';
+  docId: number;
 
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
@@ -67,6 +78,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   constructor(
     public user: Users,
     public purchaseorderapi: PurchaseOrderApi,
+    public purchaseorderservice: PurchaseOrderService,
     public swal: SwalService,
     private fb: FormBuilder,
     private purchaseorderitem: PurchaseOrderDetails,
@@ -86,9 +98,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log('Order Transaction Component', this.purchaseData);
-    console.log('Order Transaction Component', this.purchaseData.length);
-
     if (this.purchaseData.length <= 0) {
       await this.isAddEvent();
     } else {
@@ -100,6 +109,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.isViewHidden = false;
     this.isEditHidden = true;
     this.isReadOnly = false;
+
     this.state = 'add';
 
     const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy('GetMaxId');
@@ -118,7 +128,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.state = 'edit';
 
     for (var a of this.purchaseData as any) {
-      console.log('PO', a);
+      this.docId = a.ins_PurchaseOrderID;
 
       switch (a.ins_DocStatus) {
         case 0: // Pending
@@ -126,12 +136,43 @@ export class PurchaseOrderTransactionComponent implements OnInit {
           this.badgename = 'PENDING';
           break;
         case 1: // Approved
+          this.isHiddenSave = true;
+          this.isHiddenAction = true;
+          this.isHiddenActionRow = true;
+          this.isHiddenAddItem = true;
+          this.isHiddenApproveBtn = true;
+
+          this.isHiddenRejectBtn = false;
+          this.isHiddenDiv = false;
+          this.isHiddenDeleteBtn = true;
+
           this.badge = 'success';
           this.badgename = 'APPROVED';
           break;
         case 2: // Reject
+          this.isHiddenSave = true;
+          this.isHiddenAction = true;
+          this.isHiddenActionRow = true;
+          this.isHiddenAddItem = true;
+          this.isHiddenApproveBtn = true;
+          this.isHiddenRejectBtn = true;
+          this.isHiddenDiv = true;
+          this.isHiddenDeleteBtn = true;
+
           this.badge = 'danger';
           this.badgename = 'REJECTED';
+          break;
+        case 3: // Closed
+          this.isHiddenSave = true;
+          this.isHiddenAction = true;
+          this.isHiddenActionRow = true;
+          this.isHiddenAddItem = true;
+          this.isHiddenApproveBtn = true;
+          this.isHiddenRejectBtn = true;
+          this.isHiddenDiv = true;
+          this.isHiddenDeleteBtn = true;
+          this.badge = 'danger';
+          this.badgename = 'CLOSED';
           break;
         default:
           break;
@@ -167,7 +208,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   eventAddRow(data: any) {
-    console.log(data);
 
     const userInfo = this.user.getCurrentUser();
     this.purchaseorderitem = new PurchaseOrderDetails();
@@ -228,19 +268,13 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
     this.purchaseorder.ins_PurchaseOrderDetails = this.purchaseorderdetails;
 
-
-
     if (this.state == 'add') {
       this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, 'PostAsync');
     } else {
       this.purchaseorderapi.put_PurchaseOrder(this.purchaseorder);
     }
-
-    console.log('Purchase Order', this.purchaseorder);
     // this.purchaseOrderEvent.emit();
   }
-
-
 
   checkActionAdd() {
     if (this.purchaseData.length > 0) {
@@ -264,8 +298,15 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       event.target.value;
     this.purchaseorderdetails[event.target.id].ins_InventoryQuantity =
       _inventoryqty;
+    this.purchaseorderdetails[event.target.id].ins_BalanceQuantity =
+      event.target.value;
+  }
 
-    console.log('sample', this.purchaseorderdetails[event.target.id]);
-    // console.log("Items", this.purchaseorderdetails);
+  async onApprove(id: number) {
+    let data = (await this.purchaseorderservice.docApproved(id)) as any;
+  }
+
+  async onReject(id: number) {
+    let data = (await this.purchaseorderservice.docRejected(id)) as any;
   }
 }

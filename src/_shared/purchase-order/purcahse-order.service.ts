@@ -14,9 +14,27 @@ export class PurchaseOrderService {
     return sup;
   }
 
+  async getApprovedList()
+  {
+    const sup = await this.PurchaseOrderapi.get_PurchaseOrderByApi("GetApprovedList");
+    return sup;
+  }
+
   async getDetails(data: string)
   {
     const sup = await this.PurchaseOrderapi.get_PurchaseOrder_details(data);
+    return sup;
+  }
+  
+  async docApproved(id: number)
+  {
+    const sup = await this.PurchaseOrderapi.approve_PurchaseOrder(id as number);
+    return sup;
+  }
+  
+  async docRejected(id: number)
+  {
+    const sup = await this.PurchaseOrderapi.reject_PurchaseOrder(id as number);
     return sup;
   }
 }

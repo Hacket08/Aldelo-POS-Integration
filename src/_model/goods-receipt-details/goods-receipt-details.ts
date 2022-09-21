@@ -12,13 +12,14 @@ export class GoodsReceiptDetails {
     ins_ItemDescription: string = '';
     ins_LineNum: number = 0;
     ins_LineStatus: number = 0;
-
+    ins_BaseLineNum: number = 0;
     ins_VatGroup: string = '';
     ins_PurchaseUom: string = '';
     ins_PurchaseOrderQuantity: number = 0;
     
     ins_Quantity: number = 0;
     ins_ReceivedQuantity: number = 0;
+    // ins_BalanceQuantity: number = 0;
 
     ins_InventoryUom: string = '';
     ins_InventoryQuantity: number = 0;
