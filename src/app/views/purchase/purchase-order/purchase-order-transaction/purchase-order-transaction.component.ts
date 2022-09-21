@@ -90,67 +90,74 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     console.log('Order Transaction Component', this.purchaseData.length);
 
     if (this.purchaseData.length <= 0) {
-      this.isViewHidden = false;
-      this.isEditHidden = true;
-      this.isReadOnly = false;
-      this.state = 'add';
-
-      const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy(
-        'GetMaxId'
-      );
-      this.headerForm.patchValue({
-        docnum: _docnum,
-        docdate: this.postingdate,
-        deldate: this.deliverydate,
-      });
+      await this.isAddEvent();
     } else {
-      this.isViewHidden = true;
-      this.isEditHidden = false;
-      this.isReadOnly = true;
-      this.state = 'edit';
+      await this.isEdit();
+    }
+  }
 
-      for (var a of this.purchaseData as any) {
-        console.log('PO', a);
+  async isAddEvent() {
+    this.isViewHidden = false;
+    this.isEditHidden = true;
+    this.isReadOnly = false;
+    this.state = 'add';
 
-        switch (a.ins_DocStatus) {
-          case 0: // Pending
-            this.badge = 'warning';
-            this.badgename = 'PENDING';
-            break;
-          case 1: // Approved
-            this.badge = 'success';
-            this.badgename = 'APPROVED';
-            break;
-          case 2: // Reject
-            this.badge = 'danger';
-            this.badgename = 'REJECTED';
-            break;
-          default:
-            break;
-        }
+    const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy('GetMaxId');
+    this.headerForm.patchValue({
+      purchaseorderid: 0,
+      docnum: _docnum,
+      docdate: this.postingdate,
+      deldate: this.deliverydate,
+    });
+  }
 
-        if (a.ins_DocStatus == 0) {
-          this.isViewHidden = false;
-          this.isEditHidden = true;
-          this.isReadOnly = false;
-        }
+  async isEdit() {
+    this.isViewHidden = true;
+    this.isEditHidden = false;
+    this.isReadOnly = true;
+    this.state = 'edit';
 
-        this.headerForm.setValue({
-          purchaseorderid: a.ins_PurchaseOrderID,
-          suppliercode: a.ins_SupplierCode,
-          suppliername: a.ins_SupplierName,
-          branchcode: a.ins_BranchCode,
-          branchname: a.ins_BranchName,
-          docnum: a.ins_DocNum,
-          docdate: this.datepipe.transform(a.ins_PostingDate, 'yyyy-MM-dd'),
-          deldate: this.datepipe.transform(a.ins_DeliveryDate, 'yyyy-MM-dd'),
-          owner: a.ins_CreatedBy,
-        });
+    for (var a of this.purchaseData as any) {
+      console.log('PO', a);
 
-        this.purchaseorderdetails.length = 0;
-        for (var list of a.ins_PurchaseOrderDetails) {
-          this.purchaseorderdetails.push(list);
-        }
+      switch (a.ins_DocStatus) {
+        case 0: // Pending
+          this.badge = 'warning';
+          this.badgename = 'PENDING';
+          break;
+        case 1: // Approved
+          this.badge = 'success';
+          this.badgename = 'APPROVED';
+          break;
+        case 2: // Reject
+          this.badge = 'danger';
+          this.badgename = 'REJECTED';
+          break;
+        default:
+          break;
+      }
+
+      if (a.ins_DocStatus == 0) {
+        this.isViewHidden = false;
+        this.isEditHidden = true;
+        this.isReadOnly = false;
+      }
+
+      this.headerForm.setValue({
+        purchaseorderid: a.ins_PurchaseOrderID,
+        suppliercode: a.ins_SupplierCode,
+        suppliername: a.ins_SupplierName,
+        branchcode: a.ins_BranchCode,
+        branchname: a.ins_BranchName,
+        docnum: a.ins_DocNum,
+        docdate: this.datepipe.transform(a.ins_PostingDate, 'yyyy-MM-dd'),
+        deldate: this.datepipe.transform(a.ins_DeliveryDate, 'yyyy-MM-dd'),
+        owner: a.ins_CreatedBy,
+      });
+
+      this.purchaseorderdetails.length = 0;
+      for (var list of a.ins_PurchaseOrderDetails) {
+        this.purchaseorderdetails.push(list);
       }
     }
   }
@@ -205,10 +212,11 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   onSubmit() {
-    this.purchaseorder.ins_Badge = "";
-    this.purchaseorder.ins_BadgeName = "";
+    this.purchaseorder.ins_Badge = '';
+    this.purchaseorder.ins_BadgeName = '';
 
-    this.purchaseorder.ins_PurchaseOrderID = this.headerForm.value.purchaseorderid;
+    this.purchaseorder.ins_PurchaseOrderID =
+      this.headerForm.value.purchaseorderid;
     this.purchaseorder.ins_SupplierCode = this.headerForm.value.suppliercode;
     this.purchaseorder.ins_SupplierName = this.headerForm.value.suppliername;
     this.purchaseorder.ins_BranchCode = this.headerForm.value.branchcode;
@@ -220,15 +228,19 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
     this.purchaseorder.ins_PurchaseOrderDetails = this.purchaseorderdetails;
 
-    if (this.state == "add") {
+
+
+    if (this.state == 'add') {
       this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, 'PostAsync');
     } else {
       this.purchaseorderapi.put_PurchaseOrder(this.purchaseorder);
     }
 
     console.log('Purchase Order', this.purchaseorder);
-    this.purchaseOrderEvent.emit();
+    // this.purchaseOrderEvent.emit();
   }
+
+
 
   checkActionAdd() {
     if (this.purchaseData.length > 0) {

@@ -14,11 +14,12 @@ export class GoodsReceiptApi {
     ) {}
   
     public post_GoodsReceipt(data: GoodsReceipt, dataApi: string = "") {
+      console.log("GRPO", data);
       const headers = {
         accept: 'text/plain',
         'Content-Type': 'application/json',
       };
-      this.http.post(this.http.getAPI('GoodsReceipt') + "/" + dataApi, data, headers).subscribe(
+      this.http.post(this.http.getAPI('Goodsreceipt') + "/" + dataApi, data, headers).subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
           return result;
@@ -38,7 +39,7 @@ export class GoodsReceiptApi {
         accept: 'text/plain',
         'Content-Type': 'application/json',
       };
-      this.http.put(this.http.getAPI('GoodsReceipt') + "/" + dataApi, data, headers).subscribe(
+      this.http.put(this.http.getAPI('Goodsreceipt') + "/" + dataApi, data, headers).subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
           return result;
@@ -55,7 +56,7 @@ export class GoodsReceiptApi {
   
     public get_GoodsReceipt() {
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('GoodsReceipt')).subscribe(
+        this.http.get(this.http.getAPI('Goodsreceipt')).subscribe(
           (result) => {
             resolve(result);
           },
@@ -75,13 +76,13 @@ export class GoodsReceiptApi {
   
     public get_GoodsReceiptBy(apitype: string){
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('GoodsReceipt') + "/" + apitype, {responseType: 'text'}).subscribe(
+        this.http.get(this.http.getAPI('Goodsreceipt') + "/" + apitype, {responseType: 'text'}).subscribe(
           (result) => {
             resolve(result);
           },
           (error: HttpErrorResponse) => {
             this.swal.commonSwalCentered(
-              'No Data Found for GoodsReceipts',
+              'No Data Found for Goodsreceipt',
               'error'
             );
             resolve(error.ok);
@@ -94,7 +95,7 @@ export class GoodsReceiptApi {
 
     public get_GoodsReceipt_details(objcode: string) {
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('GoodsReceipt') + "/" + objcode).subscribe(
+        this.http.get(this.http.getAPI('Goodsreceipt') + "/" + objcode).subscribe(
           (result) => {
             resolve(result);
           },

@@ -3,12 +3,12 @@
     <c-row>
       <c-col>
         <div class="d-flex justify-content-start align-items-center">
-          <span class="dot warning"></span>
+          <span class="dot {{ badge }}"></span>
           <div
             class="d-flex align-items-center"
             style="margin-top: 0.25rem; margin-left: 1rem"
           >
-            <strong>{{ docstatus }}</strong>
+            <strong>{{ badgename }}</strong>
           </div>
         </div>
       </c-col>
@@ -82,7 +82,7 @@
                 placeholder="Select Supplier"
                 readonly="true"
               />
-              <button
+              <!-- <button
                 cButton
                 color="secondary"
                 type="button"
@@ -91,7 +91,7 @@
                 [cModalToggle]="supplierEntry.id"
               >
                 <svg cIcon name="cil-list" size="sm"></svg>
-              </button>
+              </button> -->
             </c-input-group>
           </c-col>
         </c-row>
@@ -159,10 +159,10 @@
             <c-input-group sizing="sm">
               <input
                 cFormControl
-                formControlName="docdate"                 
+                formControlName="docdate"
                 type="text"
                 name="date"
-                onfocus="(this.type='date')"
+                onfocus="if(this.readonly) (this.type='date')"
                 onblur="if(!this.value)
                 this.type ='text'"
                 readonly="true"
@@ -185,9 +185,10 @@
                 formControlName="deldate"
                 type="text"
                 name="date"
-                onfocus="(this.type='date')"
-                onblur="if(!this.value)
+                onfocus="if(this.readonly) (this.type='date')"
+                onblur="if(!this.value) 
                 this.type ='text'"
+                readonly="true"
               />
             </c-input-group>
           </c-col>
@@ -202,12 +203,15 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="recdate"               
-              type="text"
-              name="date"
-              onfocus="(this.type='date')"
-              onblur="if(!this.value)
-              this.type ='text'"/>
+              <input
+                cFormControl
+                formControlName="recdate"
+                type="text"
+                name="date"
+                onfocus="if(!this.value) (this.type='date')"
+                onblur="if(!this.value)
+              this.type ='text'"
+              />
             </c-input-group>
           </c-col>
         </c-row>
@@ -261,12 +265,12 @@
       </tr>
     </tbody>
   </table>
-  <div>
+  <!-- <div>
     <button cButton [cModalToggle]="itemEntry.id" color="success" size="sm">
       <svg cIcon name="cil-playlist-add" size="1xl"></svg>
       <strong> Add Item</strong>
     </button>
-  </div>
+  </div> -->
 </c-card>
 
 <c-modal

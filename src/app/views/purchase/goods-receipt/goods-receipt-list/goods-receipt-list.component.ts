@@ -21,7 +21,25 @@ export class GoodsReceiptListComponent implements OnInit {
     data = (await this.goodsreceiptservice.getList()) as any;
     if (data !== false) {
       for (var val of data) {
-        // console.log(val.ins_DeliveryDate);
+
+        switch (val.ins_DocStatus) {
+          case 0: // Pending
+            val.ins_Badge = 'warning';
+            val.ins_BadgeName = "PENDING"
+            break;
+          case 1: // Approved
+            val.ins_Badge = 'success';
+            val.ins_BadgeName = "APPROVED"
+            break;
+          case 2: // Reject
+            val.ins_Badge = 'danger';
+            val.ins_BadgeName = "REJECTED"
+            break;
+          default:
+            break;
+        }
+
+        console.log(val);
         this.goodsreceipts.push(val);
       }
     }
