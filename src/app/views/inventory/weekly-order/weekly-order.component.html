@@ -1,0 +1,2 @@
+<app-weekly-order-list (weeklyOrderEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-weekly-order-list>
+<app-weekly-order-transaction [weeklyorderData]="weeklyOrderParentData" (weeklyOrderEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-weekly-order-transaction>

@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from '../../_services/api-http.service';
 import { SwalService } from '../../_services/swal-service';
-import { PurchaseOrder } from '../../_model/purchase-order/purchase-order';
+import { WeeklyOrder } from '../../_model/weekly-order/weekly-order';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class PurchaseOrderApi {
+export class WeeklyOrderApi {
   constructor(
     public http: ApiHttpService,
     public swal: SwalService,
-    public PurchaseOrder: PurchaseOrder
+    public weeklyorder: WeeklyOrder
   ) {}
 
-  public post_PurchaseOrder(data: PurchaseOrder, dataApi: string = '') {
+  public post_WeeklyOrder(data: WeeklyOrder, dataApi: string = '') {
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
     this.http
-      .post(this.http.getAPI('Purchaseorders') + '/' + dataApi, data, headers)
+      .post(this.http.getAPI('WeeklyOrder') + '/' + dataApi, data, headers)
       .subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
@@ -27,7 +27,7 @@ export class PurchaseOrderApi {
         },
         (error) => {
           this.swal.commonSwalCentered(
-            'No PurchaseOrder Added Transaction failed!.',
+            'No Weekly Order Added Transaction failed!.',
             'error'
           );
           return error;
@@ -35,13 +35,13 @@ export class PurchaseOrderApi {
       );
   }
 
-  public put_PurchaseOrder(data: PurchaseOrder, dataApi: string = '') {
+  public put_WeeklyOrder(data: WeeklyOrder, dataApi: string = '') {
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('Purchaseorders') + '/' + dataApi, data, headers)
+      .put(this.http.getAPI('WeeklyOrder') + '/' + dataApi, data, headers)
       .subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
@@ -49,7 +49,7 @@ export class PurchaseOrderApi {
         },
         (error) => {
           this.swal.commonSwalCentered(
-            'No PurchaseOrder Updated Transaction failed!.',
+            'No Weekly Order Updated Transaction failed!.',
             'error'
           );
           return error;
@@ -57,15 +57,15 @@ export class PurchaseOrderApi {
       );
   }
 
-  public get_PurchaseOrder() {
+  public get_WeeklyOrder() {
     const output = new Promise((resolve) => {
-      this.http.get(this.http.getAPI('Purchaseorders')).subscribe(
+      this.http.get(this.http.getAPI('WeeklyOrder')).subscribe(
         (result) => {
           resolve(result);
         },
         (error: HttpErrorResponse) => {
           this.swal.commonSwalCentered(
-            'No Data Found for PurchaseOrders',
+            'No Data Found for Weekly Order',
             'error'
           );
           resolve(error.ok);
@@ -77,15 +77,15 @@ export class PurchaseOrderApi {
   }
 
 
-  public get_PurchaseOrderByApi(apitype: string) {
+  public get_WeeklyOrderByApi(apitype: string) {
     const output = new Promise((resolve) => {
-      this.http.get(this.http.getAPI('Purchaseorders')+ '/' + apitype).subscribe(
+      this.http.get(this.http.getAPI('WeeklyOrder')+ '/' + apitype).subscribe(
         (result) => {
           resolve(result);
         },
         (error: HttpErrorResponse) => {
           this.swal.commonSwalCentered(
-            'No Data Found for PurchaseOrders',
+            'No Data Found for Weekly Order',
             'error'
           );
           resolve(error.ok);
@@ -97,10 +97,10 @@ export class PurchaseOrderApi {
   }
 
 
-  public get_PurchaseOrderBy(apitype: string) {
+  public get_WeeklyOrderBy(apitype: string) {
     const output = new Promise((resolve) => {
       this.http
-        .get(this.http.getAPI('Purchaseorders') + '/' + apitype, {
+        .get(this.http.getAPI('WeeklyOrder') + '/' + apitype, {
           responseType: 'text',
         })
         .subscribe(
@@ -109,7 +109,7 @@ export class PurchaseOrderApi {
           },
           (error: HttpErrorResponse) => {
             this.swal.commonSwalCentered(
-              'No Data Found for PurchaseOrders',
+              'No Data Found for Weekly Order',
               'error'
             );
             resolve(error.ok);
@@ -119,17 +119,17 @@ export class PurchaseOrderApi {
     return output;
   }
 
-  public get_PurchaseOrder_details(objcode: string) {
+  public get_WeeklyOrder_details(objcode: string) {
     const output = new Promise((resolve) => {
       this.http
-        .get(this.http.getAPI('Purchaseorders') + '/' + objcode)
+        .get(this.http.getAPI('WeeklyOrder') + '/' + objcode)
         .subscribe(
           (result) => {
             resolve(result);
           },
           (error: HttpErrorResponse) => {
             this.swal.commonSwalCentered(
-              'Selected PurchaseOrder is not Available',
+              'Selected Weekly Order is not Available',
               'error'
             );
             resolve(error.ok);
@@ -140,7 +140,7 @@ export class PurchaseOrderApi {
     return output;
   }
 
-  public approve_PurchaseOrder(id: number) {
+  public approve_WeeklyOrder(id: number) {
     
     console.log(id);
     const body = { title: 'Angular PUT Request' };
@@ -149,7 +149,7 @@ export class PurchaseOrderApi {
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('Purchaseorders') + '/Approved/' + id , body)
+      .put(this.http.getAPI('WeeklyOrder') + '/Approved/' + id, body)
       .subscribe(
         (result: any) => {
           if (result.Code == "200") {
@@ -164,7 +164,7 @@ export class PurchaseOrderApi {
         (error: HttpErrorResponse) => {
           console.log("error", error);
           this.swal.commonSwalCentered(
-            'No PurchaseOrder Updated Transaction failed!.',
+            'No Weekly Order Updated Transaction failed!.',
             'error'
           );
           return error;
@@ -173,14 +173,14 @@ export class PurchaseOrderApi {
 
   }
 
-  public reject_PurchaseOrder(id: number) {
+  public reject_WeeklyOrder(id: number) {
     const body = { title: 'Angular PUT Request' };
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('Purchaseorders') + '/Rejected/' + id, body)
+      .put(this.http.getAPI('WeeklyOrder') + '/Rejected/' + id, body)
       .subscribe(
         (result: any) => {
           if (result.Code == "200") {
@@ -194,7 +194,7 @@ export class PurchaseOrderApi {
         },
         (error: HttpErrorResponse) => {
           this.swal.commonSwalCentered(
-            'No PurchaseOrder Updated Transaction failed!.',
+            'No Weekly Order Updated Transaction failed!.',
             'error'
           );
           return error;

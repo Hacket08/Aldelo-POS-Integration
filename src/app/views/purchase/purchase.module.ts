@@ -49,8 +49,6 @@ import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component';
 import { GoodsReceiptListComponent } from './goods-receipt/goods-receipt-list/goods-receipt-list.component';
 import { GoodsReceiptTransactionComponent } from './goods-receipt/goods-receipt-transaction/goods-receipt-transaction.component';
 import { PurchaseOrderSelectionComponent } from './purchase-order/purchase-order-selection/purchase-order-selection.component';
-// import { ItemDataEntryComponent } from './item-data-entry/item-data-entry.component';
-// import { SupplierDataEntryComponent } from './supplier-data-entry/supplier-data-entry.component';
 
 
 @NgModule({

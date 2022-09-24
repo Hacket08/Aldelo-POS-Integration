@@ -78,12 +78,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Inventory',
-    url: '/base',
+    url: '/inventory',
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
         name: 'Weekly Order Form',
-        url: '/buttons/buttons'
+        url: '/inventory/weekly-order'
       },
       {
         name: 'Inventory Movement',

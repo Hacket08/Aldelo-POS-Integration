@@ -1,0 +1,273 @@
+<form cForm [formGroup]="headerForm">
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12"> </c-col>
+      <c-col sm="6" xs="12">
+        <div class="d-flex justify-content-end">
+          <button cButton color="success" size="sm" type="submit" (click)="onSubmit()">
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong> Save</strong>
+          </button>
+          <c-dropdown variant="btn-group" style="margin-left: 0.25rem">
+            <button color="info" size="sm" cButton cDropdownToggle>
+              <strong>Action</strong>
+            </button>
+            <ul cDropdownMenu style="font-size: 100%">
+              <li>
+                <button cDropdownItem (click)="onCancel()">
+                  <svg cIcon name="cil-exit-to-app" size="sm"></svg> Back To
+                  List
+                </button>
+              </li>
+            </ul>
+          </c-dropdown>
+        </div>
+      </c-col>
+
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col sm="4" xs="12">
+        <!-- Doc Number -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docnum" sizing="sm">Doc Number</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="docnum" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Branch Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="branchname" sizing="sm"
+              >Branch Name</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="branchname"
+                readonly="true"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Ordered By -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="orderby" sizing="sm">Order By</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="orderby" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col sm="4" xs="12">
+        <!-- Posting Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docdate" sizing="sm"
+              >Posting Date</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="docdate"
+                type="text"
+                name="date"
+                onfocus="if(!this.value) (this.type='date')"
+                onblur="if(!this.value)
+            this.type ='text'"
+                readonly="true"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Order Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="orderdate" sizing="sm"
+              >Order Date</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="orderdate"
+                type="text"
+                name="date"
+                onfocus="if(!this.value) (this.type='date')"
+                onblur="if(!this.value)
+                this.type ='text'"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Delivery Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="deldate" sizing="sm"
+              >Delivery Date</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="deldate"
+                type="text"
+                name="date"
+                onfocus="if(!this.value) (this.type='date')"
+                onblur="if(!this.value)
+                this.type ='text'"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col sm="4" xs="12">
+        <!-- Received By -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="receivedby" sizing="sm"
+              >Received By</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="receivedby" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Delivered By -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="deliveredby" sizing="sm"
+              >Delivered By</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="deliveredby" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+  <c-card>
+    <!-- Remarks -->
+    <c-row class="mb-1">
+      <c-col xl="12">
+        <label cCol cLabel="col" for="remarks" sizing="sm">Remarks</label>
+      </c-col>
+      <c-col xl="12">
+        <c-input-group sizing="sm">
+          <input cFormControl formControlName="remarks" />
+        </c-input-group>
+      </c-col>
+    </c-row>
+  </c-card>
+</form>
+
+<c-card>
+  <c-row>
+    <c-col
+      *ngFor="let o of itemcategorylist; let i = index"
+      lg="6"
+      class="mb-3 ml-0"
+    >
+      <c-accordion [alwaysOpen]="true" class="shadow accordion-custom">
+        <c-accordion-item visible>
+          <ng-template cTemplateId="accordionHeader">
+            {{ o.ins_CategoryName }}
+          </ng-template>
+          <ng-template cTemplateId="accordionBody">
+            <c-card class="table-responsive" style="border-width: 0">
+              <table cTable [hover]="true" [striped]="true" size="sm">
+                <thead>
+                  <tr>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Delivery</th>
+                    <th scope="col">Actual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of o.ins_Items; let i = index">
+                    <td>{{ item.ins_ItemDescription }}</td>
+                    <td>{{ item.ins_InventoryUom }}</td>
+                    <td>{{ item.ins_OnHand }}</td>
+                    <td>
+                      <input
+                        aria-label="ReceivedQuantity"
+                        value="{{ item.ins_OnOrder }}"
+                        id="{{ i }}"
+                        sizing="sm"
+                        width="0.1rem"
+                        type="number"
+                        name="{{ item.ins_ParentId }}"
+                        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                        step="0.001"
+                        style="width: 5rem"
+                        (change)="onchangeorder($event)"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        aria-label="ReceivedQuantity"
+                        value="{{ item.ins_OnDelivery }}"
+                        id="{{ i }}"
+                        sizing="sm"
+                        type="number"
+                        name="{{ item.ins_ParentId }}"
+                        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                        step="0.001"
+                        style="width: 5rem"
+                        (change)="onchangedelivery($event)"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        aria-label="ReceivedQuantity"
+                        value="{{ item.ins_OnActual }}"
+                        id="{{ i }}"
+                        sizing="sm"
+                        type="number"
+                        name="{{ item.ins_ParentId }}"
+                        ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                        step="0.001"
+                        style="width: 5rem"
+                        (change)="onchangeactual($event)"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </c-card>
+          </ng-template>
+        </c-accordion-item>
+      </c-accordion>
+    </c-col>
+  </c-row>
+</c-card>

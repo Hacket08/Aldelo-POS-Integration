@@ -50,6 +50,12 @@ const routes: Routes = [
           import('./views/master-data/master-data.module').then((m) => m.MasterDataModule)
       },
       {
+        path: 'inventory',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/inventory/inventory.module').then((m) => m.InventoryModule)
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)
