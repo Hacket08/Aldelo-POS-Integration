@@ -19,6 +19,7 @@ export class WeeklyOrder {
     ins_Remarks: string = '';
        
     ins_DocStatus: number = 0;
+    ins_IsPOCreated: number = 0;
     ins_ApprovedOn: Date;
     ins_ApprovedBy: string = '';
     ins_ApproverEmailList: string = '';

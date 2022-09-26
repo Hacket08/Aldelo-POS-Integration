@@ -26,15 +26,22 @@ export class WeeklyOrderService {
     return sup;
   }
   
-  async docApproved(id: number)
+  async docApproved(id: number, name: string)
   {
-    const sup = await this.weeklyorderapi.approve_WeeklyOrder(id as number);
+    const sup = await this.weeklyorderapi.approve_WeeklyOrder(id as number, name);
     return sup;
   }
   
-  async docRejected(id: number)
+  async docRejected(id: number, name: string)
   {
-    const sup = await this.weeklyorderapi.reject_WeeklyOrder(id as number);
+    const sup = await this.weeklyorderapi.reject_WeeklyOrder(id as number, name);
+    return sup;
+  }
+
+  
+  async docCreatePO(id: number)
+  {
+    const sup = await this.weeklyorderapi.createPO(id as number);
     return sup;
   }
 }

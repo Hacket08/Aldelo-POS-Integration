@@ -91,7 +91,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Inventory Count',
-        url: '/buttons/dropdowns'
+        url: '/inventory/inventory-count'
       },
       {
         name: 'Report',

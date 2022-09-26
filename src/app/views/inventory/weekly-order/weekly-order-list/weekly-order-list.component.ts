@@ -12,7 +12,7 @@ import { WeeklyOrder } from '../../../../../_model/weekly-order/weekly-order';
 export class WeeklyOrderListComponent implements OnInit {
   @Output() weeklyOrderEvent = new EventEmitter();
   weeklyorder: WeeklyOrder[] = [];
-
+  
   constructor(public weeklyorderservice: WeeklyOrderService) {}
 
   async ngOnInit(): Promise<void> {

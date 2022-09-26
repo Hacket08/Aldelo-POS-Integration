@@ -140,7 +140,7 @@ export class WeeklyOrderApi {
     return output;
   }
 
-  public approve_WeeklyOrder(id: number) {
+  public approve_WeeklyOrder(id: number, name: string) {
     
     console.log(id);
     const body = { title: 'Angular PUT Request' };
@@ -149,7 +149,7 @@ export class WeeklyOrderApi {
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('WeeklyOrder') + '/Approved/' + id, body)
+      .put(this.http.getAPI('WeeklyOrder') + '/Approved/' + id + '/' + name, body)
       .subscribe(
         (result: any) => {
           if (result.Code == "200") {
@@ -173,14 +173,14 @@ export class WeeklyOrderApi {
 
   }
 
-  public reject_WeeklyOrder(id: number) {
+  public reject_WeeklyOrder(id: number, name: string) {
     const body = { title: 'Angular PUT Request' };
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('WeeklyOrder') + '/Rejected/' + id, body)
+      .put(this.http.getAPI('WeeklyOrder') + '/Rejected/' + id + '/' + name, body)
       .subscribe(
         (result: any) => {
           if (result.Code == "200") {
@@ -201,5 +201,34 @@ export class WeeklyOrderApi {
         }
       );
   }
-  
+
+  public createPO(id: number) {
+    const body = { title: 'Angular PUT Request' };
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http
+      .put(this.http.getAPI('WeeklyOrder') + '/CreatePO/' + id, body)
+      .subscribe(
+        (result: any) => {
+          if (result.Code == "200") {
+            this.swal.commonSwalCentered(result.Message, 'success');
+          }
+          else
+          {
+            this.swal.commonSwalCentered(result.Message, 'error');
+          }
+          return result;
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            'No Weekly Order Updated Transaction failed!.',
+            'error'
+          );
+          return error;
+        }
+      );
+  }
+
 }

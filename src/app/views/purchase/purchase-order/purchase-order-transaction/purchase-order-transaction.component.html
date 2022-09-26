@@ -14,8 +14,11 @@
       </c-col>
       <c-col>
         <div class="d-flex justify-content-end">
+          <button cButton color="secondary" size="sm" >
+            <svg cIcon name="cil-print" size="sm"></svg>
+          </button>
 
-          <button cButton color="success" size="sm" (click)="onSubmit()" [hidden]="isHiddenSave">
+          <button cButton style="margin-left: 0.25rem"  color="success" size="sm" (click)="onSubmit()" [hidden]="isHiddenSave">
             <svg cIcon name="cil-save" size="sm"></svg>
             <strong> Save</strong>
           </button>

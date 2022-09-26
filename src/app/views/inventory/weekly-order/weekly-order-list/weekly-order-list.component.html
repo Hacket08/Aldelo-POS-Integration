@@ -101,7 +101,12 @@
           <td>{{ o.ins_OrderDate | date: "MM-dd-yyyy" }}</td>
           <td>{{ o.ins_DeliveryDate | date: "MM-dd-yyyy" }}</td>
           <td>{{ o.ins_OrderBy }}</td>
-          <td><c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge></td>
+          <td><c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge> 
+            <div *ngIf="o.ins_IsPOCreated == 1; then IsCreated"></div>
+            <ng-template #IsCreated>
+              <strong style="font-style: italic;">  (PO Created)</strong>
+            </ng-template>
+          </td>
           <td>
             <button (click)="DataLoadEvent(o)"
               cButton
