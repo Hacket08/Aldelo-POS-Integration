@@ -86,23 +86,21 @@
     <thead>
       <tr>
         <th scope="col">Doc Number</th>
-        <th scope="col">Supplier Code</th>
-        <th scope="col">Supplier Name</th>
         <th scope="col">Posting Date</th>
-        <th scope="col">Delivery Date</th>
+        <th scope="col">Created By</th>
         <th scope="col">Branch Name</th>
+        <th scope="col">Movement Type</th>
         <th scope="col">Status</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let o of goodsreceipts" style="padding: 0">
+      <tr *ngFor="let o of dataList" style="padding: 0">
         <th>{{ o.ins_DocNum }}</th>
-        <td>{{ o.ins_SupplierCode }}</td>
-        <td>{{ o.ins_SupplierName }}</td>
         <td>{{ o.ins_PostingDate | date: "MM-dd-yyyy" }}</td>
-        <td>{{ o.ins_DeliveryDate | date: "MM-dd-yyyy" }}</td>
+        <td>{{ o.ins_CreatedBy }}</td>
         <td>{{ o.ins_BranchName }}</td>
+        <td>{{ o.ins_MovementType }}</td>
         <td>
           <c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge>
         </td>
@@ -112,8 +110,7 @@
             cButton
             color="info"
             size="sm"
-            style="margin-left: 0.25rem; margin-bottom: 0.25rem"
-          >
+            style="margin-left: 0.25rem; margin-bottom: 0.25rem">
             <svg cIcon name="cil-pencil" size="sm"></svg>
           </button>
         </td>

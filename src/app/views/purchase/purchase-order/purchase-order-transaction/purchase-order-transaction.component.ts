@@ -25,7 +25,7 @@ import { Supplier } from '../../../../../_model/supplier/supplier';
 import { Users } from '../../../../../_services/user.api';
 import { PurchaseOrderApi } from '../../../../../_shared/purchase-order/purchase-order.api';
 import { PurchaseOrder } from 'src/_model/purchase-order/purchase-order';
-import { PurchaseOrderDetails } from 'src/_model/purchase-order-details/purchase-order-details';
+import { PurchaseOrderDetails } from 'src/_model/purchase-order/purchase-order-details';
 
 class POItem {
   itemcode: string = '';

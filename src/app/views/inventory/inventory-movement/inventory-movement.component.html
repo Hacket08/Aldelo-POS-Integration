@@ -1,1 +1,4 @@
-<p>inventory-movement works!</p>
+
+
+<app-inventory-movement-list  (outputEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-inventory-movement-list>
+<app-inventory-movement-transaction  [dataList]="parentData" (outputEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-inventory-movement-transaction>

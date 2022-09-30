@@ -18,9 +18,9 @@ import { SwalService } from 'src/_services/swal-service';
 import { Item } from 'src/_model/item/item';
 import { Supplier } from 'src/_model/supplier/supplier';
 import { PurchaseOrder } from 'src/_model/purchase-order/purchase-order';
-import { PurchaseOrderDetails } from 'src/_model/purchase-order-details/purchase-order-details';
+import { PurchaseOrderDetails } from 'src/_model/purchase-order/purchase-order-details';
 import { GoodsReceipt } from 'src/_model/goods-receipt/goods-receipt';
-import { GoodsReceiptDetails } from 'src/_model/goods-receipt-details/goods-receipt-details';
+import { GoodsReceiptDetails } from 'src/_model/goods-receipt/goods-receipt-details';
 
 import { Users } from 'src/_services/user.api';
 import { GoodsReceiptApi } from 'src/_shared/goods-receipt/goods-receipt.api';
@@ -344,6 +344,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   deleteItem(a: any) {
     this.goodsreceiptdetails.splice(a, 1);
   }
+  
   onchange(a: any) {
     const _qty = a.target.value;
     const _recqty = this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity;

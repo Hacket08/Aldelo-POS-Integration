@@ -24,7 +24,7 @@ import { WeeklyOrderService } from '../../../../../_shared/weekly-order/weekly-o
 
 import { ItemCategories } from 'src/_model/item-categories/item-categories';
 import { WeeklyOrder } from 'src/_model/weekly-order/weekly-order';
-import { WeeklyOrderDetails } from 'src/_model/weekly-order-details/weekly-order-details';
+import { WeeklyOrderDetails } from 'src/_model/weekly-order/weekly-order-details';
 
 import { WeeklyOrderApi } from 'src/_shared/weekly-order/weekly-order.api';
 

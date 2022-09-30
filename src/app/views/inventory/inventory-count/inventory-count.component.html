@@ -1,1 +1,2 @@
-<p>inventory-count works!</p>
+<app-inventory-count-list (outputEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-inventory-count-list>
+<app-inventory-count-transaction [dataList]="parentData" (outputEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-inventory-count-transaction>

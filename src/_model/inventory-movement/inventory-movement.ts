@@ -5,32 +5,27 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 
-export class GoodsReceipt {
-    ins_GoodsReceiptID: number = 0;
+export class InventoryMovement {
+    ins_InventoryMovementID: number = 0;
     ins_DocNum: string = '';
-    ins_PurchaseOrderID: number = 0;
-    ins_PurchaseOrderDocNum: string = '';
     ins_PostingDate: Date;
-    ins_DeliveryDate: Date;
-    ins_ReceivedDate: Date;
-    ins_SupplierCode: string = '';
-    ins_SupplierName: string = '';
-    ins_Received: number = 0;
     ins_DocStatus: number = 0;
-    
-    ins_ApprovedOn: Date;
+    ins_Remarks: string = '';
+
+    ins_MovementType: string = '';
+    ins_MovementCode: string = '';
+
     ins_ApprovedBy: string = '';
     ins_ApproverEmailList: string = '';
 
-    ins_InternalNumber: string = '';
     ins_ModifiedBy: string = '';
     ins_CreatedBy: string = '';
-    ins_CreateDate: Date;
-    ins_ModifiedDate: Date;
+
     ins_BranchCode: string = '';
     ins_BranchName: string = '';
+
     ins_Badge: string = '';
     ins_BadgeName: string = '';
 
-    ins_GoodsReceiptDetails: {};
+    ins_InventoryMovementLines: {};
 }

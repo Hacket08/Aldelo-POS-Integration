@@ -11,6 +11,7 @@ export class ApiHttpService {
 constructor( private http: HttpClient, public swalService: SwalService ) { } 
 
     public get(url: string, options?: any) { 
+        console.log(url);
         return this.http.get(url, options); 
     } 
     public post(url: string, data: any, options?: any) { 

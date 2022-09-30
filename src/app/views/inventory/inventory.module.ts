@@ -42,6 +42,10 @@ import { InventoryMovementComponent } from './inventory-movement/inventory-movem
 import { WeeklyOrderListComponent } from './weekly-order/weekly-order-list/weekly-order-list.component';
 import { WeeklyOrderTransactionComponent } from './weekly-order/weekly-order-transaction/weekly-order-transaction.component';
 import { InventoryCountComponent } from './inventory-count/inventory-count.component';
+import { InventoryCountListComponent } from './inventory-count/inventory-count-list/inventory-count-list.component';
+import { InventoryCountTransactionComponent } from './inventory-count/inventory-count-transaction/inventory-count-transaction.component';
+import { InventoryMovementTransactionComponent } from './inventory-movement/inventory-movement-transaction/inventory-movement-transaction.component';
+import { InventoryMovementListComponent } from './inventory-movement/inventory-movement-list/inventory-movement-list.component';
 // import { ItempDataFilterComponent } from '../master-data/items/itemp-data-filter/itemp-data-filter.component';
 
 @NgModule({
@@ -51,6 +55,10 @@ import { InventoryCountComponent } from './inventory-count/inventory-count.compo
     WeeklyOrderListComponent,
     WeeklyOrderTransactionComponent,
     InventoryCountComponent,
+    InventoryCountListComponent,
+    InventoryCountTransactionComponent,
+    InventoryMovementTransactionComponent,
+    InventoryMovementListComponent,
     // ItempDataFilterComponent
   ],
   imports: [

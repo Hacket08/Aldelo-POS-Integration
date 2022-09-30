@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { WeeklyOrderComponent } from './weekly-order/weekly-order.component';
 import { InventoryCountComponent } from './inventory-count/inventory-count.component';
+import { InventoryMovementComponent } from './inventory-movement/inventory-movement.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,13 @@ const routes: Routes = [
         component: WeeklyOrderComponent,
         data: {
           title: 'Weekly Order',
+        },
+      },
+      {
+        path: 'inventory-movement',
+        component: InventoryMovementComponent,
+        data: {
+          title: 'Inventory Movement',
         },
       },
       {

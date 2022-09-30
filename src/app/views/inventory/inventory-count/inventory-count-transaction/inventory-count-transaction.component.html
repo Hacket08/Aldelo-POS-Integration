@@ -1,0 +1,261 @@
+<form cForm [formGroup]="headerForm">
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="dot {{ badge }}"></span>
+          <div
+            class="d-flex align-items-center"
+            style="margin-top: 0.25rem; margin-left: 1rem"
+          >
+            <strong>{{ badgename }}</strong>
+          </div>
+        </div>
+      </c-col>
+      <c-col sm="6" xs="12">
+        <div class="d-flex justify-content-end">
+          <button cButton color="secondary" size="sm" [hidden]="isHiddenPrintBtn">
+            <svg cIcon name="cil-print" size="sm"></svg>
+          </button>
+
+          <button
+            cButton
+            color="success"
+            size="sm"
+            type="submit"
+            (click)="onSubmit()"
+            [hidden]="isHiddenSave"
+            style="margin-left: 0.25rem"
+          >
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong> Save</strong>
+          </button>
+
+          <c-dropdown variant="btn-group" style="margin-left: 0.25rem">
+            <button color="info" size="sm" cButton cDropdownToggle>
+              <strong>Action</strong>
+            </button>
+            <ul cDropdownMenu style="font-size: 100%">
+              <li>
+                <button
+                  cDropdownItem
+                  (click)="onApprove(docId)"
+                  [hidden]="isHiddenApproveBtn"
+                >
+                  <svg cIcon name="cil-check" size="sm"></svg> Approve
+                </button>
+              </li>
+              <li>
+                <button
+                  cDropdownItem
+                  (click)="onClose(docId)"
+                  [hidden]="isHiddenConfirmBtn"
+                >
+                  <svg cIcon name="cil-check" size="sm"></svg> Confirm
+                </button>
+              </li>
+              <li>
+                <button
+                  cDropdownItem
+                  (click)="onReject(docId)"
+                  [hidden]="isHiddenRejectBtn"
+                >
+                  <svg cIcon name="cil-ban" size="sm"></svg> Reject
+                </button>
+              </li>
+              <li>
+                <hr cDropdownDivider [hidden]="isHiddenDiv" />
+              </li>
+              <li>
+                <button cDropdownItem [hidden]="isHiddenDeleteBtn">
+                  <svg cIcon name="cil-trash" size="sm"></svg> Delete
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="onCancel()">
+                  <svg cIcon name="cil-exit-to-app" size="sm"></svg> Back To
+                  List
+                </button>
+              </li>
+            </ul>
+          </c-dropdown>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+        <!-- Doc Number -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docnum" sizing="sm">Doc Number</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="docnum" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Branch Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="branchname" sizing="sm"
+              >Branch Name</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="branchname"
+                readonly="true"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        
+          <!-- Inventory Count Type -->
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cCol cLabel="col" for="inventorycode" sizing="sm"
+                >Inventory Count Type</label
+              >
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <select cSelect formControlName="inventorycode" sizing="sm">
+                  <option value="">Select Type</option>
+                  <option value="BEGI">Beginning Count</option>
+                  <option value="ENDI">Ending Count</option>
+                </select>
+              </c-input-group>
+            </c-col>
+          </c-row>
+      </c-col>
+
+      <c-col sm="6" xs="12">
+        <!-- Posting Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docdate" sizing="sm"
+              >Posting Date</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="docdate"
+                type="text"
+                name="date"
+                onfocus="if(!this.value) (this.type='date')"
+                onblur="if(!this.value)
+            this.type ='text'"
+                readonly="true"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Created By -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="createdby" sizing="sm">Created By</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="createdby" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+  <c-card>
+    <!-- Remarks -->
+    <c-row class="mb-1">
+      <c-col xl="12">
+        <label cCol cLabel="col" for="remarks" sizing="sm">Remarks</label>
+      </c-col>
+      <c-col xl="12">
+        <c-input-group sizing="sm">
+          <input
+            cFormControl
+            formControlName="remarks"
+            [readonly]="isReadOnlyRemarks"
+          />
+        </c-input-group>
+      </c-col>
+    </c-row>
+  </c-card>
+</form>
+
+<c-card>
+    <c-row>
+      <c-col
+        *ngFor="let o of itemcategorylist; let i = index"
+        lg="6"
+        class="mb-2 ml-0"
+      >
+        <c-card>
+          <c-card-header>
+            <strong>{{ o.ins_CategoryName }}</strong>
+          </c-card-header>
+          <c-card-body class="table-responsive">
+            <table cTable [hover]="true" [striped]="true" size="sm">
+              <thead>
+                <tr>
+                  <th scope="col">Item Name</th>
+                  <th scope="col">Unit</th>
+                  <th scope="col" [hidden]="isHiddenBegQty">Beggining Quantity</th>
+                  <th scope="col" [hidden]="isHiddenEndQty">Ending Quantity</th>
+                  <th scope="col" [hidden]="isHiddenEnd2Qty">Ending Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of o.ins_Items; let x = index">
+                  <td>{{ item.ins_ItemDescription }}</td>
+                  <td>{{ item.ins_InventoryUom }}</td>
+                  <td [hidden]="isHiddenBegQty">
+                    <input
+                      value="{{ item.ins_BegCount }}"
+                      name="{{ i }}"
+                      id="{{ x }}"
+                      sizing="sm"
+                      type="text"
+                      ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                      step="0.001"
+                      style="width: 5rem"
+                      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');"
+                      (change)="onchangebeg($event)"
+                    />
+                  </td>
+                  <td [hidden]="isHiddenEnd2Qty">{{ item.ins_EndCount }}</td>
+                  <td [hidden]="isHiddenEndQty">
+                    <input
+                      value="{{ item.ins_EndCount }}"
+                      name="{{ i }}"
+                      id="{{ x }}"
+                      sizing="sm"
+                      type="text"
+                      ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                      step="0.001"
+                      style="width: 5rem"
+                      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');"
+                      (change)="onchangeend($event)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </c-card-body>
+        </c-card>
+      </c-col>
+  
+    </c-row>
+  </c-card>
+
