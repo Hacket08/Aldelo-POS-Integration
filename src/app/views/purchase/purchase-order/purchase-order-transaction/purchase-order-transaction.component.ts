@@ -45,9 +45,11 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   isEditHidden = false;
   isReadOnly = false;
 
+  isHiddenPrinterBtn = false;
   isHiddenSave = false;
   isHiddenAction = false;
   isHiddenActionRow = false;
+
   isHiddenAddItem = false;
   isHiddenApproveBtn = false;
   isHiddenRejectBtn = false;
@@ -109,8 +111,15 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.isViewHidden = false;
     this.isEditHidden = true;
     this.isReadOnly = false;
-
     this.state = 'add';
+
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
 
     const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy('GetMaxId');
     this.headerForm.patchValue({
@@ -132,6 +141,17 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
       switch (a.ins_DocStatus) {
         case 0: // Pending
+          this.isHiddenPrinterBtn = false;
+          this.isHiddenSave = true;
+          this.isHiddenApproveBtn = false;
+          this.isHiddenRejectBtn = false;
+          this.isHiddenDiv = false;
+          this.isHiddenDeleteBtn = true;
+
+          this.isViewHidden = false;
+          this.isEditHidden = true;
+          this.isReadOnly = false;
+
           this.badge = 'warning';
           this.badgename = 'PENDING';
           break;
@@ -176,12 +196,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
           break;
         default:
           break;
-      }
-
-      if (a.ins_DocStatus == 0) {
-        this.isViewHidden = false;
-        this.isEditHidden = true;
-        this.isReadOnly = false;
       }
 
       this.headerForm.setValue({
@@ -255,8 +269,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorder.ins_Badge = '';
     this.purchaseorder.ins_BadgeName = '';
 
-    this.purchaseorder.ins_PurchaseOrderID =
-      this.headerForm.value.purchaseorderid;
+    this.purchaseorder.ins_PurchaseOrderID = this.headerForm.value.purchaseorderid;
     this.purchaseorder.ins_SupplierCode = this.headerForm.value.suppliercode;
     this.purchaseorder.ins_SupplierName = this.headerForm.value.suppliername;
     this.purchaseorder.ins_BranchCode = this.headerForm.value.branchcode;
@@ -274,6 +287,8 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       this.purchaseorderapi.put_PurchaseOrder(this.purchaseorder);
     }
     // this.purchaseOrderEvent.emit();
+
+    this.onEventDefault();
   }
 
   checkActionAdd() {
@@ -308,5 +323,26 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   async onReject(id: number) {
     let data = (await this.purchaseorderservice.docRejected(id)) as any;
+  }
+
+  onChangeData(){
+    this.isHiddenPrinterBtn = true;
+
+    this.isHiddenSave = false;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+  }
+
+  
+  onEventDefault(){
+    this.isHiddenPrinterBtn = false;
+    
+    this.isHiddenSave = true;
+    this.isHiddenApproveBtn = false;
+    this.isHiddenRejectBtn = false;
+    this.isHiddenDiv = false;
+    this.isHiddenDeleteBtn = true;
   }
 }

@@ -357,8 +357,8 @@ export class InventoryCountTransactionComponent implements OnInit {
         break;
       case 2: // Reject
         this.isHiddenBegQty = true;
-        this.isHiddenEndQty = false;
-        this.isHiddenEnd2Qty = true;
+        this.isHiddenEndQty = true;
+        this.isHiddenEnd2Qty = false;
         
         this.isHiddenApproveBtn = true;
         this.isHiddenConfirmBtn = true;

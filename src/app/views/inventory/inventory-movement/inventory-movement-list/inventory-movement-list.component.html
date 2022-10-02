@@ -21,62 +21,36 @@
       <c-input-group class="mb-1" sizing="sm">
         <input
           aria-describedby="button-addon2"
-          aria-label="Supplier Name"
+          aria-label="Branch Name"
           cFormControl
-          placeholder="Supplier Name"
+          placeholder="Branch Name"
         />
       </c-input-group>
     </c-col>
     <c-col lg="4" md="6" xs="12">
       <c-input-group class="mb-1" sizing="sm">
-        <input
-          aria-describedby="button-addon2"
-          aria-label="Document Status"
-          cFormControl
-          placeholder="Document Status"
-        />
+        <select cSelect sizing="sm" >
+          <option>Document Status</option>
+          <option value="0">Pending</option>
+          <option value="1">Approved</option>
+          <option value="2">Rejected</option>
+          <option value="3">Closed</option>
+        </select>
       </c-input-group>
     </c-col>
     <c-col lg="4" md="6" xs="12">
       <c-input-group class="mb-1" sizing="sm">
         <input
-          aria-describedby="button-addon2"
-          aria-label="Posting Date"
           cFormControl
+          type="text"
+          name="date"
+          onfocus="if(!this.value) (this.type='date')"
+          onblur="if(!this.value)
+          this.type ='text'"
           placeholder="Posting Date"
-          readonly="true"
         />
-        <button
-          cButton
-          color="secondary"
-          id="button-addon2"
-          type="button"
-          variant="outline"
-          style="border: 0rem"
-        >
-          <svg cIcon name="cilCalendar" size="sm"></svg>
-        </button>
       </c-input-group>
 
-      <c-input-group class="mb-1" sizing="sm">
-        <input
-          aria-describedby="button-addon2"
-          aria-label="Delivery Date"
-          cFormControl
-          placeholder="Delivery Date"
-          readonly="true"
-        />
-        <button
-          cButton
-          color="secondary"
-          id="button-addon2"
-          type="button"
-          variant="outline"
-          style="border: 0rem"
-        >
-          <svg cIcon name="cilCalendar" size="sm"></svg>
-        </button>
-      </c-input-group>
     </c-col>
   </c-row>
 </c-card>
