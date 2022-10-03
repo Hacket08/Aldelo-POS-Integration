@@ -195,7 +195,7 @@
                 onblur="if(!this.value)
                 this.type ='text'"
                 (change)="onChangeData()"
-                [readonly]="isReadOnly"
+                [readonly]="isReadOnlyDeliveryDate"
               />
             </c-input-group>
           </c-col>
@@ -222,8 +222,8 @@
         <td>{{ o.ins_ItemCode }}</td>
         <td>{{ o.ins_ItemDescription }}</td>
         <td>{{ o.ins_PurchaseUom }}</td>
-        <td *ngIf="isViewHidden">{{ o.ins_Quantity }}</td>
-        <td *ngIf="isEditHidden">
+        <td *ngIf="isHiddenRowQuantity">{{ o.ins_Quantity }}</td>
+        <td *ngIf="!isHiddenRowQuantity">
           <input
             value="{{ o.ins_Quantity }}"
             id="{{ i }}"

@@ -14,6 +14,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { SwalService } from '../../../../../_services/swal-service';
+import { GlobalService } from 'src/_shared/api/service';
+import { GlobalApi } from 'src/_shared/api/api';
 
 import { ItemService } from '../../../../../_shared/items/item.service';
 import { SupplierService } from '../../../../../_shared/supplier/supplier.service';
@@ -41,10 +43,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   @Output() purchaseOrderEvent = new EventEmitter();
   @Input() purchaseData: PurchaseOrder[] = [];
 
-  isViewHidden = false;
-  isEditHidden = false;
-  isReadOnly = false;
-
+  // Header Data
   isHiddenPrinterBtn = false;
   isHiddenSave = false;
   isHiddenAction = false;
@@ -55,6 +54,11 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   isHiddenRejectBtn = false;
   isHiddenDiv = false;
   isHiddenDeleteBtn = false;
+
+  isReadOnlyDeliveryDate = false;
+
+  // Row Data
+  isHiddenRowQuantity = false;
 
   state = 'add';
   docId: number;
@@ -79,8 +83,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   constructor(
     public user: Users,
-    public purchaseorderapi: PurchaseOrderApi,
-    public purchaseorderservice: PurchaseOrderService,
+    private globalservice: GlobalService,
     public swal: SwalService,
     private fb: FormBuilder,
     private purchaseorderitem: PurchaseOrderDetails,
@@ -108,20 +111,9 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   async isAddEvent() {
-    this.isViewHidden = false;
-    this.isEditHidden = true;
-    this.isReadOnly = false;
-    this.state = 'add';
+    this.formDefault();
 
-    this.isHiddenPrinterBtn = true;
-    this.isHiddenSave = false;
-    this.isHiddenApproveBtn = true;
-    this.isHiddenRejectBtn = true;
-    this.isHiddenDiv = true;
-    this.isHiddenDeleteBtn = true;
-
-
-    const _docnum = await this.purchaseorderapi.get_PurchaseOrderBy('GetMaxId');
+    const _docnum = await this.globalservice.getMaxId('PurchaseOrders');
     this.headerForm.patchValue({
       purchaseorderid: 0,
       docnum: _docnum,
@@ -131,72 +123,10 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   async isEdit() {
-    this.isViewHidden = true;
-    this.isEditHidden = false;
-    this.isReadOnly = true;
-    this.state = 'edit';
-
     for (var a of this.purchaseData as any) {
       this.docId = a.ins_PurchaseOrderID;
 
-      switch (a.ins_DocStatus) {
-        case 0: // Pending
-          this.isHiddenPrinterBtn = false;
-          this.isHiddenSave = true;
-          this.isHiddenApproveBtn = false;
-          this.isHiddenRejectBtn = false;
-          this.isHiddenDiv = false;
-          this.isHiddenDeleteBtn = true;
-
-          this.isViewHidden = false;
-          this.isEditHidden = true;
-          this.isReadOnly = false;
-
-          this.badge = 'warning';
-          this.badgename = 'PENDING';
-          break;
-        case 1: // Approved
-          this.isHiddenSave = true;
-          this.isHiddenAction = true;
-          this.isHiddenActionRow = true;
-          this.isHiddenAddItem = true;
-          this.isHiddenApproveBtn = true;
-
-          this.isHiddenRejectBtn = false;
-          this.isHiddenDiv = false;
-          this.isHiddenDeleteBtn = true;
-
-          this.badge = 'success';
-          this.badgename = 'APPROVED';
-          break;
-        case 2: // Reject
-          this.isHiddenSave = true;
-          this.isHiddenAction = true;
-          this.isHiddenActionRow = true;
-          this.isHiddenAddItem = true;
-          this.isHiddenApproveBtn = true;
-          this.isHiddenRejectBtn = true;
-          this.isHiddenDiv = true;
-          this.isHiddenDeleteBtn = true;
-
-          this.badge = 'danger';
-          this.badgename = 'REJECTED';
-          break;
-        case 3: // Closed
-          this.isHiddenSave = true;
-          this.isHiddenAction = true;
-          this.isHiddenActionRow = true;
-          this.isHiddenAddItem = true;
-          this.isHiddenApproveBtn = true;
-          this.isHiddenRejectBtn = true;
-          this.isHiddenDiv = true;
-          this.isHiddenDeleteBtn = true;
-          this.badge = 'danger';
-          this.badgename = 'CLOSED';
-          break;
-        default:
-          break;
-      }
+      this.onLoadForm(a.ins_DocStatus);
 
       this.headerForm.setValue({
         purchaseorderid: a.ins_PurchaseOrderID,
@@ -222,7 +152,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   eventAddRow(data: any) {
-
     const userInfo = this.user.getCurrentUser();
     this.purchaseorderitem = new PurchaseOrderDetails();
 
@@ -230,8 +159,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorderitem.ins_ItemDescription = data.ins_ItemName;
     this.purchaseorderitem.ins_PurchaseUom = data.ins_PurchaseUom;
     this.purchaseorderitem.ins_VatGroup = data.ins_VatGroup;
-    this.purchaseorderitem.ins_PurchasePackQuantity =
-      data.ins_PurchasePackQuantity;
+    this.purchaseorderitem.ins_PurchasePackQuantity = data.ins_PurchasePackQuantity;
     this.purchaseorderitem.ins_PurchasePackageUom = data.ins_PurchasePackageUom;
     this.purchaseorderitem.ins_BranchCode = userInfo[0].ins_BranchCode;
     this.purchaseorderitem.ins_BranchName = userInfo[0].ins_BranchName;
@@ -247,7 +175,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   supplierSelected(data: Supplier) {
     this.suppliers.length = 0;
     const userInfo = this.user.getCurrentUser();
-
     this.supplier = data;
 
     this.headerForm.patchValue({
@@ -265,11 +192,12 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     return result;
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.purchaseorder.ins_Badge = '';
     this.purchaseorder.ins_BadgeName = '';
 
-    this.purchaseorder.ins_PurchaseOrderID = this.headerForm.value.purchaseorderid;
+    this.purchaseorder.ins_PurchaseOrderID =
+      this.headerForm.value.purchaseorderid;
     this.purchaseorder.ins_SupplierCode = this.headerForm.value.suppliercode;
     this.purchaseorder.ins_SupplierName = this.headerForm.value.suppliername;
     this.purchaseorder.ins_BranchCode = this.headerForm.value.branchcode;
@@ -282,21 +210,23 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.purchaseorder.ins_PurchaseOrderDetails = this.purchaseorderdetails;
 
     if (this.state == 'add') {
-      this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, 'PostAsync');
+      // this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, 'PostAsync');
+      let output = await this.globalservice.postData(
+        'Purchaseorders',
+        'PostAsync',
+        this.purchaseorder
+      );
+      console.log('output1', output);
+      this.docId = output.DocId;
     } else {
-      this.purchaseorderapi.put_PurchaseOrder(this.purchaseorder);
+      await this.globalservice.putData(
+        'Purchaseorders',
+        '',
+        this.purchaseorder
+      );
     }
-    // this.purchaseOrderEvent.emit();
 
-    this.onEventDefault();
-  }
-
-  checkActionAdd() {
-    if (this.purchaseData.length > 0) {
-      return false;
-    } else {
-      return true;
-    }
+    this.formPending();
   }
 
   deleteItem(i: any) {
@@ -318,14 +248,31 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   async onApprove(id: number) {
-    let data = (await this.purchaseorderservice.docApproved(id)) as any;
+    let data = (await this.globalservice.docApproved(
+      'PurchaseOrders',
+      id
+    )) as any;
+
+    this.formApproved();
   }
 
   async onReject(id: number) {
-    let data = (await this.purchaseorderservice.docRejected(id)) as any;
+    let data = (await this.globalservice.docRejected(
+      'PurchaseOrders',
+      id
+    )) as any;
+
+    this.formRejected();
   }
 
-  onChangeData(){
+  async onClose(id: number) {
+    let data = (await this.globalservice.docClosed(
+      'PurchaseOrders',
+      id
+    )) as any;
+  }
+
+  onChangeData() {
     this.isHiddenPrinterBtn = true;
 
     this.isHiddenSave = false;
@@ -335,14 +282,106 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.isHiddenDeleteBtn = true;
   }
 
-  
-  onEventDefault(){
+  onLoadForm(status: number) {
+    this.state = 'edit';
+
+    switch (status) {
+      case 0: // Pending
+        this.formPending();
+        break;
+      case 1: // Approved
+        this.formApproved();
+        break;
+      case 2: // Reject
+        this.formRejected();
+        break;
+      case 3: // Closed
+        this.formClosed();
+        break;
+      default:
+        break;
+    }
+  }
+
+  formDefault() {
+    this.state = 'add';
+
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    this.isHiddenRowQuantity = false;
+    this.isReadOnlyDeliveryDate = false;
+
+    this.badge = 'secondary';
+    this.badgename = 'New Record';
+  }
+
+  formPending() {
     this.isHiddenPrinterBtn = false;
-    
     this.isHiddenSave = true;
     this.isHiddenApproveBtn = false;
     this.isHiddenRejectBtn = false;
     this.isHiddenDiv = false;
     this.isHiddenDeleteBtn = true;
+
+    this.isHiddenRowQuantity = false;
+    this.isReadOnlyDeliveryDate = false;
+
+    this.badge = 'warning';
+    this.badgename = 'PENDING';
+  }
+
+  formApproved() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenActionRow = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+
+    this.isHiddenRejectBtn = false;
+    this.isHiddenDiv = false;
+    this.isHiddenDeleteBtn = true;
+
+    this.isHiddenRowQuantity = true;
+    this.isReadOnlyDeliveryDate = true;
+
+    this.badge = 'success';
+    this.badgename = 'APPROVED';
+  }
+
+  formRejected() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenActionRow = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    this.isHiddenRowQuantity = true;
+    this.isReadOnlyDeliveryDate = true;
+
+    this.badge = 'danger';
+    this.badgename = 'REJECTED';
+  }
+
+  formClosed() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenActionRow = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    this.badge = 'danger';
+    this.badgename = 'CLOSED';
   }
 }

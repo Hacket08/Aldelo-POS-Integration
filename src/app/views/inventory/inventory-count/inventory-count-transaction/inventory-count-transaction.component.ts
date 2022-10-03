@@ -48,32 +48,20 @@ export class InventoryCountTransactionComponent implements OnInit {
 
   isReadOnly = false;
   isHiddenSave = false;
-  // isHiddenAction = false;
-  // isHiddenActionRow = false;
-  // isHiddenAddItem = false;
-  isHiddenPrintBtn = false;
+
+  isHiddenPrinterBtn = false;
   isHiddenApproveBtn = false;
   isHiddenConfirmBtn = false;
   isHiddenRejectBtn = false;
   isHiddenDiv = false;
   isHiddenDeleteBtn = false;
-  // isHiddenPurchaseBtn = false;
-  // isHiddenAddItemBtn = false;
-  // isHiddenRow = false;
 
   isHiddenBegQty = false;
   isHiddenEndQty = false;
   isHiddenEnd2Qty = false;
 
-  // isHiddenDelRow = false;
-  // isHiddenActRow = false;
-  // isHiddenItemRow = false;
-  // isHiddenStockRow = false;
-
   isReadOnlyHeader = false;
   isReadOnlyRemarks = false;
-  // isReadOnlyOrderDate = false;
-  // isReadOnlyRow = false;
 
   state = 'add';
   docId: number;
@@ -133,18 +121,8 @@ export class InventoryCountTransactionComponent implements OnInit {
   }
 
   async isAddEvent() {
-    this.isHiddenApproveBtn = true;
-    this.isHiddenConfirmBtn = true;
-    this.isHiddenRejectBtn = true;
-    this.isHiddenDiv = true;
-    this.isHiddenDeleteBtn = true;
-    this.isHiddenPrintBtn = true;
+    this.formDefault();
 
-    this.isHiddenSave = false;
-    this.isHiddenBegQty = false;
-    this.isHiddenEndQty = true;
-    this.isHiddenEnd2Qty = true;
-    
     const _docnum = await this.globalservice.getMaxId('InventoryWarehouse');
     this.headerForm.patchValue({
       docnum: _docnum,
@@ -157,8 +135,8 @@ export class InventoryCountTransactionComponent implements OnInit {
     let int = 0;
     let pint = 0;
     this.inventorywarehousedata = [];
+
     if (data !== false) {
-      
       for (var val of data) {
         this.itemcategory = [] as any;
         this.itemcategory.ins_CategoryCode = val.ins_CategoryCode;
@@ -237,10 +215,11 @@ export class InventoryCountTransactionComponent implements OnInit {
         remarks: a.ins_Remarks,
         approvedby: '',
         approveremaillist: '',
-        inventorytype: {value:'E', disabled: true },
-        inventorycode: {value:'ENDI', disabled: true }
+        inventorytype: { value: 'E', disabled: true },
+        inventorycode: { value: 'ENDI', disabled: true }
       });
-      this.onLoadBadge(a.ins_DocStatus);
+
+      this.onLoadForm(a.ins_DocStatus);
 
       let details = a.ins_InventoryWarehouseLines as any[];
       console.log('list', details);
@@ -291,112 +270,6 @@ export class InventoryCountTransactionComponent implements OnInit {
         }
       }
       console.log('inventorywarehousedata', this.inventorywarehousedata);
-    }
-  }
-
-  onLoadBadge(status: number) {
-    let InvType = '';
-    switch (status) {
-      case 0: // Pending
-        this.headerForm.patchValue({
-          inventorytype: 'B',
-          inventorycode: 'BEGI'
-        });
-        InvType = 'BEGGINING BALANCE';
-
-        this.isHiddenApproveBtn = false;
-        this.isHiddenConfirmBtn = true;
-        this.isHiddenRejectBtn = false;
-        this.isHiddenDiv = false;
-        this.isHiddenDeleteBtn = true;
-        this.isHiddenPrintBtn = false;
-
-        this.isHiddenBegQty = false;
-        this.isHiddenEndQty = true;
-        this.isHiddenEnd2Qty = true;
-
-        this.badge = 'warning';
-        this.badgename = InvType + ' ( FOR CONFIRMATION )';
-        break;
-      case 1: // Approved
-        this.isHiddenBegQty = true;
-        this.isHiddenEndQty = false;
-        this.isHiddenEnd2Qty = true;
-
-        this.headerForm.patchValue({
-          inventorytype: 'E',
-          inventorycode: 'ENDI'
-        });
-
-
-        if(this.type == 'B'){
-          this.isHiddenApproveBtn = true;
-          this.isHiddenConfirmBtn = true;
-          this.isHiddenRejectBtn = true;
-          this.isHiddenDiv = true;
-          this.isHiddenDeleteBtn = true;
-          this.isHiddenPrintBtn = false;
-
-          InvType = 'ENDING BALANCE';
-          this.badge = 'secondary';
-          this.badgename = InvType + ' ( PENDING )';
-        } else {
-          this.isHiddenApproveBtn = true;
-          this.isHiddenConfirmBtn = false;
-          this.isHiddenRejectBtn = true;
-          this.isHiddenDiv = false;
-          this.isHiddenDeleteBtn = true;
-          this.isHiddenPrintBtn = false;
-
-
-          InvType = 'ENDING BALANCE';
-          this.badge = 'secondary';
-          this.badgename = InvType + ' ( FOR CONFIRMATION )';
-        }
-
-        break;
-      case 2: // Reject
-        this.isHiddenBegQty = true;
-        this.isHiddenEndQty = true;
-        this.isHiddenEnd2Qty = false;
-        
-        this.isHiddenApproveBtn = true;
-        this.isHiddenConfirmBtn = true;
-        this.isHiddenRejectBtn = true;
-        this.isHiddenDiv = true;
-        this.isHiddenDeleteBtn = true;
-        this.isHiddenPrintBtn = true;
-
-        this.isHiddenSave = true;
-        this.isReadOnlyRemarks = true;
-
-        this.badge = 'danger';
-        this.badgename = 'REJECTED';
-        break;
-      case 3: // Close
-      
-        this.isHiddenBegQty = true;
-        // this.isHiddenEndQty = false;
-        // this.isHiddenEnd2Qty = true;
-
-        this.isHiddenApproveBtn = true;
-        this.isHiddenConfirmBtn = true;
-        this.isHiddenRejectBtn = true;
-        this.isHiddenDiv = true;
-        this.isHiddenDeleteBtn = true;
-        this.isHiddenPrintBtn = false;
-
-        this.isHiddenSave = true;
-        this.isHiddenEndQty = true;
-        this.isHiddenEnd2Qty = false;
-
-        this.isReadOnlyRemarks = true;
-
-        this.badge = 'danger';
-        this.badgename = 'CLOSED';
-        break;
-      default:
-        break;
     }
   }
 
@@ -459,6 +332,8 @@ export class InventoryCountTransactionComponent implements OnInit {
         this.inventorywarehouse
       );
     }
+
+    this.formPending();
   }
 
   onchangebeg(a: any) {
@@ -479,7 +354,7 @@ export class InventoryCountTransactionComponent implements OnInit {
     const _pid = a.target.name;
     const _id = a.target.id;
     const _qty = a.target.value;
-    this.itemcategorylist[_pid].ins_Items[_id].ins_EndCount= _qty as number;
+    this.itemcategorylist[_pid].ins_Items[_id].ins_EndCount = _qty as number;
     console.log(this.itemcategorylist[_pid]);
   }
 
@@ -489,6 +364,7 @@ export class InventoryCountTransactionComponent implements OnInit {
 
   async onApprove(id: number) {
     let data = (await this.globalservice.docApproved('InventoryWarehouse', id)) as any;
+    this.formApproved();
   }
 
   async onReject(id: number) {
@@ -499,6 +375,160 @@ export class InventoryCountTransactionComponent implements OnInit {
     let data = (await this.globalservice.docClosed('InventoryWarehouse', id)) as any;
   }
 
-  onchangeuom(a: any) {}
-  onchangeorder(a: any) {}
+  onChangeData() {
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+
+    this.isHiddenApproveBtn = true;
+    this.isHiddenConfirmBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+  }
+
+  onLoadForm(status: number) {
+    this.state = 'edit';
+
+    switch (status) {
+      case 0: // Pending
+        this.formPending();
+        break;
+      case 1: // Approved
+        this.formApproved();
+        break;
+      case 2: // Reject
+        this.formRejected();
+        break;
+      case 3: // Closed
+        this.formClosed();
+        break;
+      default:
+        break;
+    }
+  }
+
+  formDefault() {
+    this.state = 'add';
+
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+
+    this.isHiddenApproveBtn = true;
+    this.isHiddenConfirmBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    this.isHiddenBegQty = false;
+    this.isHiddenEndQty = true;
+    this.isHiddenEnd2Qty = true;
+
+    this.badge = 'secondary';
+    this.badgename = 'New Record';
+  }
+
+  formPending() {
+    let InvType = '';
+    this.headerForm.patchValue({
+      inventorytype: 'B',
+      inventorycode: 'BEGI'
+    });
+    InvType = 'BEGGINING BALANCE';
+
+    this.isHiddenSave = true;
+    
+    this.isHiddenApproveBtn = false;
+    this.isHiddenConfirmBtn = true;
+    this.isHiddenRejectBtn = false;
+    this.isHiddenDiv = false;
+    this.isHiddenDeleteBtn = true;
+    this.isHiddenPrinterBtn = false;
+
+    this.isHiddenBegQty = false;
+    this.isHiddenEndQty = true;
+    this.isHiddenEnd2Qty = true;
+
+    this.badge = 'warning';
+    this.badgename = InvType + ' ( FOR CONFIRMATION )';
+  }
+
+  formApproved() {
+    let InvType = '';
+    this.isHiddenBegQty = true;
+    this.isHiddenEndQty = false;
+    this.isHiddenEnd2Qty = true;
+
+    this.headerForm.patchValue({
+      inventorytype: 'E',
+      inventorycode: 'ENDI'
+    });
+
+
+    if (this.type == 'B') {
+      this.isHiddenApproveBtn = true;
+      this.isHiddenConfirmBtn = true;
+      this.isHiddenRejectBtn = true;
+      this.isHiddenDiv = true;
+      this.isHiddenDeleteBtn = true;
+      this.isHiddenPrinterBtn = false;
+
+      InvType = 'ENDING BALANCE';
+      this.badge = 'secondary';
+      this.badgename = InvType + ' ( PENDING )';
+    } else {
+      this.isHiddenApproveBtn = true;
+      this.isHiddenConfirmBtn = false;
+      this.isHiddenRejectBtn = true;
+      this.isHiddenDiv = false;
+      this.isHiddenDeleteBtn = true;
+      this.isHiddenPrinterBtn = false;
+
+
+      InvType = 'ENDING BALANCE';
+      this.badge = 'secondary';
+      this.badgename = InvType + ' ( FOR CONFIRMATION )';
+    }
+  }
+
+  formRejected() {
+    this.isHiddenBegQty = true;
+    this.isHiddenEndQty = true;
+    this.isHiddenEnd2Qty = false;
+
+    this.isHiddenApproveBtn = true;
+    this.isHiddenConfirmBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+    this.isHiddenPrinterBtn = true;
+
+    this.isHiddenSave = true;
+    this.isReadOnlyRemarks = true;
+
+    this.badge = 'danger';
+    this.badgename = 'REJECTED';
+  }
+
+  formClosed() {
+
+    this.isHiddenBegQty = true;
+    // this.isHiddenEndQty = false;
+    // this.isHiddenEnd2Qty = true;
+
+    this.isHiddenApproveBtn = true;
+    this.isHiddenConfirmBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+    this.isHiddenPrinterBtn = false;
+
+    this.isHiddenSave = true;
+    this.isHiddenEndQty = true;
+    this.isHiddenEnd2Qty = false;
+
+    this.isReadOnlyRemarks = true;
+
+    this.badge = 'danger';
+    this.badgename = 'CLOSED';
+  }
 }

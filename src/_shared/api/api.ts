@@ -16,25 +16,41 @@ export class GlobalApi {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
-    this.http
+
+    const output = new Promise((resolve) => {
+      this.http
       .post(
-        this.http.getAPI(model) + '/' + dataApi,
-        data,
-        headers
+        this.http.getAPI(model) + '/' + dataApi, data,
+        {headers, responseType: 'text'}
       )
       .subscribe(
-        (result) => {
-          this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
-          return result;
+        async (result: any) => {
+          var output = [];
+          output = JSON.parse(result);
+          if (output.Code == "200") {
+            this.swal.commonSwalCentered(output.Message, 'success');
+            console.log("1", output);
+          }
+          else
+          {
+            this.swal.commonSwalCentered(output.Message, 'error');
+            console.log("2", output);
+          }
+          resolve(output);
         },
-        (error) => {
+        (error: HttpErrorResponse) => {
+          console.log("error", error);
           this.swal.commonSwalCentered(
-            'No Data Added.',
+            'No Weekly Order Updated Transaction failed!.',
             'error'
           );
-          return error;
+          resolve(error);
         }
       );
+    });
+
+    return output;
+
   }
 
   public put(

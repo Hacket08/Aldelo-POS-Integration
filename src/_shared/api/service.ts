@@ -8,7 +8,8 @@ export class GlobalService {
   constructor(private globalapi: GlobalApi) {}
 
   async postData(model: string, dataApi: string = '', data: any) {
-    return await this.globalapi.post(model, dataApi, data);
+    const output =  await this.globalapi.post(model, dataApi, data) as any;
+    return output
   }
 
   async putData(model: string, dataApi: string = '', data: any) {
