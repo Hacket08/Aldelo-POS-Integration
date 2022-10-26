@@ -97,11 +97,39 @@ export class GlobalApi {
   }
 
   public getdata(
-    model: string, apitype: string) {
+    model: string, 
+    apitype: string) {
 
       const output = new Promise((resolve) => {
         this.http
           .get(this.http.getAPI(model)+ '/' + apitype, {
+            responseType: 'text',
+          })
+          .subscribe(
+            (result) => {
+              resolve(result);
+            },
+            (error: HttpErrorResponse) => {
+              this.swal.commonSwalCentered(
+                'No Data Found for Weekly Order',
+                'error'
+              );
+              resolve(error.ok);
+            }
+          );
+      });
+      return output;
+  }
+
+
+  public getdatawithparameter(
+    model: string, 
+    apitype: string, 
+    param: string) {
+
+      const output = new Promise((resolve) => {
+        this.http
+          .get(this.http.getAPI(model)+ '/' + apitype + '?' + param, {
             responseType: 'text',
           })
           .subscribe(
@@ -152,7 +180,6 @@ export class GlobalApi {
       );
   }
 
-  
   public rejected(model: string, id: number){
     const body = { title: 'Angular PUT Request' };
     const headers = {
@@ -182,7 +209,6 @@ export class GlobalApi {
       );
   }
 
-  
   public closed(model: string, id: number){
     const body = { title: 'Angular PUT Request' };
     const headers = {

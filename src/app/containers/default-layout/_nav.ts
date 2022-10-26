@@ -14,29 +14,10 @@ export const navItems: INavData[] = [
     title: true,
     name: 'Data Monitoring'
   },
-  // {
-  //   name: 'Employee 201 Files',
-  //   url: '/base',
-  //   iconComponent: { name: 'cil-puzzle' },
-  //   children: [
-  //     {
-  //       name: 'Employee Master Data',
-  //       url: '/buttons/buttons'
-  //     },
-  //     {
-  //       name: 'Employee Files',
-  //       url: '/buttons/button-groups'
-  //     },
-  //     {
-  //       name: 'Employee Movement',
-  //       url: '/buttons/dropdowns'
-  //     },
-  //   ]
-  // },
   {
     name: 'Sales',
     url: '/sales',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cil-chart-line' },
     children: [
       {
         name: 'Sales Monitoring',
@@ -55,8 +36,12 @@ export const navItems: INavData[] = [
   {
     name: 'Purchase',
     url: '/purchase',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cil-truck' },
     children: [
+      {
+        name: 'Purchase Order Monitoring',
+        url: '/purchase/purchase-order-monitoring'
+      },
       {
         name: 'Purchase Order',
         url: '/purchase/purchase-order'
@@ -64,10 +49,6 @@ export const navItems: INavData[] = [
       {
         name: 'Goods Receipt',
         url: '/purchase/goods-receipt'
-      },
-      {
-        name: 'Purchase Order Monitoring',
-        url: '/purchase/purchase-order-monitoring'
       },
       {
         name: 'Report',
@@ -79,8 +60,12 @@ export const navItems: INavData[] = [
   {
     name: 'Inventory',
     url: '/inventory',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cil-clipboard' },
     children: [
+      {
+        name: 'Inventory Monitoring',
+        url: '/buttons/dropdowns'
+      },
       {
         name: 'Weekly Order Form',
         url: '/inventory/weekly-order'
@@ -101,9 +86,20 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Other Transaction',
+    url: '/buttons',
+    iconComponent: { name: 'cil-money' },
+    children: [
+      {
+        name: 'Expenses',
+        url: '/buttons/dropdowns'
+      },
+    ]
+  },
+  {
     name: 'Master Data',
     url: '/master-data',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cil-description' },
     children: [
       {
         name: 'Items',
@@ -128,6 +124,12 @@ export const navItems: INavData[] = [
     title: true,
     name: 'System Setup'
   },
+  {
+    name: 'Configuration',
+    url: '/theme/colors',
+    iconComponent: { name: 'cil-settings' }
+  },
+
   // {
   //   title: true,
   //   name: 'Theme'

@@ -1,13 +1,13 @@
 {
-  "name": "coreui-free-angular-admin-template",
-  "version": "4.0.2",
+  "name": "aldelo-integration-back-office",
+  "version": "Beta 1.0.0",
   "config": {
-    "coreui_library_short_version": "4.0",
+    "coreui_library_short_version": "1.0",
     "coreui_library_docs_url": "https://coreui.io/angular/docs/"
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host=192.168.254.100",
+    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -64,3 +64,4 @@
     "npm": ">= 6"
   }
 }
+

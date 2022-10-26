@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import { SalesChartData } from '../../views/widgets/widgets-sales/sales-chart-data';
 
 import { IconSetService } from '@coreui/icons-angular';
 import { brandSet, flagSet, freeSet } from '@coreui/icons';
@@ -27,7 +28,7 @@ interface IUser {
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private chartsData: DashboardChartsData,  public iconSet: IconSetService
+    private chartsData: DashboardChartsData, saleschartsData: SalesChartData, public iconSet: IconSetService
   ) {
     iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
   }
@@ -113,6 +114,7 @@ export class DashboardComponent implements OnInit {
     }
   ];
   public mainChart: IChartProps = {};
+  public x: IChartProps = {};
   public chart: Array<IChartProps> = [];
   public trafficRadioGroup = new FormGroup({
     trafficRadio: new FormControl('Month')

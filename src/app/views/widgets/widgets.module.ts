@@ -8,6 +8,7 @@ import {
   GridModule,
   ProgressModule,
   SharedModule,
+  ListGroupModule,
   WidgetModule
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
@@ -51,6 +52,7 @@ import { WidgetSalesDashboardComponent } from './widget-sales-dashboard/widget-s
     CardModule,
     DocsComponentsModule,
     ProgressModule,
+    ListGroupModule,
     ChartjsModule
   ],
   exports: [

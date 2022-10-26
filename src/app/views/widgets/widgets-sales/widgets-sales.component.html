@@ -1,57 +1,103 @@
 <div class="fade-in">
   <c-card class="mb-4">
-    <c-card-header> Consolidated Sales Per Day </c-card-header>
-    <c-card-body>
+    <c-card-header>Consolidated Sales Per Month</c-card-header>
+    <c-card-body style="margin-top: 1rem;">
       <c-row>
-        <c-col lg="9" md="6" xs="12">
-          <c-chart
+        <c-col xl="9" lg="12" xs="12">
+          <c-chart 
             [data]="mainChart.data"
-            [height]="300"
+            [height]="250"
             [ngStyle]="{ 'marginTop.px': 10 }"
             [options]="mainChart.options"
             [type]="mainChart.type"
-          >
-          </c-chart>
+            style="margin-bottom: 2rem;"
+          ></c-chart>
         </c-col>
-        <c-col lg="3" md="6" xs="12">
-          <div style="margin-top: 0rem">
-            <div class="text-high-emphasis"><h4>7,856</h4></div>
-            <div class="d-flex">
-                <div class="me-auto p-2">
-                    Total Sales For the Day
+        <c-col xl="3" lg="12" xs="12">
+          <ul cListGroup>
+            <li cListGroupItem>
+              <c-row>
+                <div class="text-high-emphasis"><h4>{{ currentcount | number : '1.2-2' }}</h4></div>
+              </c-row>
+              <c-row>
+                <div class="d-flex flex-wrap">
+
+                  <c-col class="me-auto" sm="5">
+                    Current Monthly Transaction Count
+                  </c-col>
+                  <c-col class="justify-content-end color-{{ status1 }}" sm="auto">
+                    ({{ this.currentpercent | number : '1.2-2' }}%)
+                    <svg
+                      cIcon
+                      name="cil-level-{{ indicator1 }}"
+                      class="color-{{ status1 }}"
+                    ></svg>
+                  </c-col>
+                
                 </div>
-                <div class="p-2">(20%) <svg cIcon name="cil-level-down" size="2xl" class="color-danger"></svg></div>
-            </div>
-            <c-progress class="mt-2" thin>
-              <c-progress-bar color="dark" value="20"></c-progress-bar>
-            </c-progress>
-          </div>
-          <div style="margin-top: 2rem">
-            <div class="text-high-emphasis"><h4>7,856</h4></div>
-            <div class="d-flex">
-                <div class="me-auto p-2">
-                    Total Sales Yesterday
+              </c-row>
+              <c-progress class="mt-2" thin>
+                <c-progress-bar color="dark" value="{{ currentpercent }}"></c-progress-bar>
+              </c-progress>
+            </li>
+            
+            <li cListGroupItem>
+              <c-row>
+                <div class="text-high-emphasis"><h4>{{ prevcount | number : '1.2-2'}}</h4></div>
+              </c-row>
+              <c-row>
+                <div class="d-flex flex-wrap">
+
+                  <c-col class="me-auto" sm="5">
+                    Previous Monthly Transaction Count
+                  </c-col>
+                  <c-col class="justify-content-end color-{{ status2 }}" xs="auto">
+                    ({{ this.prevpercent | number : '1.2-2' }}%)
+                    <svg
+                      cIcon
+                      name="cil-level-{{ indicator2 }}"
+                      class="color-{{ status2 }}"
+                    ></svg>
+                  </c-col>
+                
                 </div>
-                <div class="p-2">(20%) <svg cIcon name="cil-level-up" size="2xl" class="color-success"></svg></div>
-            </div>
-            <c-progress class="mt-2" thin>
-              <c-progress-bar color="dark" value="20"></c-progress-bar>
-            </c-progress>
-          </div>
-          <div style="margin-top: 2rem">
-            <div class="text-high-emphasis"><h4>7,856</h4></div>
-            <div class="d-flex">
-                <div class="me-auto p-2">
-                  Total Sales Last Month
+              </c-row>
+              <c-progress class="mt-2" thin>
+                <c-progress-bar color="dark" value="{{ prevpercent }}"></c-progress-bar>
+              </c-progress>
+            </li>
+
+
+            <li cListGroupItem>
+              <c-row>
+                <div class="text-high-emphasis"><h4>{{ prevcountlastyear | number : '1.2-2' }}</h4></div>
+              </c-row>
+              <c-row>
+                <div class="d-flex flex-wrap">
+
+                  <c-col class="me-auto" sm="5">
+                    Last Year Monthly Transaction Count
+                  </c-col>
+                  <c-col class="justify-content-end color-{{ status3 }}" xs="auto">
+                    ({{ prevpercentlastyear | number : '1.2-2' }}%)
+                    <svg
+                      cIcon
+                      name="cil-level-{{ indicator3 }}"
+                      class="color-{{ status3 }}"
+                    ></svg>
+                  </c-col>
+                
                 </div>
-                <div class="p-2">(20%) <svg cIcon name="cil-level-up" size="2xl" class="color-success"></svg></div>
-            </div>
-            <c-progress class="mt-2" thin>
-              <c-progress-bar color="dark" value="10"></c-progress-bar>
-            </c-progress>
-          </div>
+              </c-row>
+              <c-progress class="mt-2" thin>
+                <c-progress-bar color="dark" value="{{ prevpercentlastyear }}"></c-progress-bar>
+              </c-progress>
+            </li>
+          </ul>
         </c-col>
       </c-row>
     </c-card-body>
   </c-card>
 </div>
+
+

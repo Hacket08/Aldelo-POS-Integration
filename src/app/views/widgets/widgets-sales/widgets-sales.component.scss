@@ -11,3 +11,12 @@
   padding: 0.5rem 1rem 0.5rem 1rem;
   font-size: 13px;
 }
+
+.list-group-item {
+  border-width: 0;
+}
+
+.icon:not(.icon-c-s):not(.icon-custom-size) {
+  padding-top: 0.20rem;
+  font-weight: bolder;
+}

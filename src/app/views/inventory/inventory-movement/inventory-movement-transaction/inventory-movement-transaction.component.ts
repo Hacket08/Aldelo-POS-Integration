@@ -37,14 +37,22 @@ export class InventoryMovementTransactionComponent implements OnInit {
   userInfo: any;
   isReadOnly = false;
   state = 'add';
+
+  
+  isHiddenPrinterBtn = false;
   isHiddenSave = false;
-  isHiddenAction = false;
-  isHiddenActionRow = false;
   isHiddenAddItem = false;
   isHiddenApproveBtn = false;
   isHiddenRejectBtn = false;
   isHiddenDiv = false;
   isHiddenDeleteBtn = false;
+
+  isDisableType = false;
+  isReadOnlyRemarks = false;
+  isHiddenAction = false;
+  isHiddenActionRow = false;
+  isHiddenRowQuantity = false;
+
   isReadOnlyRecDate = false;
 
   // initialized values
@@ -83,8 +91,8 @@ export class InventoryMovementTransactionComponent implements OnInit {
       owner: this.userInfo[0].ins_FullName,
       docstatus: 0,
       remarks: '',
-      movementtype: '',
-      movementcode: '',
+      movementtype: { value: '', disabled: this.isDisableType },
+      movementcode: { value: '', disabled: this.isDisableType },
     });
   }
 
@@ -97,10 +105,8 @@ export class InventoryMovementTransactionComponent implements OnInit {
   }
 
   async isAddEvent() {
-    this.isViewHidden = false;
-    this.isEditHidden = true;
-    this.isReadOnly = false;
-    this.state = 'add';
+
+    this.formDefault();
 
     const _docnum = await this.globalservice.getMaxId('InventoryMovement');
     this.headerForm.patchValue({
@@ -109,16 +115,11 @@ export class InventoryMovementTransactionComponent implements OnInit {
   }
 
   async isEditEvent() {
-    this.isViewHidden = true;
-    this.isEditHidden = false;
-    this.isReadOnly = true;
-    this.state = 'edit';
-    let data: any;
-
     for (var a of this.dataList as any) {
       console.log("Sample", a);
-      this.docId = a.ins_WeeklyOrderID;
-      this.onLoadBadge(a.ins_DocStatus, a.ins_IsPOCreated);
+      this.docId = a.ins_InventoryMovementID;
+      
+      this.onLoadForm(a.ins_DocStatus);
     
       this.headerForm = this.fb.group({
         inventorymovementid: a.ins_InventoryMovementID,
@@ -133,8 +134,8 @@ export class InventoryMovementTransactionComponent implements OnInit {
 
         docstatus: a.ins_DocStatus,
         remarks: a.ins_Remarks,
-        movementtype: a.ins_MovementType,
-        movementcode: a.ins_MovementCode,
+        movementtype: { value: a.ins_MovementType, disabled: this.isDisableType },
+        movementcode: { value: a.ins_MovementCode, disabled: this.isDisableType },
       });
   
       let details = a.ins_InventoryMovementLines as any[];
@@ -147,57 +148,7 @@ export class InventoryMovementTransactionComponent implements OnInit {
 
   }
 
-  onLoadBadge(status: number, pocreated: number) {
-    switch (status) {
-      case 0: // Pending
-        this.isViewHidden = false;
-        this.isEditHidden = true;
-        this.isReadOnly = false;
 
-        this.badge = 'warning';
-        this.badgename = 'PENDING';
-        break;
-      case 1: // Approved
-        this.isHiddenSave = false;
-        this.isHiddenAction = true;
-        this.isHiddenActionRow = true;
-        this.isHiddenAddItem = true;
-        this.isHiddenApproveBtn = true;
-
-        this.isHiddenRejectBtn = false;
-        this.isHiddenDiv = false;
-        this.isHiddenDeleteBtn = true;
-
-        if (pocreated == 1) {
-          this.isHiddenRejectBtn = true;
-          this.isHiddenDiv = true;
-          this.isHiddenSave = true;
-        }
-
-        this.badge = 'success';
-        this.badgename = 'APPROVED';
-        break;
-      case 2: // Reject
-        this.isHiddenSave = true;
-        this.isHiddenAction = true;
-        this.isHiddenActionRow = true;
-        this.isHiddenAddItem = true;
-        this.isHiddenApproveBtn = true;
-        this.isHiddenRejectBtn = true;
-        this.isHiddenDiv = true;
-        this.isHiddenDeleteBtn = true;
-
-        this.badge = 'danger';
-        this.badgename = 'REJECTED';
-        break;
-      case 3: // Close
-        this.badge = 'danger';
-        this.badgename = 'CLOSED';
-        break;
-      default:
-        break;
-    }
-  }
 
   itemSelected(e: Item) {}
 
@@ -211,7 +162,8 @@ export class InventoryMovementTransactionComponent implements OnInit {
 
     this.itemList.push(this.linedata);
 
-    console.log(this.itemList);
+    this.onChangeData();
+    // console.log(this.itemList);
   }
 
   async onSubmit() {
@@ -258,7 +210,7 @@ export class InventoryMovementTransactionComponent implements OnInit {
         this.headerdata
       );
     }
-
+    this.formPending();
   }
 
   deleteItem(i: any) {
@@ -275,11 +227,142 @@ export class InventoryMovementTransactionComponent implements OnInit {
   }
 
   async onApprove(id: number) {
-    // let data = (await this.purchaseorderservice.docApproved(id)) as any;
+
+    console.log("id", id);
+    let data = (await this.globalservice.docApproved(
+      'InventoryMovement',
+      id
+    )) as any;
   }
 
   async onReject(id: number) {
-    // let data = (await this.purchaseorderservice.docRejected(id)) as any;
+    let data = (await this.globalservice.docRejected(
+      'InventoryMovement',
+      id
+    )) as any;
   }
 
+  onChangeData() {
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+  }
+  
+  onLoadForm(status: number) {
+    this.state = 'edit';
+
+    switch (status) {
+      case 0: // Pending
+        this.formPending();
+        break;
+      case 1: // Approved
+        this.formApproved();
+        break;
+      case 2: // Reject
+        this.formRejected();
+        break;
+      case 3: // Closed
+        this.formClosed();
+        break;
+      default:
+        break;
+    }
+  }
+
+  formDefault() {
+    this.state = 'add';
+
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    this.isDisableType = false;
+    this.isReadOnlyRemarks = false;
+    this.isHiddenActionRow = false;
+    this.isHiddenRowQuantity = false;
+
+    this.badge = 'secondary';
+    this.badgename = 'New Record';
+  }
+
+  formPending() {
+    this.isHiddenPrinterBtn = false;
+    this.isHiddenSave = true;
+    this.isHiddenApproveBtn = false;
+    this.isHiddenRejectBtn = false;
+    this.isHiddenDiv = false;
+    this.isHiddenDeleteBtn = true;
+
+    this.isDisableType = false;
+    this.isReadOnlyRemarks = false;
+    this.isHiddenActionRow = false;
+    this.isHiddenRowQuantity = false;
+
+    this.badge = 'warning';
+    this.badgename = 'PENDING';
+  }
+
+  formApproved() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+
+    this.isHiddenRejectBtn = false;
+    this.isHiddenDiv = false;
+    this.isHiddenDeleteBtn = true;
+
+    this.isDisableType = true;
+    this.isReadOnlyRemarks = true;
+    this.isHiddenActionRow = true;
+    this.isHiddenRowQuantity = true;
+
+    this.badge = 'success';
+    this.badgename = 'APPROVED';
+  }
+
+  formRejected() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    this.isDisableType = true;
+    this.isReadOnlyRemarks = true;
+    this.isHiddenActionRow = true;
+    this.isHiddenRowQuantity = true;
+
+    this.badge = 'danger';
+    this.badgename = 'REJECTED';
+  }
+
+  formClosed() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    
+    this.isDisableType = true;
+    this.isReadOnlyRemarks = true;
+    this.isHiddenActionRow = true;
+    this.isHiddenRowQuantity = true;
+
+    this.badge = 'danger';
+    this.badgename = 'CLOSED';
+  }
 }

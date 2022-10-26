@@ -14,11 +14,11 @@
       </c-col>
       <c-col>
         <div class="d-flex justify-content-end">
-          <button cButton color="secondary" size="sm" >
+          <button cButton color="secondary" size="sm" [hidden]="isHiddenPrinterBtn">
             <svg cIcon name="cil-print" size="sm"></svg>
           </button>
 
-          <button cButton color="success" size="sm" type="submit" [hidden]="isHiddenSave">
+          <button cButton color="success" size="sm" style="margin-left: 0.25rem" type="submit" [hidden]="isHiddenSave">
             <svg cIcon name="cil-save" size="sm"></svg>
             <strong> Save</strong>
           </button>
@@ -89,6 +89,7 @@
                 variant="outline"
                 style="border: 0rem"
                 [cModalToggle]="purchaseOrderEntry.id"
+                [disabled]="isDisablePoSelection"
               >
                 <svg cIcon name="cil-list" size="sm"></svg>
               </button>

@@ -9,3 +9,27 @@
 .board-a{
   font-size: 100%;
 }
+
+.card-header {
+  background-color: white;
+  font-size: 13px;
+  font-weight: 900;
+  // padding: 15px 90px 8px 15px;
+  // min-height: 48px;
+}
+
+.card-body {
+  background-color: white;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  font-size: 13px;
+}
+
+.list-group-item {
+  border-width: 0;
+}
+
+.icon:not(.icon-c-s):not(.icon-custom-size) {
+  padding-top: 0.20rem;
+  font-weight: bolder;
+}
+

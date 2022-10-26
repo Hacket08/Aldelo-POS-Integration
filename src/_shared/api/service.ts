@@ -20,6 +20,14 @@ export class GlobalService {
     return await this.globalapi.getlist(model);
   }
 
+  getData(
+    model: string, 
+    apitype: string) {
+    return new Promise((resolve) => {
+      resolve(this.globalapi.getdata(model, apitype));
+    });
+  }
+
   async getMaxId(model: string) {
     return await this.globalapi.getdata(model, 'GetMaxId');
   }

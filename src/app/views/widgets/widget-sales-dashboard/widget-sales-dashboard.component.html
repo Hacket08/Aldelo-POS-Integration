@@ -1,5 +1,5 @@
 <c-row>
-  <c-col lg="3" md="6" xs="12">
+  <c-col xl="6" lg="6" md="12" xs="12">
     <div class="widgets-card">
       <c-card class="success-5">
         <c-card-header class="widgets-icons">
@@ -8,13 +8,13 @@
         <div class="widgets-title">
           <h6>SALES FOR TODAY</h6>
         </div>
-        <div class="widgets-subtitle">1,000,000,000.00</div>
+        <div class="widgets-subtitle">{{currentsales | number : '1.2-2'}}</div>
         <c-card-footer class="success"> GENERATE DATA HERE </c-card-footer>
       </c-card>
     </div>
   </c-col>
-
-  <c-col lg="3" md="6" xs="12">
+  
+  <c-col xl="6" lg="6" md="12" xs="12">
     <div class="widgets-card">
       <c-card class="info-5">
         <c-card-header class="widgets-icons">
@@ -23,13 +23,13 @@
         <div class="widgets-title">
           <h6>SALES FROM YESTERDAY</h6>
         </div>
-        <div class="widgets-subtitle">1,000,000,000.00</div>
+        <div class="widgets-subtitle">{{prevsales | number : '1.2-2'}}</div>
         <c-card-footer class="info"> GENERATE DATA HERE </c-card-footer>
       </c-card>
     </div>
   </c-col>
-
-  <c-col lg="3" md="6" xs="12">
+  
+  <c-col xl="6" lg="6" md="12" xs="12">
     <div class="widgets-card">
       <c-card class="warning-5">
         <c-card-header class="widgets-icons">
@@ -38,13 +38,13 @@
         <div class="widgets-title">
           <h6>MONTH-TO-DATE SALES</h6>
         </div>
-        <div class="widgets-subtitle">1,000,000,000.00</div>
+        <div class="widgets-subtitle">{{currentsalesofthemonth | number : '1.2-2'}}</div>
         <c-card-footer class="warning"> GENERATE DATA HERE </c-card-footer>
       </c-card>
     </div>
   </c-col>
 
-  <c-col lg="3" md="6" xs="12">
+  <c-col xl="6" lg="6" md="12" xs="12">
     <div class="widgets-card">
       <c-card class="danger-5">
         <c-card-header class="widgets-icons">
@@ -53,7 +53,7 @@
         <div class="widgets-title">
           <h6>YEAR-TO-DATE SALES</h6>
         </div>
-        <div class="widgets-subtitle">1,000,000,000.00</div>
+        <div class="widgets-subtitle">{{currentsalesoftheyear | number : '1.2-2'}}</div>
         <c-card-footer class="danger"> GENERATE DATA HERE </c-card-footer>
       </c-card>
     </div>

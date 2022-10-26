@@ -44,6 +44,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   state = 'add';
 
 
+  isHiddenPrinterBtn = false;
   isHiddenSave = false;
   isHiddenAction = false;
   isHiddenActionRow = false;
@@ -53,6 +54,8 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   isHiddenDiv = false;
   isHiddenDeleteBtn = false;
   isReadOnlyRecDate = false;
+
+  isDisablePoSelection = false;
 
 
   // initialized values
@@ -106,10 +109,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   }
 
   async isAddEvent() {
-    this.isViewHidden = false;
-    this.isEditHidden = true;
-    this.isReadOnly = false;
-    this.state = 'add';
+    this.formDefault();
 
     const _docnum = await this.goodsreceiptapi.get_GoodsReceiptBy('GetMaxId');
     this.headerForm.patchValue({
@@ -125,36 +125,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     this.state = 'edit';
 
     for (var a of this.goodsreceiptData as any) {
-      switch (a.ins_DocStatus) {
-        case 0: // Pending
-          this.badge = 'warning';
-          this.badgename = 'PENDING';
-          break;
-        case 1: // Approved
-          this.badge = 'success';
-          this.badgename = 'APPROVED';
-
-          this.isHiddenSave = true;
-          this.isHiddenActionRow = true;
-          this.isReadOnlyRecDate = true;
-          break;
-        case 2: // Reject
-          this.badge = 'danger';
-          this.badgename = 'REJECTED';
-          break;
-        case 3: // Reject
-          this.badge = 'danger';
-          this.badgename = 'CLOSED';
-          break;
-        default:
-          break;
-      }
-
-      if (a.ins_DocStatus == 0) {
-        this.isViewHidden = false;
-        this.isEditHidden = true;
-        this.isReadOnly = false;
-      }
+      this.onLoadForm(a.ins_DocStatus);
 
       this.headerForm.setValue({
         goodsreceiptid: a.ins_GoodsReceiptID,
@@ -327,6 +298,8 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     } else {
       this.goodsreceiptapi.put_GoodsReceipt(this.goodsreceipt);
     }
+
+    this.formApproved();
   }
 
   checkActionAdd() {
@@ -367,4 +340,128 @@ export class GoodsReceiptTransactionComponent implements OnInit {
         _inventoryqty;
     }
   }
+
+  onLoadForm(status: number) {
+    this.state = 'edit';
+
+    switch (status) {
+      case 0: // Pending
+        this.formPending();
+        break;
+      case 1: // Approved
+        this.formApproved();
+        break;
+      case 2: // Reject
+        this.formRejected();
+        break;
+      case 3: // Closed
+        this.formClosed();
+        break;
+      default:
+        break;
+    }
+  }
+
+
+
+
+  formDefault() {
+    this.state = 'add';
+
+    // this.isHiddenPrinterBtn = true;
+    // this.isHiddenSave = false;
+    // this.isHiddenApproveBtn = true;
+    // this.isHiddenRejectBtn = true;
+    // this.isHiddenDiv = true;
+    // this.isHiddenDeleteBtn = true;
+
+    // // this.isHiddenRowQuantity = false;
+    // // this.isReadOnlyDeliveryDate = false;
+
+    
+    this.isViewHidden = false;
+    this.isEditHidden = true;
+    this.isReadOnly = false;
+    this.isDisablePoSelection = false;
+    this.state = 'add';
+
+
+    this.badge = 'secondary';
+    this.badgename = 'New Record';
+  }
+
+  formPending() {
+    // this.isHiddenPrinterBtn = false;
+    // this.isHiddenSave = true;
+    // this.isHiddenApproveBtn = false;
+    // this.isHiddenRejectBtn = false;
+    // this.isHiddenDiv = false;
+    // this.isHiddenDeleteBtn = true;
+
+    // this.isHiddenRowQuantity = false;
+    // this.isReadOnlyDeliveryDate = false;
+    this.isViewHidden = false;
+    this.isEditHidden = true;
+    this.isReadOnly = false;
+    this.isDisablePoSelection = false;
+
+    this.badge = 'warning';
+    this.badgename = 'PENDING';
+  }
+
+  formApproved() {
+    // this.isHiddenSave = true;
+    // this.isHiddenAction = true;
+    // this.isHiddenActionRow = true;
+    // this.isHiddenAddItem = true;
+    // this.isHiddenApproveBtn = true;
+
+    // this.isHiddenRejectBtn = false;
+    // this.isHiddenDiv = false;
+    // this.isHiddenDeleteBtn = true;
+
+    // this.isHiddenRowQuantity = true;
+    // this.isReadOnlyDeliveryDate = true;
+
+    this.isHiddenSave = true;
+    this.isHiddenActionRow = true;
+    this.isReadOnlyRecDate = true;
+    this.isDisablePoSelection = true;
+
+    this.badge = 'success';
+    this.badgename = 'APPROVED';
+  }
+
+  formRejected() {
+    // this.isHiddenSave = true;
+    // this.isHiddenAction = true;
+    // this.isHiddenActionRow = true;
+    // this.isHiddenAddItem = true;
+    // this.isHiddenApproveBtn = true;
+
+    // this.isHiddenRejectBtn = true;
+    // this.isHiddenDiv = true;
+    // this.isHiddenDeleteBtn = true;
+
+    // this.isHiddenRowQuantity = true;
+    // this.isReadOnlyDeliveryDate = true;
+
+    this.badge = 'danger';
+    this.badgename = 'REJECTED';
+  }
+
+  formClosed() {
+    // this.isHiddenSave = true;
+    // this.isHiddenAction = true;
+    // this.isHiddenActionRow = true;
+    // this.isHiddenAddItem = true;
+    // this.isHiddenApproveBtn = true;
+    // this.isHiddenRejectBtn = true;
+    // this.isHiddenDiv = true;
+    // this.isHiddenDeleteBtn = true;
+
+    this.badge = 'danger';
+    this.badgename = 'CLOSED';
+  }
+
 }
