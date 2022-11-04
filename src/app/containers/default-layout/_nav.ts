@@ -52,7 +52,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Report',
-        url: '/buttons/dropdowns'
+        url: '/purchase/purchase-report'
       },
 
     ]
@@ -64,7 +64,7 @@ export const navItems: INavData[] = [
     children: [
       {
         name: 'Inventory Monitoring',
-        url: '/buttons/dropdowns'
+        url: '/inventory/inventory-monitoring'
       },
       {
         name: 'Weekly Order Form',
@@ -80,7 +80,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Report',
-        url: '/buttons/dropdowns'
+        url: '/inventory/inventory-report'
       },
 
     ]
@@ -92,7 +92,7 @@ export const navItems: INavData[] = [
     children: [
       {
         name: 'Expenses',
-        url: '/buttons/dropdowns'
+        url: '/others/expenses'
       },
     ]
   },
@@ -107,16 +107,16 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Branch',
-        url: '/buttons/button-groups'
+        url: '/master-data/branch'
       },
       {
         name: 'Supplier',
         url: '/master-data/supplier'
       },
-      {
-        name: 'Customer',
-        url: '/buttons/dropdowns'
-      },
+      // {
+      //   name: 'Customer',
+      //   url: '/buttons/dropdowns'
+      // },
 
     ]
   },
@@ -125,8 +125,13 @@ export const navItems: INavData[] = [
     name: 'System Setup'
   },
   {
+    name: 'User',
+    url: '/settings/users',
+    iconComponent: { name: 'cil-user' }
+  },
+  {
     name: 'Configuration',
-    url: '/theme/colors',
+    url: '/settings/configuration',
     iconComponent: { name: 'cil-settings' }
   },
 

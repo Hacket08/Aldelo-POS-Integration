@@ -5,6 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { WeeklyOrderComponent } from './weekly-order/weekly-order.component';
 import { InventoryCountComponent } from './inventory-count/inventory-count.component';
 import { InventoryMovementComponent } from './inventory-movement/inventory-movement.component';
+import { InventoryMonitoringComponent } from './inventory-monitoring/inventory-monitoring.component';
+import { InventoryReportComponent } from './inventory-report/inventory-report.component';
+
 
 const routes: Routes = [
   {
@@ -16,6 +19,13 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'weekly-order',
+      },
+      {
+        path: 'inventory-monitoring',
+        component: InventoryMonitoringComponent,
+        data: {
+          title: 'Inventory Monitoring',
+        },
       },
       {
         path: 'weekly-order',
@@ -36,6 +46,13 @@ const routes: Routes = [
         component: InventoryCountComponent,
         data: {
           title: 'Inventory Count',
+        },
+      },
+      {
+        path: 'inventory-report',
+        component: InventoryReportComponent,
+        data: {
+          title: 'Report',
         },
       },
     ],

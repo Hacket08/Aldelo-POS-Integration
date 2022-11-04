@@ -4,6 +4,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import { SalesChartData } from '../../views/widgets/widgets-sales/sales-chart-data';
 
+import { DatePipe } from '@angular/common';
+import { getStyle } from '@coreui/utils/src';
+import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { SwalService } from 'src/_services/swal-service';
+import { GlobalService } from 'src/_shared/api/service';
+import { GlobalApi } from 'src/_shared/api/api';
+
 import { IconSetService } from '@coreui/icons-angular';
 import { brandSet, flagSet, freeSet } from '@coreui/icons';
 
@@ -28,7 +35,10 @@ interface IUser {
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private chartsData: DashboardChartsData, saleschartsData: SalesChartData, public iconSet: IconSetService
+    private globalservice: GlobalService,
+    private chartsData: DashboardChartsData, 
+    private saleschartsData: SalesChartData, 
+    private iconSet: IconSetService
   ) {
     iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
   }
@@ -113,6 +123,8 @@ export class DashboardComponent implements OnInit {
       color: 'dark'
     }
   ];
+
+
   public mainChart: IChartProps = {};
   public x: IChartProps = {};
   public chart: Array<IChartProps> = [];
@@ -133,4 +145,47 @@ export class DashboardComponent implements OnInit {
     this.chartsData.initMainChart(value);
     this.initCharts();
   }
+
+
+  genDataList(date: string){
+    return new Promise((resolve) => {
+      const data = this.globalservice.getData(
+        'OrderHeaders',
+        'GetSevenDaysSales/' + date
+      )
+      data.then((output) => {
+        const json = JSON.parse(output as any);
+        resolve(json);
+      });
+    });
+  }
+
+  getSevenDaysSales(date: string) {
+    this.genDataList(date).then((output) => {
+      for (var a of output as any) {
+        // console.log('Monthly Sales Summary', a);
+  
+        switch (a.ins_Type) {
+          case 'CD':
+            // this.currentsales = a.ins_TotalAmount;
+            break;
+          case 'PD':
+            // this.prevsales = a.ins_TotalAmount;
+            break;
+          case 'CM':
+            // this.currentsalesofthemonth = a.ins_TotalAmount;
+            break;
+          case 'CY':
+            // this.currentsalesoftheyear = a.ins_TotalAmount;
+            break;
+  
+          default:
+            break;
+        }
+      }
+    });
+  }
+
+  
+
 }

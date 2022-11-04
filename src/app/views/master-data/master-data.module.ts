@@ -49,6 +49,7 @@ import { ItemsDataEntryComponent } from './items/items-data-entry/items-data-ent
 import { ItemsDataListComponent } from './items/items-data-list/items-data-list.component';
 import { ItemsDataSelectionComponent } from './items/items-data-selection/items-data-selection.component';
 import { ItempDataFilterComponent } from './items/itemp-data-filter/itemp-data-filter.component';
+import { BranchComponent } from './branch/branch.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { ItempDataFilterComponent } from './items/itemp-data-filter/itemp-data-f
     ItemsDataEntryComponent,
     ItemsDataListComponent,
     ItemsDataSelectionComponent,
-    ItempDataFilterComponent
+    ItempDataFilterComponent,
+    BranchComponent
   ],
   imports: [
     CommonModule,

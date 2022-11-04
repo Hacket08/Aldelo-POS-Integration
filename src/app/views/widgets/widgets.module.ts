@@ -27,6 +27,7 @@ import { ChartSample, WidgetsDropdownComponent } from './widgets-dropdown/widget
 import { WidgetsEComponent } from './widgets-e/widgets-e.component';
 import { WidgetsSalesComponent } from './widgets-sales/widgets-sales.component';
 import { WidgetSalesDashboardComponent } from './widget-sales-dashboard/widget-sales-dashboard.component';
+import { WidgetsPurchaseComponent } from './widgets-purchase/widgets-purchase.component';
 
 
 
@@ -38,7 +39,8 @@ import { WidgetSalesDashboardComponent } from './widget-sales-dashboard/widget-s
     ChartSample,
     WidgetsEComponent,
     WidgetsSalesComponent,
-    WidgetSalesDashboardComponent
+    WidgetSalesDashboardComponent,
+    WidgetsPurchaseComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +61,8 @@ import { WidgetSalesDashboardComponent } from './widget-sales-dashboard/widget-s
     WidgetsBrandComponent,
     WidgetsDropdownComponent,
     WidgetsSalesComponent,
-    WidgetSalesDashboardComponent
+    WidgetSalesDashboardComponent,
+    WidgetsPurchaseComponent
   ]
 })
 export class WidgetsModule {

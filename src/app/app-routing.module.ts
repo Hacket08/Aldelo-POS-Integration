@@ -56,6 +56,20 @@ const routes: Routes = [
           import('./views/inventory/inventory.module').then((m) => m.InventoryModule)
       },
       {
+        path: 'others',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/others/others.module').then((m) => m.OthersModule)
+      },
+      {
+        path: 'settings',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/settings/settings.module').then((m) => m.SettingsModule)
+      },
+
+      
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)
