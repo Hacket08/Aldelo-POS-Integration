@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { WeeklyOrderService } from '../../../../../_shared/weekly-order/weekly-order.service';
 import { WeeklyOrder } from '../../../../../_model/weekly-order/weekly-order';
+import { GlobalService } from 'src/_shared/api/service';
 
 @Component({
   selector: 'app-weekly-order-list',
@@ -13,13 +14,13 @@ export class WeeklyOrderListComponent implements OnInit {
   @Output() weeklyOrderEvent = new EventEmitter();
   weeklyorder: WeeklyOrder[] = [];
   
-  constructor(public weeklyorderservice: WeeklyOrderService) {}
+  constructor(private globalservice: GlobalService) {}
 
   async ngOnInit(): Promise<void> {
     let data: any;
     this.weeklyorder = [];
-
-    data = (await this.weeklyorderservice.getList()) as any;
+    data = (await this.globalservice.getAuthList('WeeklyOrder')) as any;
+    // data = (await this.weeklyorderservice.getList()) as any;
     if (data !== false) {
       for (var val of data) {
         switch (val.ins_DocStatus) {

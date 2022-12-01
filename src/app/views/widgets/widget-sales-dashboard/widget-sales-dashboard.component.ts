@@ -212,7 +212,7 @@ export class WidgetSalesDashboardComponent implements OnInit, AfterContentInit {
 
   genDataList(date: string){
     return new Promise((resolve) => {
-      const data = this.globalservice.getData(
+      const data = this.globalservice.getAuthData(
         'OrderHeaders',
         'GetMonthlySalesSummary/' + date
       )

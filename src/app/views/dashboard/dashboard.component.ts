@@ -147,44 +147,44 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  genDataList(date: string){
-    return new Promise((resolve) => {
-      const data = this.globalservice.getData(
-        'OrderHeaders',
-        'GetSevenDaysSales/' + date
-      )
-      data.then((output) => {
-        const json = JSON.parse(output as any);
-        resolve(json);
-      });
-    });
-  }
+  // genDataList(date: string){
+  //   return new Promise((resolve) => {
+  //     const data = this.globalservice.getData(
+  //       'OrderHeaders',
+  //       'GetSevenDaysSales/' + date
+  //     )
+  //     data.then((output) => {
+  //       const json = JSON.parse(output as any);
+  //       resolve(json);
+  //     });
+  //   });
+  // }
 
-  getSevenDaysSales(date: string) {
-    this.genDataList(date).then((output) => {
-      for (var a of output as any) {
-        // console.log('Monthly Sales Summary', a);
+  // getSevenDaysSales(date: string) {
+  //   this.genDataList(date).then((output) => {
+  //     for (var a of output as any) {
+  //       // console.log('Monthly Sales Summary', a);
   
-        switch (a.ins_Type) {
-          case 'CD':
-            // this.currentsales = a.ins_TotalAmount;
-            break;
-          case 'PD':
-            // this.prevsales = a.ins_TotalAmount;
-            break;
-          case 'CM':
-            // this.currentsalesofthemonth = a.ins_TotalAmount;
-            break;
-          case 'CY':
-            // this.currentsalesoftheyear = a.ins_TotalAmount;
-            break;
+  //       switch (a.ins_Type) {
+  //         case 'CD':
+  //           // this.currentsales = a.ins_TotalAmount;
+  //           break;
+  //         case 'PD':
+  //           // this.prevsales = a.ins_TotalAmount;
+  //           break;
+  //         case 'CM':
+  //           // this.currentsalesofthemonth = a.ins_TotalAmount;
+  //           break;
+  //         case 'CY':
+  //           // this.currentsalesoftheyear = a.ins_TotalAmount;
+  //           break;
   
-          default:
-            break;
-        }
-      }
-    });
-  }
+  //         default:
+  //           break;
+  //       }
+  //     }
+  //   });
+  // }
 
   
 

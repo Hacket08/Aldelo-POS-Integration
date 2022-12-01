@@ -27,6 +27,7 @@ import { WeeklyOrder } from 'src/_model/weekly-order/weekly-order';
 import { WeeklyOrderDetails } from 'src/_model/weekly-order/weekly-order-details';
 
 import { WeeklyOrderApi } from 'src/_shared/weekly-order/weekly-order.api';
+import { GlobalService } from 'src/_shared/api/service';
 
 @Component({
   selector: 'app-weekly-order-transaction',
@@ -103,11 +104,12 @@ export class WeeklyOrderTransactionComponent implements OnInit {
     private itemcategoriesservice: ItemCategoriesService,
     private weeklyorderservice: WeeklyOrderService,
     private itemservice: ItemService,
-    private weeklyorderapi: WeeklyOrderApi,
+    // private weeklyorderapi: WeeklyOrderApi,
+    private globalservice: GlobalService,
     private weeklyorder: WeeklyOrder
   ) {
     // declare the form group fields
-
+    
     this.userInfo = this.user.getCurrentUser();
     this.headerForm = this.fb.group({
       weeklyorderid: '',
@@ -117,10 +119,10 @@ export class WeeklyOrderTransactionComponent implements OnInit {
       orderdate: this.postingdate,
       deldate: this.deliverydate,
 
-      branchcode: this.userInfo[0].ins_BranchCode,
-      branchname: this.userInfo[0].ins_BranchName,
-      orderby: this.userInfo[0].ins_FullName,
-      owner: this.userInfo[0].ins_FullName,
+      branchcode: this.userInfo.BranchCode,
+      branchname: this.userInfo.BranchName,
+      orderby: this.userInfo.FullName,
+      owner: this.userInfo.FullName,
       receivedby: '',
       deliveredby: '',
       docstatus: 0,
@@ -153,7 +155,8 @@ export class WeeklyOrderTransactionComponent implements OnInit {
     let data: any;
     this.itemcategorylist = [];
 
-    const _docnum = await this.weeklyorderapi.get_WeeklyOrderBy('GetMaxId');
+    const _docnum = await this.globalservice.getMaxId('WeeklyOrder');
+    // const _docnum = await this.weeklyorderapi.get_WeeklyOrderBy('GetMaxId');
     this.headerForm.patchValue({
       weeklyorderid: 0,
       docnum: _docnum,
@@ -467,11 +470,27 @@ export class WeeklyOrderTransactionComponent implements OnInit {
     console.log(this.weeklyorderlines);
     console.log(this.weeklyorder);
 
+
     if (this.state == 'add') {
-      await this.weeklyorderapi.post_WeeklyOrder(this.weeklyorder, 'PostAsync');
+      await this.globalservice.postData(
+        'WeeklyOrder',
+        'PostAsync',
+        this.weeklyorder
+      );
     } else {
-      await this.weeklyorderapi.put_WeeklyOrder(this.weeklyorder);
+      this.globalservice.putData(
+        'WeeklyOrder',
+        '',
+        this.weeklyorder
+      );
     }
+
+
+    // if (this.state == 'add') {
+    //   await this.weeklyorderapi.post_WeeklyOrder(this.weeklyorder, 'PostAsync');
+    // } else {
+    //   await this.weeklyorderapi.put_WeeklyOrder(this.weeklyorder);
+    // }
   }
 
   onchangeorder(a: any) {

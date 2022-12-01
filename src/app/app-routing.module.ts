@@ -8,11 +8,14 @@ import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 
 import { AuthGuard } from '../_guard/auth.guard';
+import { GlobalService } from 'src/_shared/api/service';
+
+
 
 let redirect = JSON.parse(localStorage.getItem('userData')) !== null ? 'dashboard' : 'login'; 
 
 const routes: Routes = [
-  {path: '', redirectTo: redirect, pathMatch: 'full'},
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   // {
   //   path: '',
   //   redirectTo: 'dashboard',
@@ -159,4 +162,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
+  
 }

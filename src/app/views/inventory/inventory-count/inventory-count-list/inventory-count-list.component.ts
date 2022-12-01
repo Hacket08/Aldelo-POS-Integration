@@ -19,8 +19,9 @@ export class InventoryCountListComponent implements OnInit {
     let data: any;
     this.dataList = [];
 
-    data = (await this.globalservice.getList('InventoryWarehouse')) as any;
-    console.log(data);
+    
+    data = (await this.globalservice.getAuthList('InventoryWarehouse')) as any;
+    // console.log(data);
     if (data !== false) {
       for (var val of data) {
         

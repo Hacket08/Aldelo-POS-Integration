@@ -73,7 +73,7 @@ export class ItemApi {
   
     public get_item_details(data: string) {
       const output = new Promise((resolve) => {
-        this.http.get(this.http.getAPI('Item') + "/" + data).subscribe(
+        this.http.getAuth(this.http.getAPI('Item') + "/" + data).subscribe(
           (result) => {
             resolve(result);
           },

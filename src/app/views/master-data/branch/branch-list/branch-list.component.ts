@@ -1,15 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalService } from 'src/_shared/api/service';
-import { Supplier } from '../../../../../_model/supplier/supplier';
+import { Branch } from '../../../../../_model/branch/branch';
 
 @Component({
-  selector: 'app-supplier-data-list',
-  templateUrl: './supplier-data-list.component.html',
-  styleUrls: ['./supplier-data-list.component.scss'],
+  selector: 'app-branch-list',
+  templateUrl: './branch-list.component.html',
+  styleUrls: ['./branch-list.component.scss']
 })
-export class SupplierDataListComponent implements OnInit {
+export class BranchListComponent implements OnInit {
   @Output() outputEvent = new EventEmitter();
-  dataList: Supplier[] = [];
+  dataList: Branch[] = [];
 
   constructor(private globalservice: GlobalService) { }
 
@@ -17,7 +17,7 @@ export class SupplierDataListComponent implements OnInit {
     let data: any;
     this.dataList = [];
 
-    data = (await this.globalservice.getAuthList('Supplier')) as any;
+    data = (await this.globalservice.getAuthList('Branch')) as any;
     console.log(data);
     if (data !== false) {
       for (var val of data) {

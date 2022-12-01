@@ -3,6 +3,7 @@ import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@a
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -105,6 +106,7 @@ const APP_CONTAINERS = [
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
     IconSetService,
+    BnNgIdleService,
     Title
   ],
   bootstrap: [AppComponent],

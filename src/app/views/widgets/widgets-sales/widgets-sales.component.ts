@@ -52,7 +52,7 @@ export class WidgetsSalesComponent implements OnInit {
 
   initCharts(): void {
     this.mainChart = this.chartsData.mainChart;
-    this.getMonthlySalesSummary('2022-05-13');
+    // this.getMonthlySalesSummary('2022-05-13');
     // window.location.reload();
   }
 
@@ -64,7 +64,7 @@ export class WidgetsSalesComponent implements OnInit {
 
   genDataList(date: string) {
     return new Promise((resolve) => {
-      const data = this.globalservice.getData(
+      const data = this.globalservice.getAuthData(
         'OrderHeaders',
         'GetMonthlySalesSummary/' + date
       );

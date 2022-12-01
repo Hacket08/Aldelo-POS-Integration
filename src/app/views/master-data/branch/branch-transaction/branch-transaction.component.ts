@@ -17,15 +17,15 @@ import {
 import { SwalService } from 'src/_services/swal-service';
 import { Users } from 'src/_services/user.api';
 import { GlobalService } from 'src/_shared/api/service';
-import { Supplier } from '../../../../../_model/supplier/supplier';
+import { Branch } from '../../../../../_model/branch/branch';
 
 @Component({
-  selector: 'app-supplier-data-entry',
-  templateUrl: './supplier-data-entry.component.html',
-  styleUrls: ['./supplier-data-entry.component.scss'],
+  selector: 'app-branch-transaction',
+  templateUrl: './branch-transaction.component.html',
+  styleUrls: ['./branch-transaction.component.scss'],
 })
-export class SupplierDataEntryComponent implements OnInit {
-  @Input() dataList: Supplier[] = [];
+export class BranchTransactionComponent implements OnInit {
+  @Input() dataList: Branch[] = [];
   @Output() outputEvent = new EventEmitter();
 
   headerForm!: FormGroup;
@@ -61,19 +61,22 @@ export class SupplierDataEntryComponent implements OnInit {
     private fb: FormBuilder,
     private user: Users,
     private globalservice: GlobalService,
-    private headerdata: Supplier
+    private headerdata: Branch
   ) {
     this.userInfo = this.user.getCurrentUser();
     this.headerForm = this.fb.group({
-      suppliercode: [],
-      suppliername: [],
-      contactperson: [],
-      position: [],
-      phone: [],
-      emailaddress: [],
-      address1: [],
-      address2: [],
-      address3: [],
+      branchcode: this.userInfo.BranchCode,
+      branchname: this.userInfo.BranchName,
+      address: '',
+      city: '',
+      area: '',
+      registernumber: '',
+      activationnumber: '',
+      hardwarekey: '',
+      remarks: '',
+      createdby: this.userInfo.FullName,
+      modifiedby: '',
+      owner: this.userInfo.FullName,
       inactive: 0,
     });
   }
@@ -97,41 +100,48 @@ export class SupplierDataEntryComponent implements OnInit {
   async isEditEvent() {
     for (var a of this.dataList as any) {
       this.onLoadForm(a.ins_InActive);
-      this.headerForm.reset();
       this.headerForm = this.fb.group({
-        suppliercode: a.ins_SupplierCode,
-        suppliername: a.ins_SupplierName,
-        contactperson: a.ins_ContactPerson,
-        position: a.ins_Position,
-        phone: a.ins_Phone,
-        emailaddress: a.ins_EmailAddress,
-        address1: a.ins_Address1,
-        address2: a.ins_Address2,
-        address3: a.ins_Address3,
+        branchcode: a.ins_BranchCode,
+        branchname: a.ins_BranchName,
+        address: a.ins_Address,
+        city: a.ins_City,
+        area: a.ins_Area,
+        registernumber: a.ins_RegisterNumber,
+        activationnumber: a.ins_ActivationNumber,
+        hardwarekey: a.ins_HardwareKey,
+        remarks: a.ins_Remarks,
+        createdby: a.ins_CreatedBy,
+        modifiedby: this.userInfo.FullName,
+        owner: a.ins_CreatedBy,
         inactive: a.ins_InActive === 1 ? true : false,
       });
     }
   }
 
   async onSubmit() {
-    this.headerdata = new Supplier();
+    this.headerdata = new Branch();
 
-    this.headerdata.ins_SupplierCode = this.headerForm.value.suppliercode;
-    this.headerdata.ins_SupplierName = this.headerForm.value.suppliername;
-    this.headerdata.ins_ContactPerson = this.headerForm.value.contactperson;
-    this.headerdata.ins_Position = this.headerForm.value.position;
-    this.headerdata.ins_Phone = this.headerForm.value.phone;
-    this.headerdata.ins_EmailAddress = this.headerForm.value.emailaddress;
-    this.headerdata.ins_Address1 = this.headerForm.value.address1;
-    this.headerdata.ins_Address2 = this.headerForm.value.address2;
-    this.headerdata.ins_Address3 = this.headerForm.value.address3;
+    this.headerdata.ins_BranchCode = this.headerForm.value.branchcode;
+    this.headerdata.ins_BranchName = this.headerForm.value.branchname;
+    this.headerdata.ins_Address = this.headerForm.value.address;
+    this.headerdata.ins_City = this.headerForm.value.city;
+    this.headerdata.ins_Area = this.headerForm.value.area;
+
+    this.headerdata.ins_RegisterNumber = this.headerForm.value.registernumber;
+    this.headerdata.ins_ActivationNumber = this.headerForm.value.activationnumber;
+    this.headerdata.ins_HardwareKey = this.headerForm.value.hardwarekey;
+
+    this.headerdata.ins_CreatedBy = this.headerForm.value.createdby;
+    this.headerdata.ins_ModifiedBy = this.headerForm.value.modifiedby;
+
+    this.headerdata.ins_Remarks = this.headerForm.value.remarks;
     this.headerdata.ins_InActive = this.headerForm.value.inactive === true ? 1 : 0;
-
+    
     if (this.state == 'add') {
-      await this.globalservice.postAuth( 'Supplier', '', this.headerdata
+      await this.globalservice.postAuth( 'Branch', '', this.headerdata
       );
     } else {
-      this.globalservice.putAuth('Supplier', '', this.headerdata);
+      this.globalservice.putAuth('Branch', '', this.headerdata);
     }
 
     this.formPending();

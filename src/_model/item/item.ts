@@ -42,10 +42,3 @@ export class Item{
     ins_PurchasePrice: number  = 0.00;
     ins_InActive: number = 0;
 }
-
-// export class ItemList {
-//     ins_itemcode: string = '';
-//     ins_itemname: string = '';
-//     ins_itemuom: string = '';
-// }
-

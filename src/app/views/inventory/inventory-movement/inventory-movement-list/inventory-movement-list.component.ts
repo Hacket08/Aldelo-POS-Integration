@@ -18,7 +18,7 @@ export class InventoryMovementListComponent implements OnInit {
     let data: any;
     this.dataList = [];
 
-    data = (await this.globalservice.getList('InventoryMovement')) as any;
+    data = (await this.globalservice.getAuthList('InventoryMovement')) as any;
     console.log(data);
     if (data !== false) {
       for (var val of data) {

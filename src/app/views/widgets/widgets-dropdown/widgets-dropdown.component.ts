@@ -140,9 +140,9 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   };
 
   ngOnInit(): void {
-    this.setDataPerDay();
-    this.setDataPerMonth();
-    this.setDataPerHour();
+    // this.setDataPerDay();
+    // this.setDataPerMonth();
+    // this.setDataPerHour();
   }
 
   ngAfterContentInit(): void {
@@ -293,7 +293,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   genDataList(date: string, api: string) {
     return new Promise((resolve) => {
-      const data = this.globalservice.getData('OrderHeaders', api + '/' + date);
+      const data = this.globalservice.getAuthData('OrderHeaders', api + '/' + date);
       data.then((output) => {
         const json = JSON.parse(output as any);
         resolve(json);
