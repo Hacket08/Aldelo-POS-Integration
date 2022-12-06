@@ -48,8 +48,6 @@ export class GlobalApi {
 
     return output;
   }
-
-
   public put(model: string, dataApi: string = '', data: any) {
     const headers = {
       accept: 'text/plain',
@@ -74,45 +72,86 @@ export class GlobalApi {
   }
 
 
-  public postAuth2(api: string, apiExtension: string = '', body: any) {
-    const user = JSON.parse(localStorage.getItem('userData'));
+  // public postAuth2(api: string, apiExtension: string = '', body: any) {
+  //   const user = JSON.parse(localStorage.getItem('userData'));
 
-    const headers = {
-      Accept: 'text/plain',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + user.accessToken,
-    };
+  //   const headers = {
+  //     Accept: 'text/plain',
+  //     'Content-Type': 'application/json',
+  //     Authorization: 'Bearer ' + user.accessToken,
+  //   };
 
-    const output = new Promise((resolve) => {
-      this.http
-        .post(this.http.getAPI(api) + '/' + apiExtension, body, {
-          headers,
-          responseType: 'text',
-        })
-        .subscribe(
-          async (result: any) => {
-            var output = [];
-            output = JSON.parse(result);
-            if (output.Code == '200') {
-              this.swal.commonSwalCentered(output.Message, 'success');
-            }
-            if (output.errorCode == '401') {
-              this.swal.commonSwalCentered(output.Message, 'error');
-            }
-            resolve(output);
-          },
-          (error: HttpErrorResponse) => {
-            var output = [];
-            output = JSON.parse(error.error);
+  //   const output = new Promise((resolve) => {
+  //     this.http
+  //       .post(this.http.getAPI(api) + '/' + apiExtension, body, {
+  //         headers,
+  //         responseType: 'text',
+  //       })
+  //       .subscribe(
+  //         async (result: any) => {
+  //           var output = [];
+  //           output = JSON.parse(result);
+  //           if (output.Code == '200') {
+  //             this.swal.commonSwalCentered(output.Message, 'success');
+  //           }
+  //           if (output.errorCode == '401') {
+  //             this.swal.commonSwalCentered(output.Message, 'error');
+  //           }
+  //           resolve(output);
+  //         },
+  //         (error: HttpErrorResponse) => {
+  //           var output = [];
+  //           output = JSON.parse(error.error);
 
-            this.swal.commonSwalCentered(output.message, 'error');
-            resolve(output);
-          }
-        );
-    });
+  //           this.swal.commonSwalCentered(output.message, 'error');
+  //           resolve(output);
+  //         }
+  //       );
+  //   });
 
-    return output;
-  }
+  //   return output;
+  // }
+
+  // public putAuth2(api: string, apiExtension: string = '', body: any) {
+  //   const user = JSON.parse(localStorage.getItem('userData'));
+
+  //   const headers = {
+  //     Accept: 'text/plain',
+  //     'Content-Type': 'application/json',
+  //     Authorization: 'Bearer ' + user.accessToken,
+  //   };
+
+  //   const output = new Promise((resolve) => {
+  //     this.http
+  //       .put(this.http.getAPI(api) + '/' + apiExtension, body, {
+  //         headers,
+  //         responseType: 'text',
+  //       })
+  //       .subscribe(
+  //         async (result: any) => {
+  //           var output = [];
+  //           output = JSON.parse(result);
+  //           if (output.Code == '200') {
+  //             this.swal.commonSwalCentered(output.Message, 'success');
+  //           }
+  //           if (output.errorCode == '401') {
+  //             this.swal.commonSwalCentered(output.Message, 'error');
+  //           }
+  //           resolve(output);
+  //         },
+  //         (error: HttpErrorResponse) => {
+  //           var output = [];
+  //           output = JSON.parse(error.error);
+
+  //           this.swal.commonSwalCentered(output.message, 'error');
+  //           resolve(output);
+  //         }
+  //       );
+  //   });
+
+  //   return output;
+  // }
+
 
   public postData(api: any = '', params: any) {
     const output = new Promise((resolve) => {
@@ -143,47 +182,6 @@ export class GlobalApi {
     });
   }
 
-  public putAuth2(api: string, apiExtension: string = '', body: any) {
-    const user = JSON.parse(localStorage.getItem('userData'));
-
-    const headers = {
-      Accept: 'text/plain',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + user.accessToken,
-    };
-
-    const output = new Promise((resolve) => {
-      this.http
-        .put(this.http.getAPI(api) + '/' + apiExtension, body, {
-          headers,
-          responseType: 'text',
-        })
-        .subscribe(
-          async (result: any) => {
-            var output = [];
-            output = JSON.parse(result);
-            if (output.Code == '200') {
-              this.swal.commonSwalCentered(output.Message, 'success');
-            }
-            if (output.errorCode == '401') {
-              this.swal.commonSwalCentered(output.Message, 'error');
-            }
-            resolve(output);
-          },
-          (error: HttpErrorResponse) => {
-            var output = [];
-            output = JSON.parse(error.error);
-
-            this.swal.commonSwalCentered(output.message, 'error');
-            resolve(output);
-          }
-        );
-    });
-
-    return output;
-  }
-
-
   public postAuth(
     model: string,
     dataApi: string = '',
@@ -202,7 +200,6 @@ export class GlobalApi {
       }
     );
   }
-
 
   public putAuth(
     model: string,
@@ -305,27 +302,27 @@ export class GlobalApi {
     return output;
   }
 
-  public getdatawithparameter(model: string, apitype: string, param: string) {
-    const output = new Promise((resolve) => {
-      this.http
-        .get(this.http.getAPI(model) + '/' + apitype + '?' + param, {
-          responseType: 'text',
-        })
-        .subscribe(
-          (result) => {
-            resolve(result);
-          },
-          (error: HttpErrorResponse) => {
-            this.swal.commonSwalCentered(
-              error.message,
-              'error'
-            );
-            resolve(error.ok);
-          }
-        );
-    });
-    return output;
-  }
+  // public getdatawithparameter(model: string, apitype: string, param: string) {
+  //   const output = new Promise((resolve) => {
+  //     this.http
+  //       .get(this.http.getAPI(model) + '/' + apitype + '?' + param, {
+  //         responseType: 'text',
+  //       })
+  //       .subscribe(
+  //         (result) => {
+  //           resolve(result);
+  //         },
+  //         (error: HttpErrorResponse) => {
+  //           this.swal.commonSwalCentered(
+  //             error.message,
+  //             'error'
+  //           );
+  //           resolve(error.ok);
+  //         }
+  //       );
+  //   });
+  //   return output;
+  // }
 
   public approved(model: string, id: number) {
     console.log(id);
@@ -404,7 +401,6 @@ export class GlobalApi {
     );
   }
   
-
   public deleted(model: string, id: number) {
     const body = { title: 'Angular PUT Request' };
     const headers = {

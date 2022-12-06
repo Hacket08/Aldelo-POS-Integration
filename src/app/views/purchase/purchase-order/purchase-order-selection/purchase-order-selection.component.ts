@@ -17,9 +17,7 @@ export class PurchaseOrderSelectionComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     let data: any;
     this.dataList = [];
-
-    data = (await this.globalservice.getAuthList('PurchaseOrder')) as any;
-    // data = (await this.purchaseorderservice.getApprovedList()) as any;
+    data = (await this.globalservice.getAuthList('PurchaseOrders/GetApprovedList')) as any;
     if (data !== false) {
       for (var a of data) {
         this.dataList.push(a);

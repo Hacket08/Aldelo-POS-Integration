@@ -85,17 +85,18 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     private headerdata: PurchaseOrder
   ) {
 
+    this.userInfo = this.user.getCurrentUser();
     this.headerForm = this.fb.group({
       purchaseorderid: '',
       suppliercode: '',
       suppliername: '',
-      branchcode: '',
-      branchname: '',
       docnum: '',
-      docdate: '',
       deldate: '',
-      owner: '',
-      docstatus: '',
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
+      docdate: this.datepipe.transform(this.postingdate, 'yyyy-MM-dd'),
+      owner: this.userInfo.fullName,
+      docstatus: 0,
     });
   }
 
@@ -103,7 +104,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     if (this.dataList.length <= 0) {
       await this.isAddEvent();
     } else {
-      await this.isEdit();
+      await this.isEditEvent();
     }
   }
 
@@ -112,6 +113,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.userInfo = this.user.getCurrentUser();
     this.userApprover = this.user.getCurrentUserApprover();
     const output = await this.globalservice.getMaxId('PurchaseOrders') as any;
+
     this.headerForm.patchValue({
       purchaseorderid: 0,
       docnum: output.value,
@@ -125,7 +127,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     console.log(this.headerForm);
   }
 
-  async isEdit() {
+  async isEditEvent() {
     for (var a of this.dataList as any) {
       this.docId = a.ins_PurchaseOrderID;
       this.userOwner = a.ins_CreatedBy;

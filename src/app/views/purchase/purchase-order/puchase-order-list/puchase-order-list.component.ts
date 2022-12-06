@@ -19,12 +19,14 @@ export class PuchaseOrderListComponent implements OnInit {
     let data: any;
     this.dataList = [];
     this.userInfo = this.user.getCurrentUser();
-    if (this.userInfo.securityLevel === "1") {
+    if (this.userInfo.securityLevel === '1') {
       data = (await this.globalservice.getAuthList('PurchaseOrders')) as any;
-    }
-    else
-    {
-      data = (await this.globalservice.getAuth('PurchaseOrders',"GetData", this.userInfo)) as any;
+    } else {
+      data = (await this.globalservice.getAuth(
+        'PurchaseOrders',
+        'GetData',
+        this.userInfo
+      )) as any;
     }
 
     if (data !== false) {
@@ -45,6 +47,14 @@ export class PuchaseOrderListComponent implements OnInit {
           case 3: // Reject
             val.ins_Badge = 'danger';
             val.ins_BadgeName = 'CLOSED';
+            break;
+          case -1: // cancelled
+            val.ins_Badge = 'danger';
+            val.ins_BadgeName = 'CANCELLED';
+            break;
+          case -2: // deleted
+            val.ins_Badge = 'danger';
+            val.ins_BadgeName = 'DELETED';
             break;
           default:
             break;

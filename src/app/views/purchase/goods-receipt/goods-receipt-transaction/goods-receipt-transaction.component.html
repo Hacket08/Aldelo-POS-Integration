@@ -265,7 +265,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let o of goodsreceiptdetails; let i = index">
+      <tr *ngFor="let o of itemdetails; let i = index">
         <td>{{ o.ins_ItemCode }}</td>
         <td>{{ o.ins_ItemDescription }}</td>
         <td>{{ o.ins_PurchaseUom }}</td>
@@ -306,33 +306,7 @@
   </div> -->
 </c-card>
 
-<c-modal
-  #itemEntry
-  id="itemEntry"
-  alignment="center"
-  backdrop="static"
-  size="lg"
->
-  <c-modal-body>
-    <app-items-data-selection
-      (selectionEvent)="selectEvent($event)"
-    ></app-items-data-selection>
-  </c-modal-body>
-</c-modal>
 
-<c-modal
-  #supplierEntry
-  id="supplierEntry"
-  alignment="center"
-  backdrop="static"
-  size="lg"
->
-  <c-modal-body>
-    <app-supplier-data-selection
-      (selectionEvent)="supplierSelected($event)"
-    ></app-supplier-data-selection>
-  </c-modal-body>
-</c-modal>
 
 <c-modal
   #purchaseOrderEntry
@@ -343,7 +317,7 @@
 >
   <c-modal-body>
     <app-purchase-order-selection
-      (selectionEvent)="purchaseorderSelected($event)"
+      (selectionEvent)="PurchaseOrderEvent($event)"
     ></app-purchase-order-selection>
   </c-modal-body>
 </c-modal>
