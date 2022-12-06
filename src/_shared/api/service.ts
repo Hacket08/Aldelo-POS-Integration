@@ -17,6 +17,11 @@ export class GlobalService {
     return output
   }
 
+  async getAuth(api: string, apiExtension: string = '', body: any) {
+    const output =  await this.globalapi.getAuthList(api, apiExtension, body) as any;
+    return output
+  }
+  
 
   async putData(api: string, apiExtension: string = '', body: any) {
     return await this.globalapi.put(api, apiExtension, body);
@@ -37,7 +42,9 @@ export class GlobalService {
   }
 
   async getMaxId(model: string) {
-    return await this.globalapi.getAuthData(model, 'GetMaxId');
+    return await new Promise((resolve) => {
+      resolve(this.globalapi.getAuthData(model, 'GetMaxId'));
+    });
   }
 
 

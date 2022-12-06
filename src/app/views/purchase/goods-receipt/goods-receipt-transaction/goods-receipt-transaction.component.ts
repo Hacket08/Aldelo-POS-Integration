@@ -241,7 +241,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     });
   }
 
-  itemSelected(e: Item) {
+  selectEvent(e: Item) {
     this.goodsreceiptlines = new GoodsReceiptDetails();
 
     this.goodsreceiptlines.ins_ItemCode = e.ins_ItemCode;

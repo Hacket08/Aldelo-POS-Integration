@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
             }
             if (result.errorCode == 401) {
                 localStorage.removeItem('userData');
+                localStorage.removeItem('userApprover');
                 this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
                 return false;
             }
@@ -27,6 +28,7 @@ export class AuthGuard implements CanActivate {
         }
 
         localStorage.removeItem('userData');
+        localStorage.removeItem('userApprover');
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
         return false;
     }

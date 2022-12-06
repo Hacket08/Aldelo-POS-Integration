@@ -315,7 +315,7 @@
 >
   <c-modal-body>
     <app-items-data-selection
-      (itemSelectionEvent)="itemSelected($event)"
+      (selectionEvent)="selectEvent($event)"
     ></app-items-data-selection>
   </c-modal-body>
 </c-modal>
@@ -329,7 +329,7 @@
 >
   <c-modal-body>
     <app-supplier-data-selection
-      (supplierSelectionEvent)="supplierSelected($event)"
+      (selectionEvent)="supplierSelected($event)"
     ></app-supplier-data-selection>
   </c-modal-body>
 </c-modal>
@@ -343,7 +343,7 @@
 >
   <c-modal-body>
     <app-purchase-order-selection
-      (purchaseorderSelectionEvent)="purchaseorderSelected($event)"
+      (selectionEvent)="purchaseorderSelected($event)"
     ></app-purchase-order-selection>
   </c-modal-body>
 </c-modal>

@@ -16,6 +16,16 @@ export class Users {
         return JSON.parse(localStorage.getItem('userData')!);
     }
 
+
+    public getCurrentUserApprover(): string {
+        const result = JSON.parse(localStorage.getItem('userApprover'));
+        let output = [];
+        for (var a of result as any) {
+            output.push(a.ins_EmailAddress);
+        }
+        return output.toString();
+    }
+
     public getUserName(): string {
         return this.getCurrentUser().userName;
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
-import { PurchaseOrderService } from '../../../../../_shared/purchase-order/purcahse-order.service';
+import { GlobalService } from 'src/_shared/api/service';
+import { Users } from '../../../../../_services/user.api';
 import { PurchaseOrder } from '../../../../../_model/purchase-order/purchase-order';
 
 @Component({
@@ -9,16 +9,24 @@ import { PurchaseOrder } from '../../../../../_model/purchase-order/purchase-ord
   styleUrls: ['./puchase-order-list.component.scss'],
 })
 export class PuchaseOrderListComponent implements OnInit {
-  @Output() purchaseOrderEvent = new EventEmitter();
-  purchaseorders: PurchaseOrder[] = [];
+  @Output() outputEvent = new EventEmitter();
+  dataList: PurchaseOrder[] = [];
+  userInfo: any;
 
-  constructor(public purchaseorderservice: PurchaseOrderService) {}
+  constructor(private globalservice: GlobalService, private user: Users) {}
 
   async ngOnInit(): Promise<void> {
     let data: any;
-    this.purchaseorders = [];
+    this.dataList = [];
+    this.userInfo = this.user.getCurrentUser();
+    if (this.userInfo.securityLevel === "1") {
+      data = (await this.globalservice.getAuthList('PurchaseOrders')) as any;
+    }
+    else
+    {
+      data = (await this.globalservice.getAuth('PurchaseOrders',"GetData", this.userInfo)) as any;
+    }
 
-    data = (await this.purchaseorderservice.getList()) as any;
     if (data !== false) {
       for (var val of data) {
         switch (val.ins_DocStatus) {
@@ -41,16 +49,16 @@ export class PuchaseOrderListComponent implements OnInit {
           default:
             break;
         }
-        this.purchaseorders.push(val);
+        this.dataList.push(val);
       }
     }
   }
 
   PassEvent() {
-    this.purchaseOrderEvent.emit();
+    this.outputEvent.emit();
   }
 
   async DataLoadEvent(e: any) {
-    await this.purchaseOrderEvent.emit(await e);
+    await this.outputEvent.emit(await e);
   }
 }

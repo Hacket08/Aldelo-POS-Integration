@@ -1,0 +1,2 @@
+<app-users-list (outputEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-users-list>
+<app-users-transaction [dataList]="parentData" (outputEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-users-transaction>

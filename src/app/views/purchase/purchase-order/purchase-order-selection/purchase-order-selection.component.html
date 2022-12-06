@@ -43,13 +43,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let o of purchaseorders">
+        <tr *ngFor="let o of dataList">
           <td>{{ o.ins_DocNum }}</td>
           <td>{{ o.ins_SupplierName }}</td>
           <td>{{ o.ins_DeliveryDate }}</td>
           <td>
             <button
-              (click)="purchaseOrderSelectEvent(o)"
+              (click)="selectEvent(o)"
               [cModalToggle]=""
               cButton
               color="info"

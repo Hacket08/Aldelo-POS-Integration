@@ -73,6 +73,9 @@ export class LoginComponent {
       if(output.length > 0)
       {
         localStorage.setItem("userData", JSON.stringify(result));
+        let approvers = (await this.globalservice.getAuthData("UserApprover", result.userId)) as any;
+        localStorage.setItem("userApprover", JSON.stringify(approvers));
+
         location.replace('/dashboard');
       }
 

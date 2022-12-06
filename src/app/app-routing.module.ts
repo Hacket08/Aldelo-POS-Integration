@@ -70,6 +70,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/settings/settings.module').then((m) => m.SettingsModule)
       },
+      {
+        path: 'administration',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/administration/administration.module').then((m) => m.AdministrationModule)
+      },
+
 
       
       {

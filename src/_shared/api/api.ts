@@ -242,6 +242,29 @@ export class GlobalApi {
     return output;
   }
 
+  public getAuthList(
+    model: string,
+    dataApi: string = '',
+    data: any,){
+    
+      const output = new Promise((resolve) => {
+        this.http.postAuth(this.http.getAPI(model) + "/" + dataApi, data).subscribe(
+          async (result: any) => {
+            resolve(result);
+          },
+          (error: HttpErrorResponse) => {
+            console.log('error', error);
+            this.swal.commonSwalCentered(
+              error.message,
+              'error'
+            );
+            resolve(error);
+          }
+        );
+      });
+      return output;
+  }
+
   public getAuthData(model: string, apitype: string) {
     const output = new Promise((resolve) => {
       this.http.getAuth(this.http.getAPI(model) + '/' + apitype).subscribe(
@@ -307,11 +330,7 @@ export class GlobalApi {
   public approved(model: string, id: number) {
     console.log(id);
     const body = { title: 'Angular PUT Request' };
-    const headers = {
-      accept: 'text/plain',
-      'Content-Type': 'application/json',
-    };
-    this.http.put(this.http.getAPI(model) + '/Status/1/' + id, body).subscribe(
+    this.http.putAuth(this.http.getAPI(model) + '/Status/1/' + id, body).subscribe(
       (result: any) => {
         if (result.Code == '200') {
           this.swal.commonSwalCentered(result.Message, 'success');
@@ -339,7 +358,60 @@ export class GlobalApi {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
-    this.http.put(this.http.getAPI(model) + '/Status/2/' + id, body).subscribe(
+    this.http.putAuth(this.http.getAPI(model) + '/Status/2/' + id, body).subscribe(
+      (result: any) => {
+        if (result.Code == '200') {
+          this.swal.commonSwalCentered(result.Message, 'success');
+        }
+        if (result.Code == '401') {
+          this.swal.commonSwalCentered(result.Message, 'error');
+        }
+        return result;
+      },
+      (error: HttpErrorResponse) => {
+        this.swal.commonSwalCentered(
+          error.message,
+          'error'
+        );
+        return error;
+      }
+    );
+  }
+
+  public cancelled(model: string, id: number) {
+    const body = { title: 'Angular PUT Request' };
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http.put(this.http.getAPI(model) + '/Status/-1/' + id, body).subscribe(
+      (result: any) => {
+        if (result.Code == '200') {
+          this.swal.commonSwalCentered(result.Message, 'success');
+        }
+        if (result.Code == '401') {
+          this.swal.commonSwalCentered(result.Message, 'error');
+        }
+        return result;
+      },
+      (error: HttpErrorResponse) => {
+        this.swal.commonSwalCentered(
+          error.message,
+          'error'
+        );
+        return error;
+      }
+    );
+  }
+  
+
+  public deleted(model: string, id: number) {
+    const body = { title: 'Angular PUT Request' };
+    const headers = {
+      accept: 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    this.http.put(this.http.getAPI(model) + '/Status/9/' + id, body).subscribe(
       (result: any) => {
         if (result.Code == '200') {
           this.swal.commonSwalCentered(result.Message, 'success');

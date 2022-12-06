@@ -48,6 +48,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   routeOut() {
     localStorage.removeItem('userData');
+    localStorage.removeItem('userApprover');
     location.replace('/login');
   }
 }

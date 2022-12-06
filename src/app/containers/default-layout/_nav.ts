@@ -125,9 +125,16 @@ export const navItems: INavData[] = [
     name: 'System Setup'
   },
   {
-    name: 'User',
-    url: '/settings/users',
-    iconComponent: { name: 'cil-user' }
+    name: 'Administration',
+    url: '/administration',
+    iconComponent: { name: 'cil-user' },
+    children: [
+      {
+        name: 'Users',
+        url: '/administration/users',
+      },
+    ],
+
   },
   {
     name: 'Configuration',

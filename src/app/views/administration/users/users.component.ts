@@ -3,21 +3,19 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { IconSetService } from '@coreui/icons-angular';
 import { brandSet, flagSet, freeSet } from '@coreui/icons';
-import { PurchaseOrderService } from '../../../../_shared/purchase-order/purcahse-order.service';
 
 @Component({
-  selector: 'app-purchase-order',
-  templateUrl: './purchase-order.component.html',
-  styleUrls: ['./purchase-order.component.scss'],
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
-export class PurchaseOrderComponent implements OnInit {
+export class UsersComponent implements OnInit {
   @Output() parentData: any[] = [];
+  isListViewHidden = true;
+  isTransactionViewHidden = true;
 
 
-  isListViewHidden = false;
-  isTransactionViewHidden = false;
-
-  constructor(public iconSet: IconSetService, public purchaseorderservice: PurchaseOrderService) {
+  constructor(public iconSet: IconSetService) {
     iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
   }
 

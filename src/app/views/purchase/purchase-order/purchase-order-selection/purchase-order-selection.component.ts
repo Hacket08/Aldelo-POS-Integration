@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
-import { PurchaseOrderService } from '../../../../../_shared/purchase-order/purcahse-order.service';
+import { GlobalService } from 'src/_shared/api/service';
 import { PurchaseOrder } from '../../../../../_model/purchase-order/purchase-order';
 
 @Component({
@@ -9,25 +8,26 @@ import { PurchaseOrder } from '../../../../../_model/purchase-order/purchase-ord
   styleUrls: ['./purchase-order-selection.component.scss'],
 })
 export class PurchaseOrderSelectionComponent implements OnInit {
-  @Output() purchaseorderSelectionEvent = new EventEmitter();
+  @Output() selectionEvent = new EventEmitter();
 
-  purchaseorders: PurchaseOrder[] = [];
+  dataList: PurchaseOrder[] = [];
 
-  constructor(public purchaseorderservice: PurchaseOrderService) {}
+  constructor(private globalservice: GlobalService) {}
 
   async ngOnInit(): Promise<void> {
     let data: any;
-    this.purchaseorders = [];
+    this.dataList = [];
 
-    data = (await this.purchaseorderservice.getApprovedList()) as any;
+    data = (await this.globalservice.getAuthList('PurchaseOrder')) as any;
+    // data = (await this.purchaseorderservice.getApprovedList()) as any;
     if (data !== false) {
       for (var a of data) {
-        this.purchaseorders.push(a);
+        this.dataList.push(a);
       }
     }
   }
 
-  purchaseOrderSelectEvent(e: any) {
-    this.purchaseorderSelectionEvent.emit(e);
+  selectEvent(e: any) {
+    this.selectionEvent.emit(e);
   }
 }

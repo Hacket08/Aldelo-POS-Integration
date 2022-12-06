@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
       if (res) {
         console.log('session expired');
         localStorage.removeItem('userData');
+        localStorage.removeItem('userApprover');
         this.router.navigate(['/login']);
       }
     });
