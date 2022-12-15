@@ -186,39 +186,44 @@ export class GlobalApi {
     model: string,
     dataApi: string = '',
     data: any,){
-    this.http.postAuth(this.http.getAPI(model) + "/" + dataApi, data).subscribe(
-      (result) => {
-        this.swal.commonSwalCentered('Data Succesfully Added', 'success');
-        return result;
-      },
-      (error) => {
-        this.swal.commonSwalCentered(
-          error.message,
-          'error'
-        );
-        return error;
-      }
-    );
+    const output = new Promise((resolve) => {
+      this.http.postAuth(this.http.getAPI(model) + "/" + dataApi, data).subscribe(
+        (result) => {
+          this.swal.commonSwalCentered('Data Succesfully Added', 'success');
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            error.message,
+            'error'
+          );
+          resolve(error.ok);
+        }
+      );
+    });
+    return output;
   }
 
   public putAuth(
     model: string,
     dataApi: string = '',
     data: any,){
-
-    this.http.putAuth(this.http.getAPI(model) + "/" + dataApi, data).subscribe(
-      (result) => {
-        this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
-        return result;
-      },
-      (error) => {
-        this.swal.commonSwalCentered(
-          error.message,
-          'error'
-        );
-        return error;
-      }
-    );
+    const output = new Promise((resolve) => {
+      this.http.putAuth(this.http.getAPI(model) + "/" + dataApi, data).subscribe(
+        (result) => {
+          this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            error.message,
+            'error'
+          );
+          resolve(error.ok);
+        }
+      );
+    });
+    return output;
   }
 
   public getAuth(api: string) {
@@ -327,52 +332,81 @@ export class GlobalApi {
   public approved(model: string, id: number) {
     console.log(id);
     const body = { title: 'Angular PUT Request' };
-    this.http.putAuth(this.http.getAPI(model) + '/Status/1/' + id, body).subscribe(
-      (result: any) => {
-        if (result.Code == '200') {
-          this.swal.commonSwalCentered(result.Message, 'success');
+    const output = new Promise((resolve) => {
+      this.http.putAuth(this.http.getAPI(model) + '/Status/1/' + id, body).subscribe(
+        (result) => {
+          if (result.Code == '200') {
+            this.swal.commonSwalCentered(result.Message, 'success');
+          }
+          if (result.errorCode == '401') {
+            this.swal.commonSwalCentered(result.Message, 'error');
+          }
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            error.message,
+            'error'
+          );
+          resolve(error.ok);
         }
+      );
+    });
+    return output;
 
-        if (result.errorCode == '401') {
-          this.swal.commonSwalCentered(result.Message, 'error');
-        }
-        return result;
-      },
-      (error: HttpErrorResponse) => {
-        console.log('error', error);
-        this.swal.commonSwalCentered(
-          error.message,
-          'error'
-        );
-        return error;
-      }
-    );
   }
 
   public rejected(model: string, id: number) {
+    console.log(id);
     const body = { title: 'Angular PUT Request' };
-    const headers = {
-      accept: 'text/plain',
-      'Content-Type': 'application/json',
-    };
-    this.http.putAuth(this.http.getAPI(model) + '/Status/2/' + id, body).subscribe(
-      (result: any) => {
-        if (result.Code == '200') {
-          this.swal.commonSwalCentered(result.Message, 'success');
+    const output = new Promise((resolve) => {
+      this.http.putAuth(this.http.getAPI(model) + '/Status/2/' + id, body).subscribe(
+        (result) => {
+          if (result.Code == '200') {
+            this.swal.commonSwalCentered(result.Message, 'success');
+          }
+          if (result.errorCode == '401') {
+            this.swal.commonSwalCentered(result.Message, 'error');
+          }
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            error.message,
+            'error'
+          );
+          resolve(error.ok);
         }
-        if (result.Code == '401') {
-          this.swal.commonSwalCentered(result.Message, 'error');
+      );
+    });
+    return output;
+  }
+
+
+  public statuschange(model: string, id: number, status: number) {
+    console.log(id);
+    const body = { title: 'Angular PUT Request' };
+    const output = new Promise((resolve) => {
+      this.http.putAuth(this.http.getAPI(model) + '/Status/' + status + '/' + id, body).subscribe(
+        (result) => {
+          if (result.Code == '200') {
+            this.swal.commonSwalCentered(result.Message, 'success');
+          }
+          if (result.errorCode == '401') {
+            this.swal.commonSwalCentered(result.Message, 'error');
+          }
+          resolve(result);
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            error.message,
+            'error'
+          );
+          resolve(error.ok);
         }
-        return result;
-      },
-      (error: HttpErrorResponse) => {
-        this.swal.commonSwalCentered(
-          error.message,
-          'error'
-        );
-        return error;
-      }
-    );
+      );
+    });
+    return output;
   }
 
   public cancelled(model: string, id: number) {
@@ -451,5 +485,31 @@ export class GlobalApi {
         return error;
       }
     );
+  }
+
+
+  
+  public createPO(id: number) {
+    const body = { title: 'Angular PUT Request' };
+    this.http.putAuth(this.http.getAPI('WeeklyOrder') + '/CreatePO/' + id, body)
+      .subscribe(
+        (result: any) => {
+          if (result.Code == "200") {
+            this.swal.commonSwalCentered(result.Message, 'success');
+          }
+          else
+          {
+            this.swal.commonSwalCentered(result.Message, 'error');
+          }
+          return result;
+        },
+        (error: HttpErrorResponse) => {
+          this.swal.commonSwalCentered(
+            'No Weekly Order Updated Transaction failed!.',
+            'error'
+          );
+          return error;
+        }
+      );
   }
 }

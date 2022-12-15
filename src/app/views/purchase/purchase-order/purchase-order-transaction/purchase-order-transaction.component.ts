@@ -42,14 +42,12 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   suppliers: any[] = [];
   supplier?: Supplier;
 
-
   // Header Data
   userInfo: any;
   userApprover: any;
   userOwner: any;
   docId: number;
   state = 'add';
-
 
   isHiddenPrinterBtn = false;
   isHiddenSave = false;
@@ -66,7 +64,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   isReadOnlyDeliveryDate = false;
   isHiddenRowQuantity = false;
 
-
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
   postingdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
@@ -75,8 +72,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     'yyyy-MM-dd'
   );
 
-
-
   constructor(
     private user: Users,
     private globalservice: GlobalService,
@@ -84,7 +79,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     private linedata: PurchaseOrderDetails,
     private headerdata: PurchaseOrder
   ) {
-
     this.userInfo = this.user.getCurrentUser();
     this.headerForm = this.fb.group({
       purchaseorderid: '',
@@ -111,8 +105,9 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   async isAddEvent() {
     this.formDefault();
     this.userInfo = this.user.getCurrentUser();
+    this.userOwner = this.userInfo.fullName;
     this.userApprover = this.user.getCurrentUserApprover();
-    const output = await this.globalservice.getMaxId('PurchaseOrders') as any;
+    const output = (await this.globalservice.getMaxId('PurchaseOrders')) as any;
 
     this.headerForm.patchValue({
       purchaseorderid: 0,
@@ -168,10 +163,10 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.linedata.ins_VatGroup = data.ins_VatGroup;
     this.linedata.ins_PurchasePackQuantity = data.ins_PurchasePackQuantity;
     this.linedata.ins_PurchasePackageUom = data.ins_PurchasePackageUom;
-    this.linedata.ins_BranchCode = this.userInfo.branchCode,
-    this.linedata.ins_BranchName = this.userInfo.branchName,
-    this.linedata.ins_CreatedBy = this.userInfo.fullName,
-    this.linedata.ins_InventoryUom = data.ins_InventoryUom;
+    (this.linedata.ins_BranchCode = this.userInfo.branchCode),
+      (this.linedata.ins_BranchName = this.userInfo.branchName),
+      (this.linedata.ins_CreatedBy = this.userInfo.fullName),
+      (this.linedata.ins_InventoryUom = data.ins_InventoryUom);
     this.linedata.ins_BalanceQuantity = 0;
     this.linedata.ins_Quantity = 0;
     this.linedata.ins_UnitCost = data.ins_PurchasePrice;
@@ -200,7 +195,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   async onSubmit() {
-    
     let approverlist = this.user.getCurrentUserApprover();
 
     this.headerdata.ins_Badge = '';
@@ -220,13 +214,16 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.headerdata.ins_PurchaseOrderDetails = this.itemdetails;
 
     if (this.state == 'add') {
-      await this.globalservice.postAuth( 'Purchaseorders', 'PostAsync', this.headerdata
+      await this.globalservice.postAuth(
+        'Purchaseorders',
+        'PostAsync',
+        this.headerdata
       );
     } else {
       this.globalservice.putAuth('Purchaseorders', '', this.headerdata);
     }
 
-    this.formPending();
+    this.onLoadForm(this.headerForm.value.docstatus);
   }
 
   deleteItem(i: any) {
@@ -239,42 +236,79 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       this.itemdetails[event.target.id].ins_PurchasePackQuantity;
     const _inventoryqty = _packageqty * _qty;
 
-    this.itemdetails[event.target.id].ins_Quantity =
-      event.target.value;
-    this.itemdetails[event.target.id].ins_InventoryQuantity =
-      _inventoryqty;
-    this.itemdetails[event.target.id].ins_BalanceQuantity =
-      event.target.value;
+    this.itemdetails[event.target.id].ins_Quantity = event.target.value;
+    this.itemdetails[event.target.id].ins_InventoryQuantity = _inventoryqty;
+    this.itemdetails[event.target.id].ins_BalanceQuantity = event.target.value;
   }
 
   async onApprove(id: number) {
-    let data = (await this.globalservice.docApproved(
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 1,
+      DocId: id,
+      RejectComment: '',
+    };
+    let data = await this.globalservice.putAuth(
       'PurchaseOrders',
-      id
-    )) as any;
+      'Status',
+      approvalData
+    );
+    this.onLoadForm(1);
 
-    this.formApproved();
+    // let data = (await this.globalservice.docApproved(
+    //   'PurchaseOrders',
+    //   id
+    // )) as any;
+
+    // this.formApproved();
   }
 
   async onReject(id: number) {
-    let data = (await this.globalservice.docRejected(
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 2,
+      DocId: id,
+      RejectComment: '',
+    };
+    let data = await this.globalservice.putAuth(
       'PurchaseOrders',
-      id
-    )) as any;
+      'Status',
+      approvalData
+    );
+    this.onLoadForm(2);
 
-    this.formRejected();
+    // let data = (await this.globalservice.docRejected(
+    //   'PurchaseOrders',
+    //   id
+    // )) as any;
+
+    // this.formRejected();
   }
 
   async onClose(id: number) {
-    let data = (await this.globalservice.docClosed(
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 3,
+      DocId: id,
+      RejectComment: '',
+    };
+    let data = await this.globalservice.putAuth(
       'PurchaseOrders',
-      id
-    )) as any;
+      'Status',
+      approvalData
+    );
+    this.onLoadForm(3);
+
+    // let data = (await this.globalservice.docClosed(
+    //   'PurchaseOrders',
+    //   id
+    // )) as any;
   }
 
-  async onCancel(id: number) {
-
-  }
+  async onCancel(id: number) {}
 
   onChangeData() {
     this.isHiddenPrinterBtn = true;
@@ -326,46 +360,64 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   formPending() {
+    this.userInfo = this.user.getCurrentUser();
+
     this.isHiddenPrinterBtn = false;
     this.isHiddenSave = true;
-
-    this.userInfo = this.user.getCurrentUser();
-    if (this.userOwner === this.userInfo.fullName) {
-      this.isHiddenApproveBtn = true;
-      this.isHiddenRejectBtn = true;
-      this.isHiddenCancelBtn = false;
-
-      
-      this.isHiddenRowQuantity = false;
-      this.isReadOnlyDeliveryDate = false;
-      this.isHiddenActionRow = false;
-    }
-    else
-    {
-      this.isHiddenCancelBtn = true;
-      this.isHiddenApproveBtn = false;
-      this.isHiddenRejectBtn = false;
-
-      
-      this.isHiddenRowQuantity = true;
-      this.isReadOnlyDeliveryDate = true;
-      this.isHiddenActionRow = true;
-    }
-
-    if (this.userInfo.securityLevel === "1") {
-      this.isHiddenCancelBtn = true;
-      this.isHiddenApproveBtn = false;
-      this.isHiddenRejectBtn = false;
-
-      
-      this.isHiddenRowQuantity = false;
-      this.isReadOnlyDeliveryDate = false;
-      this.isHiddenActionRow = false;
-    } 
-
+    this.isHiddenApproveBtn = false;
+    this.isHiddenRejectBtn = false;
+    this.isHiddenCancelBtn = true;
     this.isHiddenDiv = false;
     this.isHiddenDeleteBtn = true;
 
+    this.isHiddenRowQuantity = false;
+    this.isReadOnlyDeliveryDate = false;
+    this.isHiddenActionRow = false;
+
+    if (this.userInfo.securityLevel !== "1"){
+      if (this.userOwner === this.userInfo.fullName) {
+        this.isHiddenApproveBtn = true;
+        this.isHiddenRejectBtn = true;
+        this.isHiddenDiv = true;
+      }
+      else{
+        this.isHiddenRowQuantity = true;
+        this.isReadOnlyDeliveryDate = true;
+        this.isHiddenActionRow = true;
+        this.isHiddenAddItem = true;
+      }
+    }
+
+
+    // if (this.userOwner === this.userInfo.fullName) {
+    //   this.isHiddenApproveBtn = true;
+    //   this.isHiddenRejectBtn = true;
+    //   this.isHiddenCancelBtn = false;
+
+    //   this.isHiddenRowQuantity = false;
+    //   this.isReadOnlyDeliveryDate = false;
+    //   this.isHiddenActionRow = false;
+    // }
+    // else
+    // {
+    //   this.isHiddenCancelBtn = true;
+    //   this.isHiddenApproveBtn = false;
+    //   this.isHiddenRejectBtn = false;
+
+    //   this.isHiddenRowQuantity = true;
+    //   this.isReadOnlyDeliveryDate = true;
+    //   this.isHiddenActionRow = true;
+    // }
+
+    // if (this.userInfo.securityLevel === "1") {
+    //   this.isHiddenCancelBtn = true;
+    //   this.isHiddenApproveBtn = false;
+    //   this.isHiddenRejectBtn = false;
+
+    //   this.isHiddenRowQuantity = false;
+    //   this.isReadOnlyDeliveryDate = false;
+    //   this.isHiddenActionRow = false;
+    // }
 
     this.badge = 'warning';
     this.badgename = 'PENDING';

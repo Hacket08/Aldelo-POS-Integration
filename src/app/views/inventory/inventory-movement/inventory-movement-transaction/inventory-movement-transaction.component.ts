@@ -34,8 +34,12 @@ export class InventoryMovementTransactionComponent implements OnInit {
   headerForm!: FormGroup;
   isViewHidden = false;
   isEditHidden = false;
+
+  // Header Data
   userInfo: any;
-  isReadOnly = false;
+  userApprover: any;
+  userOwner: any;
+  docId: number;
   state = 'add';
 
   
@@ -68,27 +72,26 @@ export class InventoryMovementTransactionComponent implements OnInit {
   badge: string = 'warning';
   badgename: string = 'Pending';
 
-  docId: number;
   itemList: InventoryMovementLines[] = [];
 
   constructor(
     private fb: FormBuilder,
     private user: Users,
     private globalservice: GlobalService,
-
+    public swal: SwalService,
     private headerdata: InventoryMovement,
     private linedata: InventoryMovementLines
   ) {
     this.userInfo = this.user.getCurrentUser();
     this.headerForm = this.fb.group({
       inventorymovementid: 0,
-      branchcode: this.userInfo[0].ins_BranchCode,
-      branchname: this.userInfo[0].ins_BranchName,
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
       docnum: '',
       docdate: this.datepipe.transform(this.postingdate, 'yyyy-MM-dd'),
-      createdby: this.userInfo[0].ins_FullName,
+      createdby: this.userInfo.fullName,
       modifiedby: '',
-      owner: this.userInfo[0].ins_FullName,
+      owner: this.userInfo.fullName,
       docstatus: 0,
       remarks: '',
       movementtype: { value: '', disabled: this.isDisableType },
@@ -107,19 +110,27 @@ export class InventoryMovementTransactionComponent implements OnInit {
   async isAddEvent() {
 
     this.formDefault();
+    this.userInfo = this.user.getCurrentUser();
+    this.userOwner = this.userInfo.fullName;
+    this.userApprover = this.user.getCurrentUserApprover();
+    const output = await this.globalservice.getMaxId('InventoryMovement') as any;
 
-    const _docnum = await this.globalservice.getMaxId('InventoryMovement');
     this.headerForm.patchValue({
-      docnum: _docnum,
+      docnum: output.value,
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
+      owner: this.userInfo.fullName,
+      docstatus: this.userApprover.length > 0 ? 0 : 1,
+      approvedby: this.userApprover.length > 0 ? this.userInfo.fullName : '',
     });
   }
 
   async isEditEvent() {
     for (var a of this.dataList as any) {
+      this.userInfo = this.user.getCurrentUser();
       console.log("Sample", a);
+      this.userOwner = a.ins_CreatedBy;
       this.docId = a.ins_InventoryMovementID;
-      
-      this.onLoadForm(a.ins_DocStatus);
     
       this.headerForm = this.fb.group({
         inventorymovementid: a.ins_InventoryMovementID,
@@ -129,7 +140,7 @@ export class InventoryMovementTransactionComponent implements OnInit {
         docdate: this.datepipe.transform(a.ins_PostingDate, 'yyyy-MM-dd'),
 
         createdby: a.ins_CreatedBy,
-        modifiedby: this.userInfo[0].ins_FullName,
+        modifiedby:  this.userInfo.fullName,
         owner: a.ins_CreatedBy,
 
         docstatus: a.ins_DocStatus,
@@ -144,6 +155,8 @@ export class InventoryMovementTransactionComponent implements OnInit {
       for (var list of details) {
         this.itemList.push(list);
       }
+
+      this.onLoadForm(a.ins_DocStatus);
     }
 
   }
@@ -152,13 +165,17 @@ export class InventoryMovementTransactionComponent implements OnInit {
 
   itemSelected(e: Item) {}
 
-  eventAddRow(data: any) {
+  ItemEvent(data: any) {
+    this.userInfo = this.user.getCurrentUser();
     this.linedata = new InventoryMovementLines();
 
     this.linedata.ins_ItemCode = data.ins_ItemCode;
     this.linedata.ins_ItemDescription = data.ins_ItemName;
     this.linedata.ins_InventoryUom = data.ins_InventoryUom;
     this.linedata.ins_InventoryQuantity = 0;
+    this.linedata.ins_BranchCode = this.userInfo.branchCode,
+    this.linedata.ins_BranchName = this.userInfo.branchName,
+    this.linedata.ins_CreatedBy = this.userInfo.fullName,
 
     this.itemList.push(this.linedata);
 
@@ -167,6 +184,8 @@ export class InventoryMovementTransactionComponent implements OnInit {
   }
 
   async onSubmit() {
+    debugger;
+    let approverlist = this.user.getCurrentUserApprover();
     this.headerdata = new InventoryMovement();
 
     this.headerdata.ins_DocNum = this.headerForm.value.docnum;
@@ -177,10 +196,13 @@ export class InventoryMovementTransactionComponent implements OnInit {
     this.headerdata.ins_BranchName = this.headerForm.value.branchname;
     this.headerdata.ins_CreatedBy = this.headerForm.value.createdby;
     this.headerdata.ins_ModifiedBy = this.headerForm.value.modifiedby;
-
+    this.headerdata.ins_ApprovedBy = this.headerForm.value.approvedby;
+    
     this.headerdata.ins_MovementType = this.headerForm.value.movementcode.substring(3);
     this.headerdata.ins_MovementCode = this.headerForm.value.movementcode;
     this.headerdata.ins_Remarks = this.headerForm.value.remarks;
+    this.headerdata.ins_DocStatus = this.headerForm.value.docstatus;
+    this.headerdata.ins_ApproverEmailList = approverlist;
 
     let items = [];
     for (var item of this.itemList) {
@@ -197,20 +219,28 @@ export class InventoryMovementTransactionComponent implements OnInit {
     this.headerdata.ins_InventoryMovementLines = items;
     console.log(this.headerdata);
 
+    if (this.headerdata.ins_MovementType == "") {
+      this.swal.commonSwalCentered(
+        'Movement Type Not Defined',
+        'error'
+      );
+      return;
+    }
+
     if (this.state == 'add') {
-      await this.globalservice.postData(
+      await this.globalservice.postAuth(
         'InventoryMovement',
         'PostAsync',
         this.headerdata
       );
     } else {
-      this.globalservice.putData(
+      this.globalservice.putAuth(
         'InventoryMovement',
         '',
         this.headerdata
       );
     }
-    this.formPending();
+    this.onLoadForm(this.headerdata.ins_DocStatus);
   }
 
   deleteItem(i: any) {
@@ -227,19 +257,35 @@ export class InventoryMovementTransactionComponent implements OnInit {
   }
 
   async onApprove(id: number) {
-
-    console.log("id", id);
-    let data = (await this.globalservice.docApproved(
-      'InventoryMovement',
-      id
-    )) as any;
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 1,
+      DocId: id,
+      RejectComment: '',
+    };
+    let data = await this.globalservice.putAuth('InventoryMovement', 'Status', approvalData);
+    this.onLoadForm(1);
+    // let data = (await this.globalservice.docApproved(
+    //   'InventoryMovement',
+    //   id
+    // )) as any;
   }
 
   async onReject(id: number) {
-    let data = (await this.globalservice.docRejected(
-      'InventoryMovement',
-      id
-    )) as any;
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 2,
+      DocId: id,
+      RejectComment: 'Document is Rejected',
+    };
+    let data = await this.globalservice.putAuth('InventoryMovement', 'Status', approvalData);
+    this.onLoadForm(2);
+    // let data = (await this.globalservice.docRejected(
+    //   'InventoryMovement',
+    //   id
+    // )) as any;
   }
 
   onChangeData() {
@@ -293,17 +339,45 @@ export class InventoryMovementTransactionComponent implements OnInit {
   }
 
   formPending() {
+    this.userInfo = this.user.getCurrentUser();
+
     this.isHiddenPrinterBtn = false;
     this.isHiddenSave = true;
+
     this.isHiddenApproveBtn = false;
     this.isHiddenRejectBtn = false;
     this.isHiddenDiv = false;
+
     this.isHiddenDeleteBtn = true;
 
     this.isDisableType = false;
     this.isReadOnlyRemarks = false;
     this.isHiddenActionRow = false;
     this.isHiddenRowQuantity = false;
+
+    if (this.userInfo.securityLevel !== "1") {
+      if (this.userOwner !== this.userInfo.fullName) {
+        this.isHiddenApproveBtn = false;
+        this.isHiddenRejectBtn = false;
+        this.isHiddenDiv = false;
+  
+  
+        this.isDisableType = true;
+        this.isReadOnlyRemarks = true;
+        this.isHiddenActionRow = true;
+        this.isHiddenRowQuantity = true;
+
+        this.headerForm.get('movementtype').disable();
+        this.headerForm.get('movementcode').disable();
+      } else {
+        this.isHiddenApproveBtn = true;
+        this.isHiddenRejectBtn = true;
+        this.isHiddenDiv = true;
+
+        this.headerForm.get('movementtype').enable();
+        this.headerForm.get('movementcode').enable();
+      }
+    }
 
     this.badge = 'warning';
     this.badgename = 'PENDING';
@@ -324,6 +398,22 @@ export class InventoryMovementTransactionComponent implements OnInit {
     this.isHiddenActionRow = true;
     this.isHiddenRowQuantity = true;
 
+
+    if (this.userInfo.securityLevel !== "1") {
+      if (this.userOwner === this.userInfo.fullName) {
+        this.isHiddenApproveBtn = true;
+        this.isHiddenRejectBtn = true;
+        this.isHiddenDiv = true;
+
+        this.headerForm.get('movementtype').enable();
+        this.headerForm.get('movementcode').enable();
+      }
+    }
+
+
+
+    this.headerForm.get('movementtype').disable();
+    this.headerForm.get('movementcode').disable();
     this.badge = 'success';
     this.badgename = 'APPROVED';
   }
@@ -342,6 +432,9 @@ export class InventoryMovementTransactionComponent implements OnInit {
     this.isReadOnlyRemarks = true;
     this.isHiddenActionRow = true;
     this.isHiddenRowQuantity = true;
+
+    this.headerForm.get('movementtype').disable();
+    this.headerForm.get('movementcode').disable();
 
     this.badge = 'danger';
     this.badgename = 'REJECTED';

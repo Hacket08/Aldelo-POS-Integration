@@ -132,7 +132,7 @@ export class UsersTransactionComponent implements OnInit {
     }
   }
 
-  eventAddRow(data: any) {
+  UserEvent(data: any) {
     const userInfo = this.user.getCurrentUser();
     this.userapprover = new UserApprover();
 
@@ -175,6 +175,7 @@ export class UsersTransactionComponent implements OnInit {
       await this.globalservice.putAuth('UserAccount', '', this.headerdata);
     }
 
+    console.log(this.headerdata);
     this.formPending();
   }
 

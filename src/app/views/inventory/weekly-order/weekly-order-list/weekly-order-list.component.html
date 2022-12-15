@@ -80,7 +80,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let o of weeklyorder" style="padding: 0">
+        <tr *ngFor="let o of dataList" style="padding: 0">
           <th>{{ o.ins_DocNum }}</th>
           <td>{{ o.ins_BranchName }}</td>
           <td>{{ o.ins_OrderDate | date: "MM-dd-yyyy" }}</td>

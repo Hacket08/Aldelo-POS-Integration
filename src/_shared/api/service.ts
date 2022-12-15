@@ -53,7 +53,12 @@ export class GlobalService {
   async docApproved(model: string, id: number) {
     return await this.globalapi.approved(model, id);
   }
-
+  async docStatusChange(model: string, id: number, status: number) {
+    let result = await this.globalapi.statuschange(model, id, status);
+    console.log("result", result);
+    return result;
+  }
+  
   async docRejected(model: string, id: number) {
     return await this.globalapi.rejected(model, id);
   }
@@ -63,5 +68,15 @@ export class GlobalService {
   }
 
   async docDeleted(model: string) {}
+
+
+  async docCreatePO(id: number)
+  {
+    const sup = await this.globalapi.createPO(id as number);
+    return sup;
+  }
+
+
+  
 
 }
