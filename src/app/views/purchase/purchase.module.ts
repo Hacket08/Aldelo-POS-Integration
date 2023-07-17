@@ -50,6 +50,13 @@ import { GoodsReceiptListComponent } from './goods-receipt/goods-receipt-list/go
 import { GoodsReceiptTransactionComponent } from './goods-receipt/goods-receipt-transaction/goods-receipt-transaction.component';
 import { PurchaseOrderSelectionComponent } from './purchase-order/purchase-order-selection/purchase-order-selection.component';
 
+import { WidgetsModule } from '../widgets/widgets.module';
+import { PurchaseReportComponent } from './purchase-report/purchase-report.component';
+
+import { InvoiceComponent } from './invoice/invoice.component';
+import { InvoiceListComponent } from './invoice/invoice-list/invoice-list.component';
+import { InvoiceSelectionComponent } from './invoice/invoice-selection/invoice-selection.component';
+import { InvoiceTransactionComponent } from './invoice/invoice-transaction/invoice-transaction.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +68,11 @@ import { PurchaseOrderSelectionComponent } from './purchase-order/purchase-order
     GoodsReceiptListComponent,
     GoodsReceiptTransactionComponent,
     PurchaseOrderSelectionComponent,
+    PurchaseReportComponent,
+    InvoiceComponent,
+    InvoiceListComponent,
+    InvoiceSelectionComponent,
+    InvoiceTransactionComponent
     // ItemDataEntryComponent
   ],
   imports: [
@@ -84,6 +96,7 @@ import { PurchaseOrderSelectionComponent } from './purchase-order/purchase-order
     BadgeModule,
     ModalModule,
     MasterDataModule,
+    WidgetsModule
     // NgbDatepicker,
   ]
 })

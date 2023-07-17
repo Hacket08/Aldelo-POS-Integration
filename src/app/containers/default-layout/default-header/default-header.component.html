@@ -1,34 +1,33 @@
 <!--<c-header class="mb-4 d-print-none" position="sticky">-->
-  <ng-container>
-    <c-container [fluid]="true">
+<ng-container>
+  <c-container [fluid]="true">
+
       <button
         toggle="visible"
         cHeaderToggler
         [cSidebarToggle]="sidebarId"
         class="ps-1"
       >
-        <svg cIcon
-          name="cilMenu"
-          size="lg"
-        ></svg>
+        <svg cIcon name="cilMenu" size="lg"></svg>
       </button>
-      <c-header-nav class="d-none d-lg-flex me-auto">
-        <c-nav-item>
-          <a>
-            Hi, <span class="fw-bold"> {{ user_fullName }} </span>
-          </a>
-        </c-nav-item>
-  
-      </c-header-nav>
-  
-      <c-header-nav class="d-none d-lg-flex ms-auto">
-        <c-nav-item>
-          <a routerLink="./" cNavLink>
-            <svg cIcon name="cilBell" size="lg"></svg>
-          </a>
-        </c-nav-item>
-  
-        <!-- <c-nav-item>
+
+    <c-header-nav class="d-lg-flex me-auto">
+      <c-nav-item>
+        <a>
+          Hi,
+          <span class="fw-bold">{{ user_fullName }}</span>
+        </a>
+      </c-nav-item>
+    </c-header-nav>
+
+    <c-header-nav class="d-none d-lg-flex ms-auto">
+      <c-nav-item>
+        <a routerLink="./" cNavLink>
+          <svg cIcon name="cilBell" size="lg"></svg>
+        </a>
+      </c-nav-item>
+
+      <!-- <c-nav-item>
           <a routerLink="./" cNavLink>
             <svg cIcon name="cilList" size="lg"></svg>
           </a>
@@ -38,79 +37,70 @@
             <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
           </a>
         </c-nav-item> -->
-  
-      </c-header-nav>
-      <c-header-nav class="ms-3">
-        <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
-      </c-header-nav>
-  
-    </c-container>
-    <c-header-divider></c-header-divider>
-    <c-container [fluid]="true">
-      <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
-    </c-container>
-  </ng-container>
-  <!--</c-header>-->
-  
-  <!-- Side User Menu -->
-  <ng-template #userDropdown>
-    <c-dropdown alignment="end" variant="nav-item">
-      <button
-        cButton
-        color=""
-        [caret]="false"
-        cDropdownToggle
-        class="py-0"
-      >
-        <c-avatar
-          cTextColor="primary"
-          shape="rounded-1"
-          size="md"
-          src="./assets/img/avatars/8.jpg"
-          status="success"
-        >
-        </c-avatar>
-      </button>
-  
-      <ul cDropdownMenu class="pt-0 pr-5 w-auto">
-        <li>
-          <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
-        </li>
-        <li>
-          <a cDropdownItem>
-            <svg cIcon class="me-2" name="cilUser"></svg>
-            Profile
-          </a>
-        </li>
-        <li>
-          <a cDropdownItem>
-            <svg cIcon class="me-2" name="cilSettings"></svg>
-            Settings
-          </a>
-        </li>
-  
-        <li>
-          <hr cDropdownDivider/>
-        </li>
-  
-        <li>
-          <div *ngIf="user_role == 1">
-            <a [routerLink]="[]" (click)="logOut()" cDropdownItem>
-              <svg cIcon class="me-2" name="cilPlus"></svg>
-              Add New User
-            </a>
-          </div>
-  
-          <a cDropdownItem>
-            <svg cIcon class="me-2" name="cilLockLocked"></svg>
-            Lock Account
-          </a>
+    </c-header-nav>
+    <c-header-nav class="ms-3">
+      <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
+    </c-header-nav>
+  </c-container>
+  <c-header-divider></c-header-divider>
+  <c-container [fluid]="true">
+    <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
+  </c-container>
+</ng-container>
+<!--</c-header>-->
+
+<!-- Side User Menu -->
+<ng-template #userDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <button cButton color="" [caret]="false" cDropdownToggle class="py-0">
+      <c-avatar
+        cTextColor="primary"
+        shape="rounded-1"
+        size="md"
+        src="./assets/img/avatars/8.jpg"
+        status="success"
+      ></c-avatar>
+    </button>
+
+    <ul cDropdownMenu class="pt-0 pr-5 w-auto">
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
+      </li>
+      <!-- <li>
+        <a cDropdownItem>
+          <svg cIcon class="me-2" name="cilUser"></svg>
+          Profile
+        </a>
+      </li>
+      <li>
+        <a cDropdownItem>
+          <svg cIcon class="me-2" name="cilSettings"></svg>
+          Settings
+        </a>
+      </li> -->
+
+      <!-- <li>
+        <hr cDropdownDivider />
+      </li> -->
+
+      <li>
+        <!-- <div *ngIf="user_role == 1">
           <a [routerLink]="[]" (click)="logOut()" cDropdownItem>
-            <svg cIcon class="me-2" name="cilAccountLogout"></svg>
-            Logout
+            <svg cIcon class="me-2" name="cilPlus"></svg>
+            Add New User
           </a>
-        </li>
-      </ul>
-    </c-dropdown>
-  </ng-template>
-  <!-- Side User Menu -->
+        </div>
+
+        <a cDropdownItem>
+          <svg cIcon class="me-2" name="cilLockLocked"></svg>
+          Lock Account
+        </a> -->
+        <a [routerLink]="[]" (click)="logOut()" cDropdownItem>
+          <svg cIcon class="me-2" name="cilAccountLogout"></svg>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </c-dropdown>
+</ng-template>
+<!-- Side User Menu -->

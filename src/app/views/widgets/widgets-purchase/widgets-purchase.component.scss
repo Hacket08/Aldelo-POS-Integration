@@ -1,0 +1,32 @@
+.widgets-card {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.widgets-icons {
+    padding: 0.5rem 0rem 0rem 0.5rem;
+    position: absolute;
+    color: rgb(73, 72, 72, 0.3);
+    background-color: transparent;
+    border-width: 0;
+}
+
+.widgets-title {
+  padding: 0.5rem 0.5rem 0rem 0rem;
+  text-align: right;
+  font-weight: bolder;
+}
+
+.widgets-subtitle {
+  padding: 1rem 0.5rem 1.5rem 0rem;
+  text-align: right;
+  font-size: xx-large;
+  font-weight: bolder;
+  transform: scale(1, 2);
+}
+
+
+.card {
+  padding: 0;
+}
+

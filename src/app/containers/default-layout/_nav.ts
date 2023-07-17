@@ -51,8 +51,12 @@ export const navItems: INavData[] = [
         url: '/purchase/goods-receipt'
       },
       {
+        name: 'Invoice',
+        url: '/purchase/invoice'
+      },
+      {
         name: 'Report',
-        url: '/buttons/dropdowns'
+        url: '/purchase/purchase-report'
       },
 
     ]
@@ -64,7 +68,7 @@ export const navItems: INavData[] = [
     children: [
       {
         name: 'Inventory Monitoring',
-        url: '/buttons/dropdowns'
+        url: '/inventory/inventory-monitoring'
       },
       {
         name: 'Weekly Order Form',
@@ -79,23 +83,27 @@ export const navItems: INavData[] = [
         url: '/inventory/inventory-count'
       },
       {
+        name: 'Inventory Level Report',
+        url: '/inventory/inventory-level-report'
+      },
+      {
         name: 'Report',
-        url: '/buttons/dropdowns'
+        url: '/inventory/inventory-report'
       },
 
     ]
   },
-  {
-    name: 'Other Transaction',
-    url: '/buttons',
-    iconComponent: { name: 'cil-money' },
-    children: [
-      {
-        name: 'Expenses',
-        url: '/buttons/dropdowns'
-      },
-    ]
-  },
+  // {
+  //   name: 'Other Transaction',
+  //   url: '/buttons',
+  //   iconComponent: { name: 'cil-money' },
+  //   children: [
+  //     {
+  //       name: 'Expenses',
+  //       url: '/others/expenses'
+  //     },
+  //   ]
+  // },
   {
     name: 'Master Data',
     url: '/master-data',
@@ -107,16 +115,16 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Branch',
-        url: '/buttons/button-groups'
+        url: '/master-data/branch'
       },
       {
         name: 'Supplier',
         url: '/master-data/supplier'
       },
-      {
-        name: 'Customer',
-        url: '/buttons/dropdowns'
-      },
+      // {
+      //   name: 'Customer',
+      //   url: '/buttons/dropdowns'
+      // },
 
     ]
   },
@@ -125,8 +133,20 @@ export const navItems: INavData[] = [
     name: 'System Setup'
   },
   {
+    name: 'Administration',
+    url: '/administration',
+    iconComponent: { name: 'cil-user' },
+    children: [
+      {
+        name: 'Users',
+        url: '/administration/users',
+      },
+    ],
+
+  },
+  {
     name: 'Configuration',
-    url: '/theme/colors',
+    url: '/settings/configuration',
     iconComponent: { name: 'cil-settings' }
   },
 

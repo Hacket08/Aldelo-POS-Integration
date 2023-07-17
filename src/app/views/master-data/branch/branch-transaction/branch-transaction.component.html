@@ -1,0 +1,214 @@
+<form cForm [formGroup]="headerForm">
+    <c-card>
+      <c-row>
+        <c-col>
+          <div class="d-flex justify-content-start align-items-center">
+            <div style="padding-left: 0.5rem; padding-top: 0.25rem"> 
+              <c-form-check [switch]="true">
+                <input
+                  formControlName="inactive"
+                  cFormControl
+                  cFormCheckInput
+                  type="checkbox" (change)="onChangeData()"
+                />
+                <label style="font-size: 0.875rem" cFormCheckLabel >In Active</label>
+              </c-form-check>
+            </div>
+          </div>
+        </c-col>
+        <c-col>
+          <div class="d-flex justify-content-end">
+            <button cButton color="secondary" size="sm" >
+              <svg cIcon name="cil-print" size="sm"></svg>
+            </button>
+  
+            <button cButton color="success" size="sm" (click)="onSubmit()" style="margin-left: 0.25rem" [hidden]="isHiddenSave">
+              <svg cIcon name="cil-save" size="sm"></svg>
+              <strong> Save</strong>
+            </button>
+  
+            <c-dropdown variant="btn-group" style="margin-left: 0.25rem">
+              <button color="info" size="sm" cButton cDropdownToggle>
+                <strong>Action</strong>
+              </button>
+              <ul cDropdownMenu style="font-size:100%;">
+                <!-- <li>
+                  <button cDropdownItem (click)="onApprove(docId)" [hidden]="isHiddenApproveBtn"><svg cIcon name="cil-check" size="sm"></svg> Approve</button>
+                </li>
+                <li>
+                  <button cDropdownItem (click)="onReject(docId)" [hidden]="isHiddenRejectBtn"><svg cIcon name="cil-ban" size="sm"></svg> Reject</button>
+                </li>
+                <li>
+                  <hr cDropdownDivider [hidden]="isHiddenDiv">
+                </li> -->
+                <!-- <li>
+                  <button routerLink="./" cDropdownItem>Something else here</button>
+                </li> -->
+                <li>
+                  <button cDropdownItem [hidden]="isHiddenDeleteBtn"><svg cIcon name="cil-trash" size="sm"></svg> Delete</button>
+                </li>
+                <li>
+                  <button cDropdownItem (click)="onCancel()"><svg cIcon name="cil-exit-to-app" size="sm"></svg> Back To List</button>
+                </li>
+              </ul>
+            </c-dropdown>
+  
+            <!-- <button
+              cButton
+              (click)="onCancel()"
+              color="danger"
+              size="sm"
+              style="margin-left: 0.25rem"
+            >
+              <svg cIcon name="cil-exit-to-app" size="sm"></svg>
+              <strong></strong>
+            </button> -->
+          </div>
+        </c-col>
+      </c-row>
+    </c-card>
+  
+  
+    <c-card>
+      <c-row>
+        <c-col sm="6" xs="12">
+    
+          <!-- Branch Code -->
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cCol cLabel="col" for="branchcode" sizing="sm"
+                >Branch Code</label
+              >
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <input
+                  cFormControl
+                  formControlName="branchcode"
+                />
+              </c-input-group>
+            </c-col>
+          </c-row>
+
+          <!-- Branch Name -->
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cCol cLabel="col" for="branchname" sizing="sm"
+                >Branch Name</label
+              >
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <input
+                  cFormControl
+                  formControlName="branchname"
+                  (change)="onChangeData()"
+                />
+              </c-input-group>
+            </c-col>
+          </c-row>
+
+        </c-col>
+        <c-col sm="6" xs="12">
+
+          <!-- City -->
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cCol cLabel="col" for="city" sizing="sm"
+                >City</label
+              >
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <input
+                  cFormControl
+                  formControlName="city" (change)="onChangeData()"
+                />
+              </c-input-group>
+            </c-col>
+          </c-row>
+
+
+          <!-- Area -->
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cCol cLabel="col" for="area" sizing="sm"
+                >Area</label
+              >
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <input
+                  cFormControl
+                  formControlName="area" (change)="onChangeData()"
+                />
+              </c-input-group>
+            </c-col>
+          </c-row>
+  
+        </c-col>
+      </c-row>
+
+        <c-row class="mb-1">
+          <c-col xl="12">
+            <label cCol cLabel="col" for="address" sizing="sm">Address</label>
+          </c-col>
+          <c-col xl="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="address"  (change)="onChangeData()"/>
+            </c-input-group>
+          </c-col>
+        </c-row>
+    </c-card>
+
+    <c-card>
+      
+      <c-row class="mb-1">
+        <c-col xl="12">
+          <label cCol cLabel="col" for="registernumber" sizing="sm">Register Number</label>
+        </c-col>
+        <c-col xl="12">
+          <c-input-group sizing="sm">
+            <input cFormControl type="password" formControlName="registernumber"  (change)="onChangeData()" readonly/>
+          </c-input-group>
+        </c-col>
+      </c-row>
+      
+      <c-row class="mb-1">
+        <c-col xl="12">
+          <label cCol cLabel="col" for="activationnumber" sizing="sm">Activation Number</label>
+        </c-col>
+        <c-col xl="12">
+          <c-input-group sizing="sm">
+            <input cFormControl type="password"  formControlName="activationnumber"  (change)="onChangeData()" readonly/>
+          </c-input-group>
+        </c-col>
+      </c-row>
+      
+      <c-row class="mb-1">
+        <c-col xl="12">
+          <label cCol cLabel="col" for="hardwarekey" sizing="sm">Hardware Key</label>
+        </c-col>
+        <c-col xl="12">
+          <c-input-group sizing="sm">
+            <input cFormControl formControlName="hardwarekey"  (change)="onChangeData()" readonly/>
+          </c-input-group>
+        </c-col>
+      </c-row>
+    </c-card>
+
+    <c-card>
+        <!-- Remarks -->
+        <c-row class="mb-1">
+          <c-col xl="12">
+            <label cCol cLabel="col" for="remarks" sizing="sm">Remarks</label>
+          </c-col>
+          <c-col xl="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="remarks"  (change)="onChangeData()"/>
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-card>
+  </form>
+  

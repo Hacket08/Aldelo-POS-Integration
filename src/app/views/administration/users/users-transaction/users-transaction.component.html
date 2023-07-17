@@ -1,0 +1,374 @@
+<form cForm [formGroup]="headerForm">
+  <c-card>
+    <c-row>
+      <c-col>
+        <div class="d-flex justify-content-start align-items-center">
+          <div style="padding-left: 0.5rem; padding-top: 0.25rem;">
+            <c-form-check [switch]="true">
+              <input
+                formControlName="inactive"
+                cFormControl
+                cFormCheckInput
+                type="checkbox"
+                (change)="onChangeData()"
+              />
+              <label style="font-size: 0.875rem;" cFormCheckLabel>
+                In Active
+              </label>
+            </c-form-check>
+          </div>
+        </div>
+      </c-col>
+      <c-col>
+        <div class="d-flex justify-content-end">
+          <button cButton color="secondary" size="sm">
+            <svg cIcon name="cil-print" size="sm"></svg>
+          </button>
+
+          <button
+            cButton
+            color="success"
+            size="sm"
+            (click)="onSubmit()"
+            style="margin-left: 0.25rem;"
+            [hidden]="isHiddenSave"
+          >
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong>Save</strong>
+          </button>
+
+          <c-dropdown variant="btn-group" style="margin-left: 0.25rem;">
+            <button color="info" size="sm" cButton cDropdownToggle>
+              <strong>Action</strong>
+            </button>
+            <ul cDropdownMenu style="font-size: 100%;">
+              <li>
+                <button cDropdownItem [hidden]="isHiddenPermissionBtn">
+                  <svg cIcon name="cil-user" size="sm"></svg>
+                  Permission
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem [hidden]="isHiddenDeleteBtn">
+                  <svg cIcon name="cil-trash" size="sm"></svg>
+                  Delete
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="onCancel()">
+                  <svg cIcon name="cil-exit-to-app" size="sm"></svg>
+                  Back To List
+                </button>
+              </li>
+            </ul>
+          </c-dropdown>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+        <!-- First Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="firstname" sizing="sm">
+              First Name
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="firstname" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Middle Initial -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="middleinitial" sizing="sm">
+              Middle Initial
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="middleinitial"
+                (change)="onChangeData()"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Last Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="lastname" sizing="sm">
+              Last Name
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="lastname"
+                (change)="onChangeData()"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col sm="6" xs="12">
+        <!-- Security Level -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="securitylevel" sizing="sm">
+              Security Level
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <select
+                cSelect
+                formControlName="securitylevel"
+                (change)="onChangeData()"
+                sizing="sm"
+              >
+                <option value="0">Regular User</option>
+                <option value="1">Admin User</option>
+              </select>
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Email Address -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="emailaddress" sizing="sm">
+              Email Address
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="emailaddress"
+                (change)="onChangeData()"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+
+    <c-row class="mb-1">
+      <c-col xl="12">
+        <label cCol cLabel="col" for="fullname" sizing="sm">Full Name</label>
+      </c-col>
+      <c-col xl="12">
+        <c-input-group sizing="sm">
+          <input
+            cFormControl
+            formControlName="fullname"
+            (change)="onChangeData()"
+          />
+        </c-input-group>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col>
+        <div class="d-flex justify-content-start align-items-center">
+          <div style="padding-left: 0.5rem; padding-top: 0.25rem;">
+            <c-form-check [switch]="true">
+              <input
+                formControlName="useemail"
+                cFormControl
+                cFormCheckInput
+                type="checkbox"
+                (change)="onChangeData()"
+              />
+              <label style="font-size: 0.875rem;" cFormCheckLabel>
+                Use Email Address
+              </label>
+            </c-form-check>
+          </div>
+        </div>
+      </c-col>
+    </c-row>
+
+    <c-row>
+      <c-col sm="6" xs="12">
+        <!-- User Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="username" sizing="sm">
+              User Name
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="username" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+      <c-col sm="6" xs="12">
+        <!-- Password -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="password" sizing="sm">
+              Password
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                type="password"
+                cFormControl
+                formControlName="password"
+                (change)="onChangeData()"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Retry Password -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="retrypassword" sizing="sm">
+              Retry Password
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                type="password"
+                cFormControl
+                formControlName="retrypassword"
+                (change)="onChangeData()"
+              />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+        <!-- Branch Code -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="branchcode" sizing="sm">
+              Branch Code
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="branchcode" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col sm="6" xs="12">
+        <!-- Branch Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="branchname" sizing="sm">
+              Branch Name
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="branchname" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+    </c-row>
+  </c-card>
+  <c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+      <thead>
+        <tr>
+          <th scope="col">Full Name</th>
+          <th scope="col">Email Address</th>
+          <th scope="col">Approval Level</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of userapproverlist; let i = index">
+          <td>{{ o.ins_FullName }}</td>
+          <td>{{ o.ins_EmailAddress }}</td>
+          <td>
+            <c-input-group sizing="sm">
+              <select
+                cSelect
+                (change)="onchange($event)"
+                id="{{ i }}"
+                (change)="onChangeData()"
+                sizing="sm"
+                value="{{ o.ins_ApprovalLevel }}"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </select>
+            </c-input-group>
+          </td>
+          <td>
+            <button
+              cButton
+              (click)="deleteItem(i)"
+              color="danger"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem;"
+            >
+              <svg cIcon name="cil-ban" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <button
+        cButton
+        [cModalToggle]="userApprover.id"
+        color="success"
+        size="sm"
+      >
+        <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+        <strong>Add Item</strong>
+      </button>
+    </div>
+  </c-card>
+
+  <c-modal
+    #userApprover
+    alignment="center"
+    backdrop="static"
+    id="userApprover"
+    size="lg"
+  >
+    <c-modal-body>
+      <app-users-selection
+        (selectionEvent)="UserEvent($event)"
+      ></app-users-selection>
+    </c-modal-body>
+  </c-modal>
+</form>

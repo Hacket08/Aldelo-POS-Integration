@@ -5,7 +5,14 @@ import { SalesChartData, IChartProps } from './sales-chart-data';
 import { GlobalService } from 'src/_shared/api/service';
 import { GlobalApi } from 'src/_shared/api/api';
 import { MonthlySales } from 'src/_model/monthly-sales/monthly-sales';
-import { empty } from 'rxjs';
+// import { empty } from 'rxjs';
+
+import { Users } from '../../../../_services/user.api';
+import { DailySales } from '../../../../_model/daily-sales/daily-sales';
+
+import { NgZone } from '@angular/core';
+import { interval } from 'rxjs';
+
 
 @Component({
   selector: 'app-widgets-sales',
@@ -13,6 +20,9 @@ import { empty } from 'rxjs';
   styleUrls: ['./widgets-sales.component.scss'],
 })
 export class WidgetsSalesComponent implements OnInit {
+  dataList: DailySales[] = [];
+  userInfo: any;
+
   currentcount: number;
   prevcount: number;
   prevcountlastyear: number;
@@ -35,8 +45,11 @@ export class WidgetsSalesComponent implements OnInit {
 
   constructor(
     private chartsData: SalesChartData,
-    private globalservice: GlobalService
+    private globalservice: GlobalService,
+    private user: Users, private ngZone: NgZone
   ) {}
+
+
 
   public mainChart: IChartProps = {};
   public chart: Array<IChartProps> = [];
@@ -52,8 +65,17 @@ export class WidgetsSalesComponent implements OnInit {
 
   initCharts(): void {
     this.mainChart = this.chartsData.mainChart;
-    this.getMonthlySalesSummary('2022-05-13');
+    // this.getMonthlySalesSummary('2022-05-13');
     // window.location.reload();
+
+    this.getSalesData();
+    
+    interval(10000) // 10 seconds = 10,000 milliseconds
+    .subscribe(async () => {
+      this.ngZone.run(async () => {
+        await this.getSalesData();
+      });
+    });
   }
 
   setTrafficPeriod(value: string): void {
@@ -64,7 +86,7 @@ export class WidgetsSalesComponent implements OnInit {
 
   genDataList(date: string) {
     return new Promise((resolve) => {
-      const data = this.globalservice.getData(
+      const data = this.globalservice.getAuthData(
         'OrderHeaders',
         'GetMonthlySalesSummary/' + date
       );
@@ -150,4 +172,25 @@ export class WidgetsSalesComponent implements OnInit {
 
     });
   }
+
+
+  async getSalesData(): Promise<void>  {
+    let data: any;
+    this.dataList = [];
+    this.userInfo = this.user.getCurrentUser();
+    this.currentcount = 0;
+    this.prevcount = 0;
+    this.prevcountlastyear = 0;
+
+    this.dataList = (await this.globalservice.getAuthList('Sales/GetDailySalesPerDay')) as any;
+    // this.dailysales = data.ins_TotalAmount;
+    // console.log("GetDailySalesCountPerDay", this.dataList);
+    for (var a of this.dataList as any) {
+      this.currentcount = a.ins_TotalCount;
+      this.prevcountlastyear = a.ins_TotalCount;
+    }
+    // console.log("GetDailySalesCountPerDay", this.currentcount);
+  }
+
+
 }

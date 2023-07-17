@@ -3,3 +3,13 @@
     background-size: cover; 
     background-position: center;
 }
+
+
+
+
+.parent-grid{
+    display: grid;
+    place-items: center ;
+    margin: 10px;
+    border: 1px solid black;
+}

@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+// import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { IconSetService } from '@coreui/icons-angular';
 import { brandSet, flagSet, freeSet } from '@coreui/icons';
 
@@ -10,12 +12,13 @@ import { WeeklyOrderService } from '../../../../_shared/weekly-order/weekly-orde
   styleUrls: ['./weekly-order.component.scss']
 })
 export class WeeklyOrderComponent implements OnInit {
-  @Output() weeklyOrderParentData: any[] = [];
+  @Output() parentData: any[] = [];
 
-  isListViewHidden = true;
-  isTransactionViewHidden = true;
 
-  constructor(public iconSet: IconSetService, public weeklyorderservice: WeeklyOrderService) {
+  isListViewHidden = false;
+  isTransactionViewHidden = false;
+
+  constructor(public iconSet: IconSetService) {
     iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
   }
 
@@ -25,10 +28,10 @@ export class WeeklyOrderComponent implements OnInit {
   }
 
   async eventNewTransaction(a: any) {
-    this.weeklyOrderParentData = [];
+    this.parentData = [];
 
     if (a !== undefined) {
-      this.weeklyOrderParentData.push(a as any);
+      this.parentData.push(a as any);
     }
     
     this.isListViewHidden = false;

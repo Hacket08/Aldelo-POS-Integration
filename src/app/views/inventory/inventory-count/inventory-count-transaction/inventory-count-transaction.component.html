@@ -42,16 +42,16 @@
                   (click)="onApprove(docId)"
                   [hidden]="isHiddenApproveBtn"
                 >
-                  <svg cIcon name="cil-check" size="sm"></svg> Approve
+                  <svg cIcon name="cil-check" size="sm"></svg> Confirm Beggining Inventory
                 </button>
               </li>
               <li>
                 <button
                   cDropdownItem
-                  (click)="onClose(docId)"
+                  (click)="onConfirmEnding(docId)"
                   [hidden]="isHiddenConfirmBtn"
                 >
-                  <svg cIcon name="cil-check" size="sm"></svg> Confirm
+                  <svg cIcon name="cil-check" size="sm"></svg> Confirm Ending Inventory
                 </button>
               </li>
               <li>
@@ -164,11 +164,11 @@
         <!-- Created By -->
         <c-row class="mb-1">
           <c-col xl="4" lg="4" md="12">
-            <label cCol cLabel="col" for="createdby" sizing="sm">Created By</label>
+            <label cCol cLabel="col" for="owner" sizing="sm">Created By</label>
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="createdby" readonly="true" />
+              <input cFormControl formControlName="owner" readonly="true" />
             </c-input-group>
           </c-col>
         </c-row>
@@ -213,6 +213,7 @@
                   <th scope="col">Item Name</th>
                   <th scope="col">Unit</th>
                   <th scope="col" [hidden]="isHiddenBegQty">Beggining Quantity</th>
+                  <th scope="col" [hidden]="isHiddenBeg2Qty">Beggining Quantity</th>
                   <th scope="col" [hidden]="isHiddenEndQty">Ending Quantity</th>
                   <th scope="col" [hidden]="isHiddenEnd2Qty">Ending Quantity</th>
                 </tr>
@@ -221,6 +222,7 @@
                 <tr *ngFor="let item of o.ins_Items; let x = index">
                   <td>{{ item.ins_ItemDescription }}</td>
                   <td>{{ item.ins_InventoryUom }}</td>
+                  <td [hidden]="isHiddenBeg2Qty">{{ item.ins_BegCount }}</td>
                   <td [hidden]="isHiddenBegQty">
                     <input
                       value="{{ item.ins_BegCount }}"

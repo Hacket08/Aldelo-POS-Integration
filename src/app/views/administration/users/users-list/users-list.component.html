@@ -1,0 +1,81 @@
+<c-card>
+  <div class="d-flex justify-content-end">
+    <button (click)="PassEvent()" cButton color="success" size="sm">
+      <strong>Create New Transaction</strong>
+    </button>
+  </div>
+</c-card>
+
+
+<c-card>
+    <c-row>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="User Name"
+            cFormControl
+            placeholder="User Name"
+          />
+        </c-input-group>
+
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Full Name"
+            cFormControl
+            placeholder="Full Name"
+          />
+        </c-input-group>
+
+      </c-col>
+
+      <c-col lg="4" md="6" xs="12">
+        
+        <c-input-group class="mb-1" sizing="sm">
+            <input
+              aria-describedby="button-addon2"
+              aria-label="Email Address"
+              cFormControl
+              placeholder="Email Address"
+            />
+          </c-input-group>
+      </c-col>
+      <c-col lg="4" md="6" xs="12"></c-col>
+    </c-row>
+  </c-card>
+
+<c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+      <thead>
+        <tr>
+          <th scope="col">User ID</th>
+          <th scope="col">Fullname</th>
+          <th scope="col">Email Address</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of dataList" style="padding: 0;">
+          <th>{{ o.ins_UserID }}</th>
+          <td>{{ o.ins_FullName }}</td>
+          <td>{{ o.ins_EmailAddress }}</td>
+          <td>
+            <c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge>
+          </td>
+          <td>
+            <button
+              (click)="DataLoadEvent(o)"
+              cButton
+              color="info"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem;"
+            >
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card>

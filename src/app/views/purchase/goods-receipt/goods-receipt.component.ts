@@ -9,12 +9,13 @@ import { GoodsReceiptService } from '../../../../_shared/goods-receipt/goods-rec
   styleUrls: ['./goods-receipt.component.scss']
 })
 export class GoodsReceiptComponent implements OnInit {
-  @Output() goodsReceiptParentData: any[] = [];
+  @Output() parentData: any[] = [];
 
-  isListViewHidden = true;
-  isTransactionViewHidden = true;
 
-  constructor(public iconSet: IconSetService, public goodsreceiptservice: GoodsReceiptService) {
+  isListViewHidden = false;
+  isTransactionViewHidden = false;
+
+  constructor(public iconSet: IconSetService) {
     iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
   }
 
@@ -24,14 +25,12 @@ export class GoodsReceiptComponent implements OnInit {
   }
 
   async eventNewTransaction(a: any) {
-    this.goodsReceiptParentData = [];
+    this.parentData = [];
 
     if (a !== undefined) {
-      const data = await this.goodsreceiptservice.getDetails(a.ins_DocNum);
-      for (var val of data as any) {
-        this.goodsReceiptParentData.push(val as any);
-      }
+      this.parentData.push(a as any);
     }
+    
     this.isListViewHidden = false;
     this.isTransactionViewHidden = true;
   }

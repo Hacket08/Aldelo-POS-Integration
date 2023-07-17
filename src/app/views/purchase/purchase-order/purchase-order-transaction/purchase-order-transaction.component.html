@@ -32,7 +32,10 @@
                 <button cDropdownItem (click)="onApprove(docId)" [hidden]="isHiddenApproveBtn"><svg cIcon name="cil-check" size="sm"></svg> Approve</button>
               </li>
               <li>
-                <button cDropdownItem (click)="onReject(docId)" [hidden]="isHiddenRejectBtn"><svg cIcon name="cil-ban" size="sm"></svg> Reject</button>
+                <button cDropdownItem (click)="onReject(docId)" [hidden]="isHiddenRejectBtn"><svg cIcon name="cil-x" size="sm"></svg> Reject</button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="onCancel(docId)" [hidden]="isHiddenCancelBtn"><svg cIcon name="cil-ban" size="sm"></svg> Cancel</button>
               </li>
               <li>
                 <hr cDropdownDivider [hidden]="isHiddenDiv">
@@ -218,7 +221,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let o of purchaseorderdetails; let i = index">
+      <tr *ngFor="let o of itemdetails; let i = index">
         <td>{{ o.ins_ItemCode }}</td>
         <td>{{ o.ins_ItemDescription }}</td>
         <td>{{ o.ins_PurchaseUom }}</td>
@@ -270,7 +273,7 @@
 >
   <c-modal-body>
     <app-items-data-selection
-      (itemSelectionEvent)="eventAddRow($event)"
+      (selectionEvent)="ItemEvent($event)"
     ></app-items-data-selection>
   </c-modal-body>
 </c-modal>
@@ -284,7 +287,7 @@
 >
   <c-modal-body>
     <app-supplier-data-selection
-      (supplierSelectionEvent)="supplierSelected($event)"
+      (selectionEvent)="SupplierEvent($event)"
     ></app-supplier-data-selection>
   </c-modal-body>
 </c-modal>

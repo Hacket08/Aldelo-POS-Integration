@@ -40,7 +40,7 @@ export class SalesChartData {
     this.mainChart['Data1'] = [];
     this.mainChart['Data2'] = [];
     this.mainChart['Data3'] = [];
-    this.getMonthlySales('2022-05-13');
+    // this.getMonthlySales('2022-05-13');
 
     const brandSuccess = getStyle('--cui-info') ?? '#20a8d8';
     const brandInfo = getStyle('--cui-success') ?? '#4dbd74';
@@ -307,7 +307,7 @@ export class SalesChartData {
 
   genDataList(date: string) {
     return new Promise((resolve) => {
-      const data = this.globalservice.getData(
+      const data = this.globalservice.getAuthData(
         'OrderHeaders',
         'GetDailySalesPerMonth/' + date
       );

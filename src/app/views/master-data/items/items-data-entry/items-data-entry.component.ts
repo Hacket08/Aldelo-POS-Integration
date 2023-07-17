@@ -7,6 +7,7 @@ import { ApiHttpService } from '../../../../../_services/api-http.service';
 // load item shared files
 import { Item } from 'src/_model/item/item';
 import { ItemApi } from '../../../../../_shared/items/item.api';
+import { GlobalService } from 'src/_shared/api/service';
 
 @Component({
   selector: 'app-items-data-entry',
@@ -27,8 +28,11 @@ export class ItemsDataEntryComponent implements OnInit {
     public swal: SwalService,
     public http: ApiHttpService,
     public item: Item,
-    public itemapi: ItemApi
+    public itemapi: ItemApi,
+    private globalservice: GlobalService,
   ) {
+    
+    
     this.simpleForm = this.fb.group({
       itemcode: [],
       itemname: [],
@@ -67,6 +71,8 @@ export class ItemsDataEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    console.log(this.itemData)
     for (var a of this.itemData as any) {
       this.simpleForm.reset();
       this.simpleForm.setValue({
@@ -111,6 +117,8 @@ export class ItemsDataEntryComponent implements OnInit {
   }
 
   async loadData(a: any) {
+    
+    
     this.simpleForm.setValue({
       itemcode: a.ins_ItemCode,
       itemname: a.ins_Itemname,
@@ -149,14 +157,17 @@ export class ItemsDataEntryComponent implements OnInit {
   }
 
   PassEvent() {
+    
     this.itemDataEvent.emit();
   }
 
   get f() {
+    
     return this.simpleForm.controls;
   }
 
-  onSubmit() {
+  async onSubmit() {
+    
     this.item.ins_ItemCode = this.simpleForm.value.itemcode;
     this.item.ins_ItemName = this.simpleForm.value.itemname;
     this.item.ins_FrgnName = this.simpleForm.value.frgnname;
@@ -192,15 +203,26 @@ export class ItemsDataEntryComponent implements OnInit {
     this.item.ins_PurchasePrice = this.simpleForm.value.purchaseprice;
     this.item.ins_InActive = this.simpleForm.value.inactive === true ? 1 : 0;
 
+    console.log(this.item);
     if (this.checkActionAdd() == true) {
-      this.itemapi.post_item(this.item);
+      await this.globalservice.postAuth(
+        'Item',
+        'PostAsync',
+        this.item
+      );
     } else {
-      this.itemapi.put_item(this.item);
+
+      await this.globalservice.postAuth(
+        'Item',
+        'PutAsync',
+        this.item
+      );
     }
     this.itemDataEvent.emit();
   }
 
   checkActionAdd() {
+    
     if (this.itemData.length > 0) {
       return false;
     } else {

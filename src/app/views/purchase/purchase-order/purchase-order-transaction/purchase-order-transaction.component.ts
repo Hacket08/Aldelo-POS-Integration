@@ -15,17 +15,9 @@ import {
 } from '@angular/forms';
 import { SwalService } from '../../../../../_services/swal-service';
 import { GlobalService } from 'src/_shared/api/service';
-import { GlobalApi } from 'src/_shared/api/api';
-
-import { ItemService } from '../../../../../_shared/items/item.service';
-import { SupplierService } from '../../../../../_shared/supplier/supplier.service';
-import { PurchaseOrderService } from '../../../../../_shared/purchase-order/purcahse-order.service';
-
-import { Item } from '../../../../../_model/item/item';
 import { Supplier } from '../../../../../_model/supplier/supplier';
 
 import { Users } from '../../../../../_services/user.api';
-import { PurchaseOrderApi } from '../../../../../_shared/purchase-order/purchase-order.api';
 import { PurchaseOrder } from 'src/_model/purchase-order/purchase-order';
 import { PurchaseOrderDetails } from 'src/_model/purchase-order/purchase-order-details';
 
@@ -40,10 +32,23 @@ class POItem {
   styleUrls: ['./purchase-order-transaction.component.scss'],
 })
 export class PurchaseOrderTransactionComponent implements OnInit {
-  @Output() purchaseOrderEvent = new EventEmitter();
-  @Input() purchaseData: PurchaseOrder[] = [];
+  @Input() dataList: PurchaseOrder[] = [];
+  @Output() outputEvent = new EventEmitter();
+  headerForm!: FormGroup;
+  itemdetails: PurchaseOrderDetails[] = [];
+  badge: string = 'warning';
+  badgename: string = 'Pending';
+
+  suppliers: any[] = [];
+  supplier?: Supplier;
 
   // Header Data
+  userInfo: any;
+  userApprover: any;
+  userOwner: any;
+  docId: number;
+  state = 'add';
+
   isHiddenPrinterBtn = false;
   isHiddenSave = false;
   isHiddenAction = false;
@@ -52,16 +57,12 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   isHiddenAddItem = false;
   isHiddenApproveBtn = false;
   isHiddenRejectBtn = false;
+  isHiddenCancelBtn = false;
   isHiddenDiv = false;
   isHiddenDeleteBtn = false;
 
   isReadOnlyDeliveryDate = false;
-
-  // Row Data
   isHiddenRowQuantity = false;
-
-  state = 'add';
-  docId: number;
 
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
@@ -70,61 +71,61 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.date.setDate(this.date.getDate() + 3),
     'yyyy-MM-dd'
   );
-  headerForm!: FormGroup;
-
-  purchaseorderdetails: PurchaseOrderDetails[] = [];
-
-  suppliers: any[] = [];
-
-  supplier?: Supplier;
-
-  badge: string = 'warning';
-  badgename: string = 'Pending';
 
   constructor(
-    public user: Users,
+    private user: Users,
     private globalservice: GlobalService,
-    public swal: SwalService,
     private fb: FormBuilder,
-    private purchaseorderitem: PurchaseOrderDetails,
-    private purchaseorder: PurchaseOrder
+    private linedata: PurchaseOrderDetails,
+    private headerdata: PurchaseOrder
   ) {
+    this.userInfo = this.user.getCurrentUser();
     this.headerForm = this.fb.group({
       purchaseorderid: '',
       suppliercode: '',
       suppliername: '',
-      branchcode: '',
-      branchname: '',
       docnum: '',
-      docdate: '',
       deldate: '',
-      owner: '',
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
+      docdate: this.datepipe.transform(this.postingdate, 'yyyy-MM-dd'),
+      owner: this.userInfo.fullName,
+      docstatus: 0,
     });
   }
 
   async ngOnInit(): Promise<void> {
-    if (this.purchaseData.length <= 0) {
+    if (this.dataList.length <= 0) {
       await this.isAddEvent();
     } else {
-      await this.isEdit();
+      await this.isEditEvent();
     }
   }
 
   async isAddEvent() {
     this.formDefault();
+    this.userInfo = this.user.getCurrentUser();
+    this.userOwner = this.userInfo.fullName;
+    this.userApprover = this.user.getCurrentUserApprover();
+    const output = (await this.globalservice.getMaxId('PurchaseOrders')) as any;
 
-    const _docnum = await this.globalservice.getMaxId('PurchaseOrders');
     this.headerForm.patchValue({
       purchaseorderid: 0,
-      docnum: _docnum,
+      docnum: output.value,
       docdate: this.postingdate,
       deldate: this.deliverydate,
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
+      owner: this.userInfo.fullName,
+      docstatus: this.userApprover.length > 0 ? 0 : 1,
     });
+    console.log(this.headerForm);
   }
 
-  async isEdit() {
-    for (var a of this.purchaseData as any) {
+  async isEditEvent() {
+    for (var a of this.dataList as any) {
       this.docId = a.ins_PurchaseOrderID;
+      this.userOwner = a.ins_CreatedBy;
 
       this.onLoadForm(a.ins_DocStatus);
 
@@ -138,51 +139,52 @@ export class PurchaseOrderTransactionComponent implements OnInit {
         docdate: this.datepipe.transform(a.ins_PostingDate, 'yyyy-MM-dd'),
         deldate: this.datepipe.transform(a.ins_DeliveryDate, 'yyyy-MM-dd'),
         owner: a.ins_CreatedBy,
+        docstatus: a.ins_DocStatus,
       });
 
-      this.purchaseorderdetails.length = 0;
+      this.itemdetails.length = 0;
       for (var list of a.ins_PurchaseOrderDetails) {
-        this.purchaseorderdetails.push(list);
+        this.itemdetails.push(list);
       }
     }
   }
 
   PassEvent() {
-    this.purchaseOrderEvent.emit();
+    this.outputEvent.emit();
   }
 
-  eventAddRow(data: any) {
-    const userInfo = this.user.getCurrentUser();
-    this.purchaseorderitem = new PurchaseOrderDetails();
+  ItemEvent(data: any) {
+    this.userInfo = this.user.getCurrentUser();
 
-    this.purchaseorderitem.ins_ItemCode = data.ins_ItemCode;
-    this.purchaseorderitem.ins_ItemDescription = data.ins_ItemName;
-    this.purchaseorderitem.ins_PurchaseUom = data.ins_PurchaseUom;
-    this.purchaseorderitem.ins_VatGroup = data.ins_VatGroup;
-    this.purchaseorderitem.ins_PurchasePackQuantity = data.ins_PurchasePackQuantity;
-    this.purchaseorderitem.ins_PurchasePackageUom = data.ins_PurchasePackageUom;
-    this.purchaseorderitem.ins_BranchCode = userInfo[0].ins_BranchCode;
-    this.purchaseorderitem.ins_BranchName = userInfo[0].ins_BranchName;
-    this.purchaseorderitem.ins_CreatedBy = userInfo[0].ins_FullName;
-    this.purchaseorderitem.ins_InventoryUom = data.ins_InventoryUom;
-    this.purchaseorderitem.ins_BalanceQuantity = 0;
-    this.purchaseorderitem.ins_Quantity = 0;
-    this.purchaseorderitem.ins_UnitCost = data.ins_PurchasePrice;
+    this.linedata = new PurchaseOrderDetails();
+    this.linedata.ins_ItemCode = data.ins_ItemCode;
+    this.linedata.ins_ItemDescription = data.ins_ItemName;
+    this.linedata.ins_PurchaseUom = data.ins_PurchaseUom;
+    this.linedata.ins_VatGroup = data.ins_VatGroup;
+    this.linedata.ins_PurchasePackQuantity = data.ins_PurchasePackQuantity;
+    this.linedata.ins_PurchasePackageUom = data.ins_PurchasePackageUom;
+    (this.linedata.ins_BranchCode = this.userInfo.branchCode),
+      (this.linedata.ins_BranchName = this.userInfo.branchName),
+      (this.linedata.ins_CreatedBy = this.userInfo.fullName),
+      (this.linedata.ins_InventoryUom = data.ins_InventoryUom);
+    this.linedata.ins_BalanceQuantity = 0;
+    this.linedata.ins_Quantity = 0;
+    this.linedata.ins_UnitCost = data.ins_PurchasePrice;
 
-    this.purchaseorderdetails.push(this.purchaseorderitem);
+    this.itemdetails.push(this.linedata);
   }
 
-  supplierSelected(data: Supplier) {
+  SupplierEvent(data: Supplier) {
     this.suppliers.length = 0;
-    const userInfo = this.user.getCurrentUser();
+    this.userInfo = this.user.getCurrentUser();
     this.supplier = data;
 
     this.headerForm.patchValue({
       suppliercode: this.supplier.ins_SupplierCode,
       suppliername: this.supplier.ins_SupplierName,
-      branchcode: userInfo[0].ins_BranchCode,
-      branchname: userInfo[0].ins_BranchName,
-      owner: userInfo[0].ins_FullName,
+      // branchcode: this.userInfo.branchCode,
+      // branchname: this.userInfo.branchName,
+      // owner: this.userInfo.fullName,
     });
   }
 
@@ -193,84 +195,120 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   async onSubmit() {
-    this.purchaseorder.ins_Badge = '';
-    this.purchaseorder.ins_BadgeName = '';
+    let approverlist = this.user.getCurrentUserApprover();
 
-    this.purchaseorder.ins_PurchaseOrderID =
-      this.headerForm.value.purchaseorderid;
-    this.purchaseorder.ins_SupplierCode = this.headerForm.value.suppliercode;
-    this.purchaseorder.ins_SupplierName = this.headerForm.value.suppliername;
-    this.purchaseorder.ins_BranchCode = this.headerForm.value.branchcode;
-    this.purchaseorder.ins_BranchName = this.headerForm.value.branchname;
-    this.purchaseorder.ins_DocNum = this.headerForm.value.docnum;
-    this.purchaseorder.ins_PostingDate = this.headerForm.value.docdate;
-    this.purchaseorder.ins_DeliveryDate = this.headerForm.value.deldate;
-    this.purchaseorder.ins_CreatedBy = this.headerForm.value.owner;
+    this.headerdata.ins_Badge = '';
+    this.headerdata.ins_BadgeName = '';
 
-    this.purchaseorder.ins_PurchaseOrderDetails = this.purchaseorderdetails;
+    this.headerdata.ins_PurchaseOrderID = this.headerForm.value.purchaseorderid;
+    this.headerdata.ins_SupplierCode = this.headerForm.value.suppliercode;
+    this.headerdata.ins_SupplierName = this.headerForm.value.suppliername;
+    this.headerdata.ins_BranchCode = this.headerForm.value.branchcode;
+    this.headerdata.ins_BranchName = this.headerForm.value.branchname;
+    this.headerdata.ins_DocNum = this.headerForm.value.docnum;
+    this.headerdata.ins_PostingDate = this.headerForm.value.docdate;
+    this.headerdata.ins_DeliveryDate = this.headerForm.value.deldate;
+    this.headerdata.ins_CreatedBy = this.headerForm.value.owner;
+    this.headerdata.ins_DocStatus = this.headerForm.value.docstatus;
+    this.headerdata.ins_ApproverEmailList = approverlist;
+    this.headerdata.ins_PurchaseOrderDetails = this.itemdetails;
 
     if (this.state == 'add') {
-      // this.purchaseorderapi.post_PurchaseOrder(this.purchaseorder, 'PostAsync');
-      let output = await this.globalservice.postData(
+      await this.globalservice.postAuth(
         'Purchaseorders',
         'PostAsync',
-        this.purchaseorder
+        this.headerdata
       );
-      console.log('output1', output);
-      this.docId = output.DocId;
     } else {
-      await this.globalservice.putData(
-        'Purchaseorders',
-        '',
-        this.purchaseorder
-      );
+      this.globalservice.postAuth('Purchaseorders', 'PutAsync', this.headerdata);
     }
 
-    this.formPending();
+    this.onLoadForm(this.headerForm.value.docstatus);
   }
 
   deleteItem(i: any) {
-    this.purchaseorderdetails.splice(i, 1);
+    this.itemdetails.splice(i, 1);
   }
 
   onchange(event: any) {
     const _qty = event.target.value;
     const _packageqty =
-      this.purchaseorderdetails[event.target.id].ins_PurchasePackQuantity;
+      this.itemdetails[event.target.id].ins_PurchasePackQuantity;
     const _inventoryqty = _packageqty * _qty;
 
-    this.purchaseorderdetails[event.target.id].ins_Quantity =
-      event.target.value;
-    this.purchaseorderdetails[event.target.id].ins_InventoryQuantity =
-      _inventoryqty;
-    this.purchaseorderdetails[event.target.id].ins_BalanceQuantity =
-      event.target.value;
+    this.itemdetails[event.target.id].ins_Quantity = event.target.value;
+    this.itemdetails[event.target.id].ins_InventoryQuantity = _inventoryqty;
+    this.itemdetails[event.target.id].ins_BalanceQuantity = event.target.value;
   }
 
   async onApprove(id: number) {
-    let data = (await this.globalservice.docApproved(
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 1,
+      DocId: id,
+      RejectComment: '',
+    };
+    let data = await this.globalservice.postAuth(
       'PurchaseOrders',
-      id
-    )) as any;
+      'Status',
+      approvalData
+    );
+    this.onLoadForm(1);
 
-    this.formApproved();
+    // let data = (await this.globalservice.docApproved(
+    //   'PurchaseOrders',
+    //   id
+    // )) as any;
+
+    // this.formApproved();
   }
 
   async onReject(id: number) {
-    let data = (await this.globalservice.docRejected(
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 2,
+      DocId: id,
+      RejectComment: '',
+    };
+    let data = await this.globalservice.postAuth(
       'PurchaseOrders',
-      id
-    )) as any;
+      'Status',
+      approvalData
+    );
+    this.onLoadForm(2);
 
-    this.formRejected();
+    // let data = (await this.globalservice.docRejected(
+    //   'PurchaseOrders',
+    //   id
+    // )) as any;
+
+    // this.formRejected();
   }
 
   async onClose(id: number) {
-    let data = (await this.globalservice.docClosed(
+    this.userInfo = this.user.getCurrentUser();
+    const approvalData = {
+      ApproverEmail: this.userInfo.emailAddress,
+      Status: 3,
+      DocId: id,
+      RejectComment: '',
+    };
+    let data = await this.globalservice.postAuth(
       'PurchaseOrders',
-      id
-    )) as any;
+      'Status',
+      approvalData
+    );
+    this.onLoadForm(3);
+
+    // let data = (await this.globalservice.docClosed(
+    //   'PurchaseOrders',
+    //   id
+    // )) as any;
   }
+
+  async onCancel(id: number) {}
 
   onChangeData() {
     this.isHiddenPrinterBtn = true;
@@ -310,6 +348,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.isHiddenSave = false;
     this.isHiddenApproveBtn = true;
     this.isHiddenRejectBtn = true;
+    this.isHiddenCancelBtn = true;
     this.isHiddenDiv = true;
     this.isHiddenDeleteBtn = true;
 
@@ -321,15 +360,64 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   formPending() {
+    this.userInfo = this.user.getCurrentUser();
+
     this.isHiddenPrinterBtn = false;
     this.isHiddenSave = true;
     this.isHiddenApproveBtn = false;
     this.isHiddenRejectBtn = false;
+    this.isHiddenCancelBtn = true;
     this.isHiddenDiv = false;
     this.isHiddenDeleteBtn = true;
 
     this.isHiddenRowQuantity = false;
     this.isReadOnlyDeliveryDate = false;
+    this.isHiddenActionRow = false;
+
+    if (this.userInfo.securityLevel !== "1"){
+      if (this.userOwner === this.userInfo.fullName) {
+        this.isHiddenApproveBtn = true;
+        this.isHiddenRejectBtn = true;
+        this.isHiddenDiv = true;
+      }
+      else{
+        this.isHiddenRowQuantity = true;
+        this.isReadOnlyDeliveryDate = true;
+        this.isHiddenActionRow = true;
+        this.isHiddenAddItem = true;
+      }
+    }
+
+
+    // if (this.userOwner === this.userInfo.fullName) {
+    //   this.isHiddenApproveBtn = true;
+    //   this.isHiddenRejectBtn = true;
+    //   this.isHiddenCancelBtn = false;
+
+    //   this.isHiddenRowQuantity = false;
+    //   this.isReadOnlyDeliveryDate = false;
+    //   this.isHiddenActionRow = false;
+    // }
+    // else
+    // {
+    //   this.isHiddenCancelBtn = true;
+    //   this.isHiddenApproveBtn = false;
+    //   this.isHiddenRejectBtn = false;
+
+    //   this.isHiddenRowQuantity = true;
+    //   this.isReadOnlyDeliveryDate = true;
+    //   this.isHiddenActionRow = true;
+    // }
+
+    // if (this.userInfo.securityLevel === "1") {
+    //   this.isHiddenCancelBtn = true;
+    //   this.isHiddenApproveBtn = false;
+    //   this.isHiddenRejectBtn = false;
+
+    //   this.isHiddenRowQuantity = false;
+    //   this.isReadOnlyDeliveryDate = false;
+    //   this.isHiddenActionRow = false;
+    // }
 
     this.badge = 'warning';
     this.badgename = 'PENDING';
@@ -339,10 +427,12 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.isHiddenSave = true;
     this.isHiddenAction = true;
     this.isHiddenActionRow = true;
+
     this.isHiddenAddItem = true;
     this.isHiddenApproveBtn = true;
 
     this.isHiddenRejectBtn = false;
+    this.isHiddenCancelBtn = true;
     this.isHiddenDiv = false;
     this.isHiddenDeleteBtn = true;
 
@@ -361,6 +451,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.isHiddenApproveBtn = true;
 
     this.isHiddenRejectBtn = true;
+    this.isHiddenCancelBtn = true;
     this.isHiddenDiv = true;
     this.isHiddenDeleteBtn = true;
 

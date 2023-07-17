@@ -1,7 +1,7 @@
-<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+<div class="parent-grid min-vh-100"> 
   <c-container>
     <c-row class="justify-content-center">
-      <c-col md="8">
+      <c-col md="12" xl="8">
         <c-card-group>
           <c-card class="p-8">
             <c-card-body>
@@ -56,14 +56,14 @@
                 
                 <c-row>
 
-                  <c-col class="mt-2" xs="8">
+                  <c-col class="mt-2" xs="8" xl="8">
                     <c-form-check>
                       <input cFormCheckInput id="checkOne" type="checkbox" />
                       <label cFormCheckLabel for="checkOne">Remember Me</label>
                     </c-form-check>
                   </c-col>
 
-                  <c-col xs="4">
+                  <c-col xs="4"  xl="4" class="d-flex flex-row-reverse">
                     <button cButton class="px-4" color="primary" type="submit" 
                       [disabled]="simpleForm.pristine || simpleForm.invalid" 
                       [tabindex]="'0'"
@@ -83,20 +83,12 @@
                     </button>
                   </c-col>
                 </c-row>
-                  
-                <!-- <c-row>
-                  <c-col class="text-left" xs="12">
-                    <button type="submit" cButton class="px-0" color="link" routerLink="/register">
-                      Create a New Account
-                    </button>
-                  </c-col>
-                </c-row> -->
 
               </form>
             </c-card-body>
           </c-card>
 
-          <c-card [ngStyle]="{'width.%': 44}" id="login_card_back"
+          <c-card [ngStyle]="{'width.%': 100}" id="login_card_back"
             class="text-white bg-primary py-5"
           >
             <c-card-body class="text-center">
@@ -110,3 +102,4 @@
     </c-row>
   </c-container>
 </div>
+

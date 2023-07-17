@@ -28,7 +28,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
     ,public iconSet: IconSetService) {
     super();
     iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
+    
     this.user_fullName = this.user.getUserFullName();
+    // console.log("this.user_fullName", this.user_fullName);
     this.user_role = this.user.getUserRole();
   }
   
@@ -46,6 +48,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   routeOut() {
     localStorage.removeItem('userData');
+    localStorage.removeItem('userApprover');
     location.replace('/login');
   }
 }

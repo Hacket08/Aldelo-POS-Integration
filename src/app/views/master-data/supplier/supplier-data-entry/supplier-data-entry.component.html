@@ -1,109 +1,173 @@
-<form
-  cForm
-  [formGroup]="simpleForm"
-  novalidate
-  (ngSubmit)="onSubmit()"
-  class="needs-validation"
->
+<form cForm [formGroup]="headerForm">
   <c-card>
     <c-row>
-      <!-- <c-col>
+      <c-col>
         <div class="d-flex justify-content-start align-items-center">
-          <span class="dot warning"></span>
-          <div
-            class="d-flex align-items-center"
-            style="margin-top: 0.25rem; margin-left: 1rem"
-          >
+          <div style="padding-left: 0.5rem; padding-top: 0.25rem;">
+            <c-form-check [switch]="true">
+              <input
+                formControlName="inactive"
+                cFormControl
+                cFormCheckInput
+                type="checkbox"
+              />
+              <label style="font-size: 0.875rem;" cFormCheckLabel>
+                In Active
+              </label>
+            </c-form-check>
           </div>
         </div>
-      </c-col> -->
-
-      <c-col>
-        <c-row style="margin-left: 1rem; margin-top: 0.5rem;" class="mb-1">
-          <c-form-check [switch]="true">
-            <input 
-              formControlName="inactive"
-              cFormControl
-              cFormCheckInput
-              type="checkbox"
-            />
-            <label style="font-size: 0.875rem;" cFormCheckLabel>In Active</label>
-          </c-form-check>
-        </c-row>
       </c-col>
-
       <c-col>
-        <div style="text-align: right">
-          <!-- <button (click)="PassEvent()" cButton color="success" size="sm"> -->
-          <button cButton color="success" size="sm" type="submit" >
-            <svg cIcon name="cil-save" size="sm"></svg>
-            <strong> Save</strong>
+        <div class="d-flex justify-content-end">
+          <button cButton color="secondary" size="sm">
+            <svg cIcon name="cil-print" size="sm"></svg>
           </button>
-          <button cButton (click)="PassEvent()"  color="danger" size="sm" style="margin-left: 0.25rem;" >
+
+          <button
+            cButton
+            color="success"
+            size="sm"
+            (click)="onSubmit()"
+            style="margin-left: 0.25rem;"
+            [hidden]="isHiddenSave"
+          >
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong>Save</strong>
+          </button>
+
+          <c-dropdown variant="btn-group" style="margin-left: 0.25rem;">
+            <button color="info" size="sm" cButton cDropdownToggle>
+              <strong>Action</strong>
+            </button>
+            <ul cDropdownMenu style="font-size: 100%;">
+              <!-- <li>
+                <button cDropdownItem (click)="onApprove(docId)" [hidden]="isHiddenApproveBtn"><svg cIcon name="cil-check" size="sm"></svg> Approve</button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="onReject(docId)" [hidden]="isHiddenRejectBtn"><svg cIcon name="cil-ban" size="sm"></svg> Reject</button>
+              </li>
+              <li>
+                <hr cDropdownDivider [hidden]="isHiddenDiv">
+              </li> -->
+              <!-- <li>
+                <button routerLink="./" cDropdownItem>Something else here</button>
+              </li> -->
+              <li>
+                <button cDropdownItem [hidden]="isHiddenDeleteBtn">
+                  <svg cIcon name="cil-trash" size="sm"></svg>
+                  Delete
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="onCancel()">
+                  <svg cIcon name="cil-exit-to-app" size="sm"></svg>
+                  Back To List
+                </button>
+              </li>
+            </ul>
+          </c-dropdown>
+
+          <!-- <button
+            cButton
+            (click)="onCancel()"
+            color="danger"
+            size="sm"
+            style="margin-left: 0.25rem"
+          >
             <svg cIcon name="cil-exit-to-app" size="sm"></svg>
             <strong></strong>
-          </button>
+          </button> -->
         </div>
       </c-col>
-      
     </c-row>
   </c-card>
 
   <c-card>
     <c-row>
       <c-col lg="6" md="6" xs="12">
+        <!-- Supplier Code -->
         <c-row class="mb-1">
-          <label [sm]="3" cCol cLabel="col" for="supplierCode" sizing="sm"
-            >Supplier Code</label
-          >
-          <c-col [sm]="9">
-            <input formControlName="supplierCode" cFormControl id="supplierCode" sizing="sm" type="text"/>
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="suppliercode" sizing="sm">
+              Supplier Code
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="suppliercode" />
+            </c-input-group>
           </c-col>
         </c-row>
 
+        <!-- Supplier Name -->
         <c-row class="mb-1">
-          <label [sm]="3" cCol cLabel="col" for="supplierName" sizing="sm"
-            >Supplier Name</label
-          >
-          <c-col [sm]="9">
-            <input formControlName="supplierName" cFormControl id="supplierName" sizing="sm" type="text" />
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="suppliername" sizing="sm">
+              Supplier Name
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="suppliername" />
+            </c-input-group>
           </c-col>
         </c-row>
       </c-col>
       <c-col lg="6" md="6" xs="12">
+        <!-- Contact Person -->
         <c-row class="mb-1">
-          <label [sm]="3" cCol cLabel="col" for="contactPerson" sizing="sm"
-            >Contact Person</label
-          >
-          <c-col [sm]="9">
-            <input formControlName="contactPerson"  cFormControl id="contactPerson" sizing="sm" type="text" />
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="contactperson" sizing="sm">
+              Contact Person
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="contactperson" />
+            </c-input-group>
           </c-col>
         </c-row>
 
+        <!-- Position -->
         <c-row class="mb-1">
-          <label [sm]="3" cCol cLabel="col" for="position" sizing="sm"
-            >Position</label
-          >
-          <c-col [sm]="9">
-            <input formControlName="position"  cFormControl id="position" sizing="sm" type="text" />
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="position" sizing="sm">
+              Position
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="position" />
+            </c-input-group>
           </c-col>
         </c-row>
 
+        <!-- Phone -->
         <c-row class="mb-1">
-          <label [sm]="3" cCol cLabel="col" for="phone" sizing="sm"
-            >Phone</label
-          >
-          <c-col [sm]="9">
-            <input formControlName="phone" cFormControl id="phone" sizing="sm" type="text" />
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="phone" sizing="sm">
+              Phone
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="phone" />
+            </c-input-group>
           </c-col>
         </c-row>
 
+        <!-- Email Address -->
         <c-row class="mb-1">
-          <label [sm]="3" cCol cLabel="col" for="emailAddress" sizing="sm"
-            >Email Address</label
-          >
-          <c-col [sm]="9">
-            <input formControlName="emailAddress" cFormControl id="emailAddress" sizing="sm" type="email" />
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="emailaddress" sizing="sm">
+              Email Address
+            </label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="emailaddress" />
+            </c-input-group>
           </c-col>
         </c-row>
       </c-col>
@@ -114,29 +178,47 @@
     <c-row>
       <c-col lg="12" md="12" xs="12">
         <c-row class="mb-1">
-          <label [sm]="2" cCol cLabel="col" for="address1" sizing="sm"
-            >Address 1</label
-          >
+          <label [sm]="2" cCol cLabel="col" for="address1" sizing="sm">
+            Address 1
+          </label>
           <c-col [sm]="10">
-            <input formControlName="address1" cFormControl id="address1" sizing="sm" type="text" />
+            <input
+              formControlName="address1"
+              cFormControl
+              id="address1"
+              sizing="sm"
+              type="text"
+            />
           </c-col>
         </c-row>
 
         <c-row class="mb-1">
-          <label [sm]="2" cCol cLabel="col" for="address2" sizing="sm"
-            >Address 2</label
-          >
+          <label [sm]="2" cCol cLabel="col" for="address2" sizing="sm">
+            Address 2
+          </label>
           <c-col [sm]="10">
-            <input formControlName="address2" cFormControl id="address2" sizing="sm" type="text" />
+            <input
+              formControlName="address2"
+              cFormControl
+              id="address2"
+              sizing="sm"
+              type="text"
+            />
           </c-col>
         </c-row>
 
         <c-row class="mb-1">
-          <label [sm]="2" cCol cLabel="col" for="address3" sizing="sm"
-            >Address 3</label
-          >
+          <label [sm]="2" cCol cLabel="col" for="address3" sizing="sm">
+            Address 3
+          </label>
           <c-col [sm]="10">
-            <input formControlName="address3" cFormControl id="address3" sizing="sm" type="text" />
+            <input
+              formControlName="address3"
+              cFormControl
+              id="address3"
+              sizing="sm"
+              type="text"
+            />
           </c-col>
         </c-row>
       </c-col>

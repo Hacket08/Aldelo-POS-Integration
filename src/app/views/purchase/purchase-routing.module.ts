@@ -5,7 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component'
 import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component'
+import { PurchaseReportComponent } from './purchase-report/purchase-report.component'
 
+import { InvoiceComponent } from './invoice/invoice.component'
 
 const routes: Routes = [
   {
@@ -37,6 +39,20 @@ const routes: Routes = [
         component: GoodsReceiptComponent,
         data: {
           title: 'Goods Receipt',
+        },
+      },
+      {
+        path: 'invoice',
+        component: InvoiceComponent,
+        data: {
+          title: 'Invoice',
+        },
+      },
+      {
+        path: 'purchase-report',
+        component: PurchaseReportComponent,
+        data: {
+          title: 'Report',
         },
       }
     ],

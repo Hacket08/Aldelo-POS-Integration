@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ItemsComponent } from './items/items.component';
 import { SupplierComponent } from './supplier/supplier.component';
+import { BranchComponent } from './branch/branch.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,13 @@ const routes: Routes = [
         component: ItemsComponent,
         data: {
           title: 'Items',
+        },
+      },
+      {
+        path: 'branch',
+        component: BranchComponent,
+        data: {
+          title: 'Branch',
         },
       },
       {

@@ -1,0 +1,4 @@
+
+
+<app-invoice-list  (outputEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-invoice-list>
+<app-invoice-transaction  [dataList]="parentData" (outputEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-invoice-transaction>

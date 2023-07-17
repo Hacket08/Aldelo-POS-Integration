@@ -1,14 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SwalService } from '../../../../../_services/swal-service';
-import { ApiHttpService } from '../../../../../_services/api-http.service';
-
 import {
-  Supplier,
-  SupplierList,
-} from '../../../../../_model/supplier/supplier';
-import { SupplierApi } from '../../../../../_shared/supplier/supplier.api';
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+} from '@angular/core';
+import { DatePipe } from '@angular/common';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+
+import { SwalService } from 'src/_services/swal-service';
+import { Users } from 'src/_services/user.api';
+import { GlobalService } from 'src/_shared/api/service';
+import { Supplier } from '../../../../../_model/supplier/supplier';
 
 @Component({
   selector: 'app-supplier-data-entry',
@@ -16,31 +25,52 @@ import { SupplierApi } from '../../../../../_shared/supplier/supplier.api';
   styleUrls: ['./supplier-data-entry.component.scss'],
 })
 export class SupplierDataEntryComponent implements OnInit {
-  @Output() passedDataEvent = new EventEmitter();
-  @Input() supplierData: Supplier[] = [];
+  @Input() dataList: Supplier[] = [];
+  @Output() outputEvent = new EventEmitter();
 
-  data: Supplier[] = [];
+  headerForm!: FormGroup;
+  isViewHidden = false;
+  isEditHidden = false;
+  userInfo: any;
+  isReadOnly = false;
+  state = 'add';
 
+  isHiddenPrinterBtn = false;
+  isHiddenSave = false;
+  isHiddenAddItem = false;
+  isHiddenApproveBtn = false;
+  isHiddenRejectBtn = false;
+  isHiddenDiv = false;
+  isHiddenDeleteBtn = false;
+  isHiddenAction = false;
+
+  // initialized values
   datepipe: DatePipe = new DatePipe('en-US');
-  postingdate = this.datepipe.transform(new Date(), 'MM/dd/YYYY');
+  date: Date = new Date();
+  postingdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
+  deliverydate = this.datepipe.transform(
+    this.date.setDate(this.date.getDate() + 3),
+    'yyyy-MM-dd'
+  );
+  receivedate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
 
-  simpleForm!: FormGroup;
-  supplierInfo: any[] = [];
+  badge: string = 'warning';
+  badgename: string = 'Pending';
 
   constructor(
     private fb: FormBuilder,
-    public swal: SwalService,
-    public http: ApiHttpService,
-    public supplier: Supplier,
-    public supplierapi: SupplierApi
+    private user: Users,
+    private globalservice: GlobalService,
+    private headerdata: Supplier
   ) {
-    this.simpleForm = this.fb.group({
-      supplierCode: [],
-      supplierName: [],
-      contactPerson: [],
+    this.userInfo = this.user.getCurrentUser();
+    this.headerForm = this.fb.group({
+      suppliercode: [],
+      suppliername: [],
+      contactperson: [],
       position: [],
       phone: [],
-      emailAddress: [],
+      emailaddress: [],
       address1: [],
       address2: [],
       address3: [],
@@ -48,16 +78,33 @@ export class SupplierDataEntryComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    for (var a of this.supplierData as any) {
-      this.simpleForm.reset();
-      this.simpleForm.setValue({
-        supplierCode: a.ins_SupplierCode,
-        supplierName: a.ins_SupplierName,
-        contactPerson: a.ins_ContactPerson,
+  async ngOnInit(): Promise<void> {
+    if (this.dataList.length <= 0) {
+      await this.isAddEvent();
+    } else {
+      await this.isEditEvent();
+    }
+  }
+
+  async isAddEvent() {
+    this.formDefault();
+    // // const _docnum = await this.globalservice.getMaxId('Branch');
+    // this.headerForm.patchValue({
+    //   docnum: _docnum,
+    // });
+  }
+
+  async isEditEvent() {
+    for (var a of this.dataList as any) {
+      this.onLoadForm(a.ins_InActive);
+      this.headerForm.reset();
+      this.headerForm = this.fb.group({
+        suppliercode: a.ins_SupplierCode,
+        suppliername: a.ins_SupplierName,
+        contactperson: a.ins_ContactPerson,
         position: a.ins_Position,
         phone: a.ins_Phone,
-        emailAddress: a.ins_EmailAddress,
+        emailaddress: a.ins_EmailAddress,
         address1: a.ins_Address1,
         address2: a.ins_Address2,
         address3: a.ins_Address3,
@@ -66,55 +113,133 @@ export class SupplierDataEntryComponent implements OnInit {
     }
   }
 
-  async loadData(a: any) {
-    this.simpleForm.setValue({
-      supplierCode: a.ins_SupplierCode,
-      supplierName: a.ins_SupplierName,
-      contactPerson: a.ins_ContactPerson,
-      position: a.ins_Position,
-      phone: a.ins_Phone,
-      emailAddress: a.ins_EmailAddress,
-      address1: a.ins_Address1,
-      address2: a.ins_Address2,
-      address3: a.ins_Address3,
-      inactive: a.ins_InActive === 1 ? true : false,
-    });
-  }
+  async onSubmit() {
+    this.headerdata = new Supplier();
 
-  PassEvent() {
-    this.passedDataEvent.emit();
-  }
+    this.headerdata.ins_SupplierCode = this.headerForm.value.suppliercode;
+    this.headerdata.ins_SupplierName = this.headerForm.value.suppliername;
+    this.headerdata.ins_ContactPerson = this.headerForm.value.contactperson;
+    this.headerdata.ins_Position = this.headerForm.value.position;
+    this.headerdata.ins_Phone = this.headerForm.value.phone;
+    this.headerdata.ins_EmailAddress = this.headerForm.value.emailaddress;
+    this.headerdata.ins_Address1 = this.headerForm.value.address1;
+    this.headerdata.ins_Address2 = this.headerForm.value.address2;
+    this.headerdata.ins_Address3 = this.headerForm.value.address3;
+    this.headerdata.ins_InActive = this.headerForm.value.inactive === true ? 1 : 0;
 
-  get f() {
-    return this.simpleForm.controls;
-  }
-
-  onSubmit() {
-    this.supplier.ins_SupplierCode = this.simpleForm.value.supplierCode;
-    this.supplier.ins_SupplierName = this.simpleForm.value.supplierName;
-    this.supplier.ins_ContactPerson = this.simpleForm.value.contactPerson;
-    this.supplier.ins_Position = this.simpleForm.value.position;
-    this.supplier.ins_Phone = this.simpleForm.value.phone;
-    this.supplier.ins_EmailAddress = this.simpleForm.value.emailAddress;
-    this.supplier.ins_Address1 = this.simpleForm.value.address1;
-    this.supplier.ins_Address2 = this.simpleForm.value.address2;
-    this.supplier.ins_Address3 = this.simpleForm.value.address3;
-    this.supplier.ins_InActive = this.simpleForm.value.inactive === true ? 1 : 0;
-
-    if (this.checkActionAdd() == true) {
-      this.supplierapi.post_supplier(this.supplier);
+    if (this.state == 'add') {
+      await this.globalservice.postAuth( 'Supplier', 'PostAsync', this.headerdata
+      );
     } else {
-      this.supplierapi.put_supplier(this.supplier);
+      this.globalservice.postAuth('Supplier', 'PutAsync', this.headerdata);
     }
 
-    this.passedDataEvent.emit();
+    this.formPending();
   }
 
-  checkActionAdd() {
-    if (this.supplierData.length > 0) {
-      return false;
-    } else {
-      return true;
+  onCancel() {
+    this.outputEvent.emit();
+  }
+
+  onChangeData() {
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+  }
+
+  onLoadForm(status: number) {
+    this.state = 'edit';
+
+    switch (status) {
+      case 0: // Pending
+        this.formPending();
+        break;
+      case 1: // Approved
+        this.formApproved();
+        break;
+      case 2: // Reject
+        this.formRejected();
+        break;
+      case 3: // Closed
+        this.formClosed();
+        break;
+      default:
+        break;
     }
+  }
+
+  formDefault() {
+    this.state = 'add';
+
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+    this.badge = 'secondary';
+    this.badgename = 'New Record';
+  }
+
+  formPending() {
+    this.isHiddenPrinterBtn = false;
+    this.isHiddenSave = true;
+    this.isHiddenApproveBtn = false;
+    this.isHiddenRejectBtn = false;
+    this.isHiddenDiv = false;
+    this.isHiddenDeleteBtn = true;
+
+
+    this.badge = 'warning';
+    this.badgename = 'PENDING';
+  }
+
+  formApproved() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+
+    this.isHiddenRejectBtn = false;
+    this.isHiddenDiv = false;
+    this.isHiddenDeleteBtn = true;
+
+
+    this.badge = 'success';
+    this.badgename = 'APPROVED';
+  }
+
+  formRejected() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+
+    this.badge = 'danger';
+    this.badgename = 'REJECTED';
+  }
+
+  formClosed() {
+    this.isHiddenSave = true;
+    this.isHiddenAction = true;
+    this.isHiddenAddItem = true;
+    this.isHiddenApproveBtn = true;
+    this.isHiddenRejectBtn = true;
+    this.isHiddenDiv = true;
+    this.isHiddenDeleteBtn = true;
+
+
+    this.badge = 'danger';
+    this.badgename = 'CLOSED';
   }
 }

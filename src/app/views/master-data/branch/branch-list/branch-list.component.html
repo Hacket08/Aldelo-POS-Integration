@@ -1,0 +1,90 @@
+<c-card>
+    <div class="d-flex justify-content-end">
+      <button (click)="PassEvent()" cButton color="success" size="sm">
+        <strong>Create New Transaction</strong>
+      </button>
+    </div>
+  </c-card>
+  
+
+  <c-card>
+    <c-row>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Branch Code"
+            cFormControl
+            placeholder="Branch Code"
+          />
+        </c-input-group>
+  
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Branch Name"
+            cFormControl
+            placeholder="Branch Name"
+          />
+        </c-input-group>
+      </c-col>
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+            <input
+              aria-describedby="button-addon2"
+              aria-label="Area"
+              cFormControl
+              placeholder="Area"
+            />
+          </c-input-group>
+          <c-input-group class="mb-1" sizing="sm">
+            <input
+              aria-describedby="button-addon2"
+              aria-label="City"
+              cFormControl
+              placeholder="City"
+            />
+          </c-input-group>
+      </c-col>
+      <c-col lg="4" md="6" xs="12">
+  
+      </c-col>
+    </c-row>
+  </c-card>
+  
+  <c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+      <thead>
+        <tr>
+          <th scope="col">Branch Code</th>
+          <th scope="col">Branch Name</th>
+          <th scope="col">City</th>
+          <th scope="col">Area</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of dataList" style="padding: 0">
+          <th>{{ o.ins_BranchCode }}</th>
+          <td>{{ o.ins_BranchName }}</td>
+          <td>{{ o.ins_City }}</td>
+          <td>{{ o.ins_Area }}</td>
+          <td>
+            <c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge>
+          </td>
+          <td>
+            <button
+              (click)="DataLoadEvent(o)"
+              cButton
+              color="info"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card>
+  

@@ -11,7 +11,7 @@ import { PurchaseOrderService } from '../../../../_shared/purchase-order/purcahs
   styleUrls: ['./purchase-order.component.scss'],
 })
 export class PurchaseOrderComponent implements OnInit {
-  @Output() purchaseOrderParentData: any[] = [];
+  @Output() parentData: any[] = [];
 
 
   isListViewHidden = false;
@@ -27,14 +27,12 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   async eventNewTransaction(a: any) {
-    this.purchaseOrderParentData = [];
+    this.parentData = [];
 
     if (a !== undefined) {
-      const data = await this.purchaseorderservice.getDetails(a.ins_DocNum);
-      for (var val of data as any) {
-        this.purchaseOrderParentData.push(val as any);
-      }
+      this.parentData.push(a as any);
     }
+    
     this.isListViewHidden = false;
     this.isTransactionViewHidden = true;
   }

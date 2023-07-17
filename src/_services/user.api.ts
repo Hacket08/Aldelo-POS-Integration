@@ -16,6 +16,16 @@ export class Users {
         return JSON.parse(localStorage.getItem('userData')!);
     }
 
+
+    public getCurrentUserApprover(): string {
+        const result = JSON.parse(localStorage.getItem('userApprover'));
+        let output = [];
+        for (var a of result as any) {
+            output.push(a.ins_EmailAddress);
+        }
+        return output.toString();
+    }
+
     public getUserName(): string {
         return this.getCurrentUser().userName;
     }
@@ -34,8 +44,25 @@ export class Users {
     }
 
     public getUserFullName() : string {
+        
         const data = this.getCurrentUser();
-        // return data.lastName + ", " + data.firstName + " " + data.middleInitial;
-        return data[0].ins_FullName;
+        return data.fullName;
+    }
+
+    public canAccessModule(mod_name: string = "") {
+        let status: boolean = true;
+
+        // if (this.getRoleAccess() === "all") {
+        //   status = true;
+        // }
+        // else {
+        //     if (this.getRoleAccess().split(',').indexOf(mod_name.toLowerCase()) > -1) {
+        //         status = true;
+        //     }
+        //     else {
+        //         status = false;
+        //     }
+        // }
+        return status;
     }
 }

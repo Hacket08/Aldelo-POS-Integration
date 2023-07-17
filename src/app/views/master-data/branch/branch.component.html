@@ -1,0 +1,2 @@
+<app-branch-list  (outputEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-branch-list>
+<app-branch-transaction  [dataList]="parentData" (outputEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-branch-transaction>

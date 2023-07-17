@@ -1,0 +1,65 @@
+<c-card>
+    <c-row>
+        
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Branch Name"
+            cFormControl
+            placeholder="Branch Name"
+          />
+        </c-input-group>
+      </c-col>
+
+
+
+      <c-col lg="4" md="6" xs="12">
+        <c-input-group class="mb-1" sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Item Name"
+            cFormControl
+            placeholder="Item Name"
+          />
+        </c-input-group>
+      </c-col>
+      
+    </c-row>
+  </c-card>
+
+
+  <c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+      <thead>
+        <tr>
+          <th scope="col">Item Code</th>
+          <th scope="col">Item Name</th>
+          <th scope="col">On Hand</th>
+          <th scope="col">Rec Qty</th>
+          <th scope="col">Used Qty</th>
+          <th scope="col">Inv In Qty</th>
+          <th scope="col">Inv Out Qty</th>
+          <th scope="col">Curr Qty</th>
+          <th scope="col">End Inv</th>
+          <th scope="col">Branch Code</th>
+          <th scope="col">Branch Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of dataList" style="padding: 0">
+          <th>{{ o.ins_ItemCode }}</th>
+          <th>{{ o.ins_ItemDescription }}</th>
+          <td>{{ o.ins_OnHand }}</td>
+          <td>{{ o.ins_RecQty }}</td>
+          <td>{{ o.ins_UsedQty }}</td>
+          <td>{{ o.ins_InvInQty }}</td>
+          <td>{{ o.ins_InvOutQty }}</td>
+          <td>{{ o.ins_CurrQty }}</td>
+          <td>{{ o.ins_EndInv }}</td>
+          <td>{{ o.ins_BranchCode }}</td>
+          <td>{{ o.ins_BranchName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card>

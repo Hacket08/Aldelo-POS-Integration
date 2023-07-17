@@ -205,7 +205,6 @@
 </c-card> -->
 
 <!-- <app-widgets-brand [withCharts]="true"></app-widgets-brand> -->
-
 <c-row>
   <c-col xs>
     <c-card class="mb-4">
@@ -332,14 +331,14 @@
                 <sup>
                   <span class="badge badge-pill badge-sm bg-info">&nbsp;</span>
                 </sup>
-                <span>New clients</span>
+                <span>Sales Amount</span>
                 &nbsp;&nbsp;
                 <sup>
                   <span class="badge badge-pill badge-sm bg-danger">
                     &nbsp;
                   </span>
                 </sup>
-                <span>Recurring clients</span>
+                <span>Sales Inventory</span>
               </small>
             </div>
           </c-col>
@@ -366,10 +365,10 @@
 
             <hr class="mt-0" />
 
-            <div class="progress-group mb-4">
+            <div class="progress-group mb-2">
               <div class="progress-group-header">
-                <svg cIcon class="icon icon-lg me-2" name="cilUser"></svg>
-                <span>Male</span>
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 1</span>
                 <span class="ms-auto font-semibold">43%</span>
               </div>
               <div class="progress-group-bars">
@@ -378,10 +377,11 @@
                 </c-progress>
               </div>
             </div>
-            <div class="progress-group mb-5">
+
+            <div class="progress-group mb-2">
               <div class="progress-group-header">
-                <svg cIcon class="icon icon-lg me-2" name="cilUserFemale"></svg>
-                <span>Female</span>
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 2</span>
                 <span class="ms-auto font-semibold">37%</span>
               </div>
               <div class="progress-group-bars">
@@ -391,7 +391,85 @@
               </div>
             </div>
 
-            <div class="progress-group">
+            <div class="progress-group mb-2">
+              <div class="progress-group-header">
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 3</span>
+                <span class="ms-auto font-semibold">37%</span>
+              </div>
+              <div class="progress-group-bars">
+                <c-progress thin>
+                  <c-progress-bar color="warning" value="37"></c-progress-bar>
+                </c-progress>
+              </div>
+            </div>
+
+            <div class="progress-group mb-2">
+              <div class="progress-group-header">
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 4</span>
+                <span class="ms-auto font-semibold">37%</span>
+              </div>
+              <div class="progress-group-bars">
+                <c-progress thin>
+                  <c-progress-bar color="warning" value="37"></c-progress-bar>
+                </c-progress>
+              </div>
+            </div>
+
+            <div class="progress-group mb-2">
+              <div class="progress-group-header">
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 5</span>
+                <span class="ms-auto font-semibold">37%</span>
+              </div>
+              <div class="progress-group-bars">
+                <c-progress thin>
+                  <c-progress-bar color="warning" value="37"></c-progress-bar>
+                </c-progress>
+              </div>
+            </div>
+
+            <div class="progress-group mb-2">
+              <div class="progress-group-header">
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 6</span>
+                <span class="ms-auto font-semibold">37%</span>
+              </div>
+              <div class="progress-group-bars">
+                <c-progress thin>
+                  <c-progress-bar color="warning" value="37"></c-progress-bar>
+                </c-progress>
+              </div>
+            </div>
+
+            <div class="progress-group mb-2">
+              <div class="progress-group-header">
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 7</span>
+                <span class="ms-auto font-semibold">37%</span>
+              </div>
+              <div class="progress-group-bars">
+                <c-progress thin>
+                  <c-progress-bar color="warning" value="37"></c-progress-bar>
+                </c-progress>
+              </div>
+            </div>
+
+            <div class="progress-group mb-2">
+              <div class="progress-group-header">
+                <svg cIcon class="icon icon-lg me-2" name="cilCircle"></svg>
+                <span>Item 8</span>
+                <span class="ms-auto font-semibold">37%</span>
+              </div>
+              <div class="progress-group-bars">
+                <c-progress thin>
+                  <c-progress-bar color="warning" value="37"></c-progress-bar>
+                </c-progress>
+              </div>
+            </div>
+
+            <!-- <div class="progress-group">
               <div class="progress-group-header">
                 <svg cIcon class="icon icon-lg me-2" name="cibGoogle"></svg>
                 <span>Organic Search</span>
@@ -451,6 +529,8 @@
                 </c-progress>
               </div>
             </div>
+
+
             <div class="divider d-flex justify-content-center">
               <button
                 cButton
@@ -461,7 +541,7 @@
               >
                 <svg cIcon name="cil-options"></svg>
               </button>
-            </div>
+            </div> -->
           </c-col>
         </c-row>
       </c-card-body>
@@ -486,25 +566,13 @@
         >
           <thead cTableColor="light">
             <tr>
-              <th class="text-center">
-                <svg cIcon name="cilPeople"></svg>
-              </th>
-              <th>User</th>
-              <th class="text-center">Country</th>
-              <th>Usage</th>
-              <th class="text-center">Payment Method</th>
+              <th>Branch</th>
+              <th>Total Sales</th>
               <th>Activity</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let user of users; index as i">
-              <td class="text-center">
-                <c-avatar
-                  size="md"
-                  src="{{ user.avatar }}"
-                  status="{{ user.status }}"
-                ></c-avatar>
-              </td>
               <td>
                 <div>{{ user.name }}</div>
                 <div class="small text-medium-emphasis">
@@ -512,15 +580,6 @@
                   | Registered:
                   {{ user.registered }}
                 </div>
-              </td>
-              <td class="text-center">
-                <svg
-                  cIcon
-                  id="{{ user.country + user.name }}"
-                  name="cif{{ user.country }}"
-                  size="xl"
-                  title="{{ user.country }}"
-                ></svg>
               </td>
               <td>
                 <div class="clearfix">
@@ -540,11 +599,8 @@
                   ></c-progress-bar>
                 </c-progress>
               </td>
-              <td class="text-center">
-                <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
-              </td>
               <td>
-                <div class="small text-medium-emphasis">Last login</div>
+                <div class="small text-medium-emphasis">Last Data Transmitted</div>
                 <strong>{{ user.activity }}</strong>
               </td>
             </tr>

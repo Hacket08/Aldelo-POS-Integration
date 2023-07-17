@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalService } from 'src/_shared/api/service';
+import { Users } from '../../../../../_services/user.api';
 
 import { InventoryMovement } from '../../../../../_model/inventory-movement/inventory-movement';
 
@@ -11,14 +12,26 @@ import { InventoryMovement } from '../../../../../_model/inventory-movement/inve
 export class InventoryMovementListComponent implements OnInit {
   @Output() outputEvent = new EventEmitter();
   dataList: InventoryMovement[] = [];
+  userInfo: any;
 
-  constructor(private globalservice: GlobalService) {}
+  constructor(private globalservice: GlobalService, private user: Users) {}
 
   async ngOnInit(): Promise<void> {
     let data: any;
     this.dataList = [];
 
-    data = (await this.globalservice.getList('InventoryMovement')) as any;
+    this.userInfo = this.user.getCurrentUser();
+
+    if (this.userInfo.securityLevel === '1') {
+      data = (await this.globalservice.getAuthList('InventoryMovement')) as any;
+    } else {
+      data = (await this.globalservice.getAuth(
+        'InventoryMovement',
+        'GetData',
+        this.userInfo
+      )) as any;
+    }
+    // data = (await this.globalservice.getAuthList('InventoryMovement')) as any;
     console.log(data);
     if (data !== false) {
       for (var val of data) {

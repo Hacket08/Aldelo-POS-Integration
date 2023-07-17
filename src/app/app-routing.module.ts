@@ -8,11 +8,14 @@ import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 
 import { AuthGuard } from '../_guard/auth.guard';
+import { GlobalService } from 'src/_shared/api/service';
+
+
 
 let redirect = JSON.parse(localStorage.getItem('userData')) !== null ? 'dashboard' : 'login'; 
 
 const routes: Routes = [
-  {path: '', redirectTo: redirect, pathMatch: 'full'},
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   // {
   //   path: '',
   //   redirectTo: 'dashboard',
@@ -55,6 +58,27 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/inventory/inventory.module').then((m) => m.InventoryModule)
       },
+      {
+        path: 'others',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/others/others.module').then((m) => m.OthersModule)
+      },
+      {
+        path: 'settings',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/settings/settings.module').then((m) => m.SettingsModule)
+      },
+      {
+        path: 'administration',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./views/administration/administration.module').then((m) => m.AdministrationModule)
+      },
+
+
+      
       {
         path: 'theme',
         loadChildren: () =>
@@ -145,4 +169,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
+  
 }

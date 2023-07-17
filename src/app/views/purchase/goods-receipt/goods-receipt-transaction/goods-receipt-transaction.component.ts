@@ -13,12 +13,12 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { SwalService } from 'src/_services/swal-service';
+import { SwalService } from '../../../../../_services/swal-service';
+import { GlobalService } from 'src/_shared/api/service';
 
 import { Item } from 'src/_model/item/item';
 import { Supplier } from 'src/_model/supplier/supplier';
 import { PurchaseOrder } from 'src/_model/purchase-order/purchase-order';
-import { PurchaseOrderDetails } from 'src/_model/purchase-order/purchase-order-details';
 import { GoodsReceipt } from 'src/_model/goods-receipt/goods-receipt';
 import { GoodsReceiptDetails } from 'src/_model/goods-receipt/goods-receipt-details';
 
@@ -31,34 +31,38 @@ import { GoodsReceiptApi } from 'src/_shared/goods-receipt/goods-receipt.api';
   styleUrls: ['./goods-receipt-transaction.component.scss'],
 })
 export class GoodsReceiptTransactionComponent implements OnInit {
-  @Input() goodsreceiptData: GoodsReceipt[] = [];
-  @Output() goodsReceiptEvent = new EventEmitter();
-
+  @Input() dataList: GoodsReceipt[] = [];
+  @Output() outputEvent = new EventEmitter();
   headerForm!: FormGroup;
-  isViewHidden = false;
-  isEditHidden = false;
-  goodsreceiptdetails: GoodsReceiptDetails[] = [];
-  goodsreceiptinfo: GoodsReceipt[] = [];
-  userInfo: any;
-  isReadOnly = false;
-  state = 'add';
+  itemdetails: GoodsReceiptDetails[] = [];
+  badge: string = 'warning';
+  badgename: string = 'Pending';
 
+  suppliers: any[] = [];
+  supplier?: Supplier;
+
+  // Header Data
+  userInfo: any;
+  userApprover: any;
+  userOwner: any;
+  docId: number;
+  state = 'add';
 
   isHiddenPrinterBtn = false;
   isHiddenSave = false;
   isHiddenAction = false;
   isHiddenActionRow = false;
+
   isHiddenAddItem = false;
   isHiddenApproveBtn = false;
   isHiddenRejectBtn = false;
+  isHiddenCancelBtn = false;
   isHiddenDiv = false;
   isHiddenDeleteBtn = false;
-  isReadOnlyRecDate = false;
 
-  isDisablePoSelection = false;
+  isReadOnlyDeliveryDate = false;
+  isHiddenRowQuantity = false;
 
-
-  // initialized values
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
   postingdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
@@ -66,20 +70,18 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     this.date.setDate(this.date.getDate() + 3),
     'yyyy-MM-dd'
   );
-  receivedate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
 
-  badge: string = 'warning';
-  badgename: string = 'Pending';
+  receivedate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
+  isDisablePoSelection = false;
+  isReadOnlyRecDate = false;
 
   constructor(
-    private fb: FormBuilder,
     private user: Users,
-    private purchaseorder: PurchaseOrder,
-    private supplier: Supplier,
-    private goodsreceiptapi: GoodsReceiptApi,
-    private goodsreceipt: GoodsReceipt,
-    private goodsreceiptlines: GoodsReceiptDetails,
-    public swal: SwalService
+    private globalservice: GlobalService,
+    private fb: FormBuilder,
+    private swal: SwalService,
+    private linedata: GoodsReceiptDetails,
+    private headerdata: GoodsReceipt
   ) {
     // declare the form group fields
     this.userInfo = this.user.getCurrentUser();
@@ -89,19 +91,19 @@ export class GoodsReceiptTransactionComponent implements OnInit {
       purchaseorderdocnum: '',
       suppliercode: '',
       suppliername: '',
-      branchcode: this.userInfo[0].ins_BranchCode,
-      branchname: this.userInfo[0].ins_BranchName,
       docnum: '',
-      docdate: this.datepipe.transform(this.postingdate, 'yyyy-MM-dd'),
       deldate: '',
       recdate: this.datepipe.transform(this.receivedate, 'yyyy-MM-dd'),
-      owner: this.userInfo[0].ins_FullName,
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
+      docdate: this.datepipe.transform(this.postingdate, 'yyyy-MM-dd'),
+      owner: this.userInfo.fullName,
       docstatus: 0,
     });
   }
 
   async ngOnInit(): Promise<void> {
-    if (this.goodsreceiptData.length <= 0) {
+    if (this.dataList.length <= 0) {
       await this.isAddEvent();
     } else {
       await this.isEditEvent();
@@ -110,21 +112,27 @@ export class GoodsReceiptTransactionComponent implements OnInit {
 
   async isAddEvent() {
     this.formDefault();
+    this.userInfo = this.user.getCurrentUser();
+    this.userApprover = this.user.getCurrentUserApprover();
+    const output = (await this.globalservice.getMaxId('GoodsReceipt')) as any;
 
-    const _docnum = await this.goodsreceiptapi.get_GoodsReceiptBy('GetMaxId');
     this.headerForm.patchValue({
       goodsreceiptid: 0,
-      docnum: _docnum,
+      docnum: output.value,
+      docdate: this.postingdate,
+      deldate: this.deliverydate,
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
+      owner: this.userInfo.fullName,
+      // docstatus: this.userApprover.length > 0 ? 0 : 1,
     });
   }
 
   async isEditEvent() {
-    this.isViewHidden = true;
-    this.isEditHidden = false;
-    this.isReadOnly = true;
-    this.state = 'edit';
-
-    for (var a of this.goodsreceiptData as any) {
+    console.log(this.dataList);
+    for (var a of this.dataList as any) {
+      this.docId = a.ins_GoodsReceiptID;
+      this.userOwner = a.ins_CreatedBy;
       this.onLoadForm(a.ins_DocStatus);
 
       this.headerForm.setValue({
@@ -143,188 +151,157 @@ export class GoodsReceiptTransactionComponent implements OnInit {
         owner: a.ins_CreatedBy,
       });
 
-      this.goodsreceiptdetails.length = 0;
       for (var val of a.ins_GoodsReceiptDetails) {
-        this.goodsreceiptlines = {} as any;
-
-        this.goodsreceiptlines.ins_GoodsReceiptID = val.ins_GoodsReceiptID;
-        this.goodsreceiptlines.ins_GoodsReceiptDetailID =
-          val.ins_GoodsReceiptDetailID;
-        this.goodsreceiptlines.ins_BranchCode = val.ins_BranchCode;
-        this.goodsreceiptlines.ins_BranchName = val.ins_BranchName;
-        this.goodsreceiptlines.ins_CreatedBy = val.ins_CreatedBy;
-        this.goodsreceiptlines.ins_InventoryQuantity =
-          val.ins_InventoryQuantity;
-        this.goodsreceiptlines.ins_InventoryUom = val.ins_InventoryUom;
-        this.goodsreceiptlines.ins_ItemCode = val.ins_ItemCode;
-        this.goodsreceiptlines.ins_ItemDescription = val.ins_ItemDescription;
-        this.goodsreceiptlines.ins_PurchasePackQuantity =
-          val.ins_PurchasePackQuantity;
-        this.goodsreceiptlines.ins_PurchasePackageUom =
-          val.ins_PurchasePackageUom;
-        this.goodsreceiptlines.ins_PurchaseUom = val.ins_PurchaseUom;
-        this.goodsreceiptlines.ins_Quantity = val.ins_Quantity;
-        this.goodsreceiptlines.ins_ReceivedInventoryQuantity =
-          val.ins_ReceivedInventoryQuantity;
-        this.goodsreceiptlines.ins_ReceivedQuantity = val.ins_ReceivedQuantity;
-        this.goodsreceiptlines.ins_TaxAmount = val.ins_TaxAmount;
-        this.goodsreceiptlines.ins_UnitCost = val.ins_UnitCost;
-        this.goodsreceiptlines.ins_UnitCostEx = val.ins_UnitCostEx;
-        this.goodsreceiptlines.ins_UnitCostInc = val.ins_UnitCostInc;
-        this.goodsreceiptlines.ins_VatGroup = val.ins_VatGroup;
-
-        this.goodsreceiptlines.ins_PurchaseOrderQuantity =
-          val.ins_BalanceQuantity;
-        // this.goodsreceiptlines.ins_PurchaseOrderQuantity = val.ins_Quantity;
-        this.goodsreceiptlines.ins_BaseLineNum = val.ins_LineNum;
-
-        this.goodsreceiptdetails.push(val);
+        this.itemdetails.push(val);
       }
+      console.log(this.itemdetails);
     }
+    // for (var a of this.dataList as any) {
+
+
+    //   this.itemdetails.length = 0;
+    //   for (var list of a.ins_PurchaseOrderDetails) {
+    //     this.itemdetails.push(list);
+    //   }
+
+    //   this.itemdetails.length = 0;
+    //   for (var val of a.ins_GoodsReceiptDetails) {
+    //     this.linedata = {} as any;
+
+    //     this.linedata.ins_GoodsReceiptID = val.ins_GoodsReceiptID;
+    //     this.linedata.ins_GoodsReceiptDetailID = val.ins_GoodsReceiptDetailID;
+    //     this.linedata.ins_BranchCode = val.ins_BranchCode;
+    //     this.linedata.ins_BranchName = val.ins_BranchName;
+    //     this.linedata.ins_CreatedBy = val.ins_CreatedBy;
+    //     this.linedata.ins_InventoryQuantity = val.ins_InventoryQuantity;
+    //     this.linedata.ins_InventoryUom = val.ins_InventoryUom;
+    //     this.linedata.ins_ItemCode = val.ins_ItemCode;
+    //     this.linedata.ins_ItemDescription = val.ins_ItemDescription;
+    //     this.linedata.ins_PurchasePackQuantity = val.ins_PurchasePackQuantity;
+    //     this.linedata.ins_PurchasePackageUom = val.ins_PurchasePackageUom;
+    //     this.linedata.ins_PurchaseUom = val.ins_PurchaseUom;
+    //     this.linedata.ins_Quantity = val.ins_Quantity;
+    //     this.linedata.ins_ReceivedInventoryQuantity =
+    //       val.ins_ReceivedInventoryQuantity;
+    //     this.linedata.ins_ReceivedQuantity = val.ins_ReceivedQuantity;
+    //     this.linedata.ins_TaxAmount = val.ins_TaxAmount;
+    //     this.linedata.ins_UnitCost = val.ins_UnitCost;
+    //     this.linedata.ins_UnitCostEx = val.ins_UnitCostEx;
+    //     this.linedata.ins_UnitCostInc = val.ins_UnitCostInc;
+    //     this.linedata.ins_VatGroup = val.ins_VatGroup;
+
+    //     this.linedata.ins_PurchaseOrderQuantity = val.ins_BalanceQuantity;
+    //     // this.goodsreceiptlines.ins_PurchaseOrderQuantity = val.ins_Quantity;
+    //     this.linedata.ins_BaseLineNum = val.ins_LineNum;
+
+    //     this.itemdetails.push(val);
+    //   }
+    // }
   }
 
-  purchaseorderSelected(e: PurchaseOrder) {
-    this.purchaseorder = e;
+  PurchaseOrderEvent(data: any) {
+
+    this.userInfo = this.user.getCurrentUser();
     this.headerForm.patchValue({
-      purchaseorderid: this.purchaseorder.ins_PurchaseOrderID,
-      purchaseorderdocnum: this.purchaseorder.ins_DocNum,
-      suppliercode: this.purchaseorder.ins_SupplierCode,
-      suppliername: this.purchaseorder.ins_SupplierName,
-      deldate: this.datepipe.transform(
-        this.purchaseorder.ins_DeliveryDate,
-        'yyyy-MM-dd'
-      ),
+      purchaseorderid: data.ins_PurchaseOrderID,
+      purchaseorderdocnum: data.ins_DocNum,
+      suppliercode: data.ins_SupplierCode,
+      suppliername: data.ins_SupplierName,
+      deldate: this.datepipe.transform(data.ins_DeliveryDate, 'yyyy-MM-dd'),
+      branchcode: this.userInfo.branchCode,
+      branchname: this.userInfo.branchName,
+      owner: this.userInfo.fullName,
     });
 
-    this.goodsreceiptdetails.length = 0;
-    for (var val of this.purchaseorder.ins_PurchaseOrderDetails as any) {
-      this.goodsreceiptlines = {} as any;
+    this.itemdetails.length = 0;
+    for (var val of data.ins_PurchaseOrderDetails as any) {
+      this.linedata = {} as any;
 
-      this.goodsreceiptlines.ins_BranchCode = val.ins_BranchCode;
-      this.goodsreceiptlines.ins_BranchName = val.ins_BranchName;
-      this.goodsreceiptlines.ins_CreatedBy = val.ins_CreatedBy;
-      this.goodsreceiptlines.ins_InventoryQuantity = val.ins_InventoryQuantity;
-      this.goodsreceiptlines.ins_InventoryUom = val.ins_InventoryUom;
-      this.goodsreceiptlines.ins_ItemCode = val.ins_ItemCode;
-      this.goodsreceiptlines.ins_ItemDescription = val.ins_ItemDescription;
-      this.goodsreceiptlines.ins_PurchasePackQuantity =
-        val.ins_PurchasePackQuantity;
-      this.goodsreceiptlines.ins_PurchasePackageUom =
-        val.ins_PurchasePackageUom;
-      this.goodsreceiptlines.ins_PurchaseUom = val.ins_PurchaseUom;
-      this.goodsreceiptlines.ins_Quantity = val.ins_Quantity;
-      this.goodsreceiptlines.ins_ReceivedInventoryQuantity =
-        val.ins_ReceivedInventoryQuantity;
-      this.goodsreceiptlines.ins_TaxAmount = val.ins_TaxAmount;
-      this.goodsreceiptlines.ins_UnitCost = val.ins_UnitCost;
-      this.goodsreceiptlines.ins_UnitCostEx = val.ins_UnitCostEx;
-      this.goodsreceiptlines.ins_UnitCostInc = val.ins_UnitCostInc;
-      this.goodsreceiptlines.ins_VatGroup = val.ins_VatGroup;
+      this.linedata.ins_BranchCode = this.userInfo.branchCode;
+      this.linedata.ins_BranchName = this.userInfo.branchName;
+      this.linedata.ins_CreatedBy = this.userInfo.fullName;
+      this.linedata.ins_InventoryQuantity = val.ins_InventoryQuantity;
+      this.linedata.ins_InventoryUom = val.ins_InventoryUom;
+      this.linedata.ins_ItemCode = val.ins_ItemCode;
+      this.linedata.ins_ItemDescription = val.ins_ItemDescription;
+      this.linedata.ins_PurchasePackQuantity = val.ins_PurchasePackQuantity;
+      this.linedata.ins_PurchasePackageUom = val.ins_PurchasePackageUom;
+      this.linedata.ins_PurchaseUom = val.ins_PurchaseUom;
+      this.linedata.ins_Quantity = val.ins_Quantity;
+      this.linedata.ins_ReceivedInventoryQuantity = val.ins_ReceivedInventoryQuantity;
+      this.linedata.ins_TaxAmount = val.ins_TaxAmount;
+      this.linedata.ins_UnitCost = val.ins_UnitCost;
+      this.linedata.ins_UnitCostEx = val.ins_UnitCostEx;
+      this.linedata.ins_UnitCostInc = val.ins_UnitCostInc;
+      this.linedata.ins_VatGroup = val.ins_VatGroup;
 
       // this.goodsreceiptlines.ins_PurchaseOrderQuantity = val.ins_Quantity;
       // this.goodsreceiptlines.ins_ReceivedQuantity = val.ins_ReceivedQuantity;
-      this.goodsreceiptlines.ins_ReceivedQuantity = 0;
-      this.goodsreceiptlines.ins_PurchaseOrderQuantity =
-        val.ins_BalanceQuantity;
+      this.linedata.ins_ReceivedQuantity = 0;
+      this.linedata.ins_PurchaseOrderQuantity = val.ins_BalanceQuantity;
+      this.linedata.ins_BaseLineNum = val.ins_LineNum;
 
-      this.goodsreceiptlines.ins_BaseLineNum = val.ins_LineNum;
-
-      this.goodsreceiptdetails.push(this.goodsreceiptlines);
+      this.itemdetails.push(this.linedata);
     }
   }
 
-  supplierSelected(e: Supplier) {
-    this.supplier = e;
-    this.headerForm.patchValue({
-      suppliercode: this.supplier.ins_SupplierCode,
-      suppliername: this.supplier.ins_SupplierName,
-    });
-  }
+  async onSubmit() {
 
-  itemSelected(e: Item) {
-    this.goodsreceiptlines = new GoodsReceiptDetails();
+    this.headerdata.ins_Badge = '';
+    this.headerdata.ins_BadgeName = '';
 
-    this.goodsreceiptlines.ins_ItemCode = e.ins_ItemCode;
-    this.goodsreceiptlines.ins_ItemDescription = e.ins_ItemName;
-    this.goodsreceiptlines.ins_PurchaseUom = e.ins_PurchaseUom;
-    this.goodsreceiptlines.ins_VatGroup = e.ins_VatGroup;
-    this.goodsreceiptlines.ins_PurchasePackQuantity =
-      e.ins_PurchasePackQuantity;
-    (this.goodsreceiptlines.ins_BranchCode = this.userInfo[0].ins_BranchCode),
-      (this.goodsreceiptlines.ins_BranchName = this.userInfo[0].ins_BranchName);
-    this.goodsreceiptlines.ins_CreatedBy = this.userInfo[0].ins_FullName;
-    this.goodsreceiptlines.ins_InventoryUom = e.ins_InventoryUom;
-    this.goodsreceiptlines.ins_Quantity = 0;
-    this.goodsreceiptlines.ins_ReceivedQuantity = 0;
-    this.goodsreceiptlines.ins_UnitCost = e.ins_PurchasePrice;
-
-    this.goodsreceiptdetails.push(this.goodsreceiptlines);
-  }
-
-  onSubmit() {
-    this.goodsreceipt.ins_Badge = '';
-    this.goodsreceipt.ins_BadgeName = '';
-
-    this.goodsreceipt.ins_GoodsReceiptID = this.headerForm.value.goodsreceiptid;
-    this.goodsreceipt.ins_SupplierCode = this.headerForm.value.suppliercode;
-    this.goodsreceipt.ins_SupplierName = this.headerForm.value.suppliername;
-    this.goodsreceipt.ins_BranchCode = this.headerForm.value.branchcode;
-    this.goodsreceipt.ins_BranchName = this.headerForm.value.branchname;
-    this.goodsreceipt.ins_DocNum = this.headerForm.value.docnum;
-    this.goodsreceipt.ins_PostingDate = this.datepipe.transform(
+    this.headerdata.ins_GoodsReceiptID = this.headerForm.value.goodsreceiptid;
+    this.headerdata.ins_SupplierCode = this.headerForm.value.suppliercode;
+    this.headerdata.ins_SupplierName = this.headerForm.value.suppliername;
+    this.headerdata.ins_BranchCode = this.headerForm.value.branchcode;
+    this.headerdata.ins_BranchName = this.headerForm.value.branchname;
+    this.headerdata.ins_DocNum = this.headerForm.value.docnum;
+    this.headerdata.ins_PostingDate = this.datepipe.transform(
       this.headerForm.value.docdate,
       'yyyy-MM-dd'
     ) as unknown as Date;
-    this.goodsreceipt.ins_DeliveryDate = this.datepipe.transform(
+    this.headerdata.ins_DeliveryDate = this.datepipe.transform(
       this.headerForm.value.deldate,
       'yyyy-MM-dd'
     ) as unknown as Date;
-    this.goodsreceipt.ins_CreatedBy = this.headerForm.value.owner;
-    this.goodsreceipt.ins_ReceivedDate = this.datepipe.transform(
+    this.headerdata.ins_CreatedBy = this.headerForm.value.owner;
+    this.headerdata.ins_ReceivedDate = this.datepipe.transform(
       this.headerForm.value.recdate,
       'yyyy-MM-dd'
     ) as unknown as Date;
-    // this.goodsreceipt.ins_DocStatus = 0;
-    this.goodsreceipt.ins_Received = 1;
-    this.goodsreceipt.ins_PurchaseOrderDocNum =
+    this.headerdata.ins_Received = 1;
+    this.headerdata.ins_PurchaseOrderDocNum =
       this.headerForm.value.purchaseorderdocnum;
-    this.goodsreceipt.ins_PurchaseOrderID =
-      this.headerForm.value.purchaseorderid;
+    this.headerdata.ins_PurchaseOrderID = this.headerForm.value.purchaseorderid;
 
-    this.goodsreceipt.ins_GoodsReceiptDetails = this.goodsreceiptdetails;
+    this.headerdata.ins_GoodsReceiptDetails = this.itemdetails;
 
     if (this.state == 'add') {
-      this.goodsreceiptapi.post_GoodsReceipt(this.goodsreceipt, 'PostAsync');
+      await this.globalservice.postAuth(
+        'GoodsReceipt',
+        'PostAsync',
+        this.headerdata
+      );
     } else {
-      this.goodsreceiptapi.put_GoodsReceipt(this.goodsreceipt);
+      this.globalservice.postAuth('GoodsReceipt', 'PutAsync', this.headerdata);
     }
 
     this.formApproved();
   }
 
-  checkActionAdd() {
-    if (this.goodsreceiptData.length > 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  checkActionAdd() {}
 
   onCancel() {
-    this.goodsReceiptEvent.emit();
+    this.outputEvent.emit();
   }
 
-  deleteItem(a: any) {
-    this.goodsreceiptdetails.splice(a, 1);
-  }
-  
+  deleteItem(a: any) {}
+
   onchange(a: any) {
     const _qty = a.target.value;
-    const _recqty = this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity;
-    const _poqty =
-      this.goodsreceiptdetails[a.target.id].ins_PurchaseOrderQuantity;
-    const _packageqty =
-      this.goodsreceiptdetails[a.target.id].ins_PurchasePackQuantity;
+    const _recqty = this.itemdetails[a.target.id].ins_ReceivedQuantity;
+    const _poqty = this.itemdetails[a.target.id].ins_PurchaseOrderQuantity;
+    const _packageqty = this.itemdetails[a.target.id].ins_PurchasePackQuantity;
     const _inventoryqty = _packageqty * _qty;
 
     if (_poqty < _qty) {
@@ -332,11 +309,10 @@ export class GoodsReceiptTransactionComponent implements OnInit {
         'Recieve Quantity is Greater Than PO Quantity',
         'error'
       );
-      this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity = _recqty;
+      this.itemdetails[a.target.id].ins_ReceivedQuantity = _recqty;
     } else {
-      this.goodsreceiptdetails[a.target.id].ins_ReceivedQuantity =
-        a.target.value;
-      this.goodsreceiptdetails[a.target.id].ins_ReceivedInventoryQuantity =
+      this.itemdetails[a.target.id].ins_ReceivedQuantity = a.target.value;
+      this.itemdetails[a.target.id].ins_ReceivedInventoryQuantity =
         _inventoryqty;
     }
   }
@@ -362,106 +338,94 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     }
   }
 
-
-
-
   formDefault() {
-    this.state = 'add';
+    this.isHiddenPrinterBtn = true;
+    this.isHiddenSave = false;
 
-    // this.isHiddenPrinterBtn = true;
-    // this.isHiddenSave = false;
-    // this.isHiddenApproveBtn = true;
-    // this.isHiddenRejectBtn = true;
-    // this.isHiddenDiv = true;
-    // this.isHiddenDeleteBtn = true;
-
-    // // this.isHiddenRowQuantity = false;
-    // // this.isReadOnlyDeliveryDate = false;
-
+    this.isReadOnlyRecDate = false; 
     
-    this.isViewHidden = false;
-    this.isEditHidden = true;
-    this.isReadOnly = false;
-    this.isDisablePoSelection = false;
-    this.state = 'add';
-
+    this.isHiddenAction = false;
+    this.isHiddenActionRow = false;
 
     this.badge = 'secondary';
     this.badgename = 'New Record';
   }
 
   formPending() {
-    // this.isHiddenPrinterBtn = false;
-    // this.isHiddenSave = true;
-    // this.isHiddenApproveBtn = false;
-    // this.isHiddenRejectBtn = false;
-    // this.isHiddenDiv = false;
-    // this.isHiddenDeleteBtn = true;
+    this.isHiddenPrinterBtn = false;
+    this.isHiddenSave = true;
 
-    // this.isHiddenRowQuantity = false;
-    // this.isReadOnlyDeliveryDate = false;
-    this.isViewHidden = false;
-    this.isEditHidden = true;
-    this.isReadOnly = false;
-    this.isDisablePoSelection = false;
+    this.isReadOnlyRecDate = false; 
+    
+    this.isHiddenAction = false;
+    this.isHiddenActionRow = false;
 
     this.badge = 'warning';
     this.badgename = 'PENDING';
   }
 
   formApproved() {
-    // this.isHiddenSave = true;
-    // this.isHiddenAction = true;
-    // this.isHiddenActionRow = true;
-    // this.isHiddenAddItem = true;
-    // this.isHiddenApproveBtn = true;
-
-    // this.isHiddenRejectBtn = false;
-    // this.isHiddenDiv = false;
-    // this.isHiddenDeleteBtn = true;
-
-    // this.isHiddenRowQuantity = true;
-    // this.isReadOnlyDeliveryDate = true;
-
+    this.isHiddenPrinterBtn = false;
     this.isHiddenSave = true;
+
+    this.isReadOnlyRecDate = true; 
+    
+    this.isHiddenAction = true;
     this.isHiddenActionRow = true;
-    this.isReadOnlyRecDate = true;
-    this.isDisablePoSelection = true;
 
     this.badge = 'success';
-    this.badgename = 'APPROVED';
+    this.badgename = 'RECEIVED';
   }
 
   formRejected() {
-    // this.isHiddenSave = true;
-    // this.isHiddenAction = true;
-    // this.isHiddenActionRow = true;
-    // this.isHiddenAddItem = true;
-    // this.isHiddenApproveBtn = true;
+    this.isHiddenPrinterBtn = false;
+    this.isHiddenSave = true;
 
-    // this.isHiddenRejectBtn = true;
-    // this.isHiddenDiv = true;
-    // this.isHiddenDeleteBtn = true;
-
-    // this.isHiddenRowQuantity = true;
-    // this.isReadOnlyDeliveryDate = true;
+    this.isReadOnlyRecDate = true; 
+    
+    this.isHiddenAction = true;
+    this.isHiddenActionRow = true;
 
     this.badge = 'danger';
     this.badgename = 'REJECTED';
   }
 
+  formCancelled() {
+    this.isHiddenPrinterBtn = false;
+    this.isHiddenSave = true;
+
+    this.isReadOnlyRecDate = true; 
+    
+    this.isHiddenAction = true;
+    this.isHiddenActionRow = true;
+
+    this.badge = 'danger';
+    this.badgename = 'CANCELLED';
+  }
+
+  formDeleted() {
+    this.isHiddenPrinterBtn = false;
+    this.isHiddenSave = true;
+
+    this.isReadOnlyRecDate = true; 
+    
+    this.isHiddenAction = true;
+    this.isHiddenActionRow = true;
+
+    this.badge = 'danger';
+    this.badgename = 'DELETED';
+  }
+
   formClosed() {
-    // this.isHiddenSave = true;
-    // this.isHiddenAction = true;
-    // this.isHiddenActionRow = true;
-    // this.isHiddenAddItem = true;
-    // this.isHiddenApproveBtn = true;
-    // this.isHiddenRejectBtn = true;
-    // this.isHiddenDiv = true;
-    // this.isHiddenDeleteBtn = true;
+    this.isHiddenPrinterBtn = false;
+    this.isHiddenSave = true;
+
+    this.isReadOnlyRecDate = true; 
+    
+    this.isHiddenAction = true;
+    this.isHiddenActionRow = true;
 
     this.badge = 'danger';
     this.badgename = 'CLOSED';
   }
-
 }

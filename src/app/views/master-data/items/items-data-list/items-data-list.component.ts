@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ItemService } from '../../../../../_shared/items/item.service';
+import { GlobalService } from 'src/_shared/api/service';
 
 import {
   Item
@@ -15,20 +15,20 @@ export class ItemsDataListComponent implements OnInit {
   items: Item[] = [];
 
   constructor(
-    public itemservice: ItemService
+    private globalservice: GlobalService
   ) { }
 
   async ngOnInit(): Promise<void> {
     let data: any;
     this.items = [];
 
-    data = (await this.itemservice.getList())  as any;
+    data = (await this.globalservice.getAuthList('Item')) as any;
+    // data = (await this.itemservice.getList())  as any;
     if (data !== false) {
       for (var val of data) {
         this.items.push(val);
       }
     }
-
   }
 
   PassEvent() {
@@ -36,6 +36,8 @@ export class ItemsDataListComponent implements OnInit {
   }
 
   async DataLoadEvent(e: any) {
+    
+    console.log(e);
     await this.itemListEvent.emit(await e);
   }
 }
