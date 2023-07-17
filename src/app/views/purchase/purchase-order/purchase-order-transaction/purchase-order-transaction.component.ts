@@ -220,7 +220,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
         this.headerdata
       );
     } else {
-      this.globalservice.putAuth('Purchaseorders', '', this.headerdata);
+      this.globalservice.postAuth('Purchaseorders', 'PutAsync', this.headerdata);
     }
 
     this.onLoadForm(this.headerForm.value.docstatus);
@@ -249,7 +249,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth(
+    let data = await this.globalservice.postAuth(
       'PurchaseOrders',
       'Status',
       approvalData
@@ -272,7 +272,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth(
+    let data = await this.globalservice.postAuth(
       'PurchaseOrders',
       'Status',
       approvalData
@@ -295,7 +295,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth(
+    let data = await this.globalservice.postAuth(
       'PurchaseOrders',
       'Status',
       approvalData

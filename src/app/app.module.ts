@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BnNgIdleService } from 'bn-ng-idle';
-
+import { HttpClient } from '@angular/common/http';
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -51,7 +51,8 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {JsonAppConfigService} from '../_config/json-app-config.service';
+import {AppConfig} from '../_config/app-config';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -62,6 +63,12 @@ const APP_CONTAINERS = [
   DefaultHeaderComponent,
   DefaultLayoutComponent,
 ];
+
+export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
+  return () => {
+    return jsonAppConfigService.load();
+  };
+}
 
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
@@ -98,6 +105,17 @@ const APP_CONTAINERS = [
     TableModule,
   ],
   providers: [
+    {
+      provide: AppConfig,
+      deps: [HttpClient],
+      useExisting: JsonAppConfigService
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [JsonAppConfigService],
+      useFactory: initializerFn
+    },
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy,

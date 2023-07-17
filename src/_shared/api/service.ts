@@ -28,7 +28,7 @@ export class GlobalService {
   }
 
   async putAuth(api: string, apiExtension: string = '', body: any) {
-    return await this.globalapi.putAuth(api, apiExtension, body);
+    return await this.globalapi.putAuth(api, apiExtension, body) as any;
   }
 
   async getAuthList(api: string) {

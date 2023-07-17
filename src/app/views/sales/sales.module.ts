@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { MasterDataModule } from '../master-data/master-data.module'
+
 // CoreUI Modules
 import {
   AccordionModule,
@@ -25,7 +27,12 @@ import {
   TableModule,
   TabsModule,
   TooltipModule,
-  UtilitiesModule
+  UtilitiesModule,
+  ButtonGroupModule,
+  AlertModule,
+  ModalModule,
+  ToastModule,
+
 } from '@coreui/angular';
 
 import { IconModule } from '@coreui/icons-angular';
@@ -42,6 +49,8 @@ import { BranchSalesMonitoringComponent } from './branch-sales-monitoring/branch
 import { SalesReportComponent } from './sales-report/sales-report.component';
 
 import { WidgetsModule } from '../widgets/widgets.module';
+import { SalesWidgetsModule } from '../sales-widgets/sales-widgets.module';
+
 
 @NgModule({
   imports: [
@@ -72,14 +81,19 @@ import { WidgetsModule } from '../widgets/widgets.module';
     PaginationModule,
     PopoverModule,
     TableModule,
-    WidgetsModule
+    WidgetsModule,
+    SalesWidgetsModule,
+    ButtonGroupModule,
+    ModalModule,
+    MasterDataModule,
     // DocsComponentsModule,
   ],
   declarations: [
   
     SalesMonitoringComponent,
     BranchSalesMonitoringComponent,
-    SalesReportComponent
+    SalesReportComponent,
+
   ],
 })
 export class SalesModule { }

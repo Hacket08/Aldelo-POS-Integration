@@ -207,14 +207,14 @@ export class ItemsDataEntryComponent implements OnInit {
     if (this.checkActionAdd() == true) {
       await this.globalservice.postAuth(
         'Item',
-        '',
+        'PostAsync',
         this.item
       );
     } else {
 
-      await this.globalservice.putAuth(
+      await this.globalservice.postAuth(
         'Item',
-        '',
+        'PutAsync',
         this.item
       );
     }

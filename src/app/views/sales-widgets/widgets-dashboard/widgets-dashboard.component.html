@@ -1,0 +1,121 @@
+<!-- <p>widgets-dashboard works!</p> -->
+<!-- <div class="grid-container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+  <div>11</div>
+  <div>12</div>
+</div> -->
+
+
+
+
+<c-row>
+  <c-col class="col-widget" md="6">
+    <c-card class="success-5">
+      <c-row style="height: auto;">
+        <c-col xl="3" md="3" xs="3">
+          <div id="card-icon">
+            <svg cIcon name="cil-money" size="5xl"></svg>
+          </div>
+        </c-col>
+        <c-col xl="9" md="9" xs="9">
+          <div id="card-data">
+            <div id="card-data-title"><h6>SALES FOR TODAY</h6></div>
+            <div id="card-data-subtitle" ><h1>{{ dailytotalsales | number:'1.2-2' }}</h1></div>
+          </div>
+        </c-col>
+      </c-row>
+      <c-card-footer class="success"> Generate Data Here </c-card-footer>
+    </c-card>
+  </c-col>
+
+  <c-col class="col-widget" md="6">
+    <c-card class="info-5">
+      <c-row style="height: auto;">
+        <c-col xl="3" md="3" xs="3">
+          <div id="card-icon">
+            <svg cIcon name="cil-Basket" size="5xl"></svg>
+          </div>
+        </c-col>
+        <c-col xl="9" md="9" xs="9">
+          <div id="card-data">
+            <div id="card-data-title"><h6>SALES FROM YESTERDAY</h6></div>
+            <div id="card-data-subtitle" ><h1>{{ yesttotalsales | number:'1.2-2' }}</h1></div>
+          </div>
+        </c-col>
+      </c-row>
+      <c-card-footer class="info"> Generate Data Here </c-card-footer>
+    </c-card>
+  </c-col>
+
+  <c-col class="col-widget" md="6">
+    <c-card class="warning-5">
+      <c-row style="height: auto;">
+        <c-col xl="3" md="3" xs="3">
+          <div id="card-icon">
+            <svg cIcon name="cil-Calendar" size="5xl"></svg>
+          </div>
+        </c-col>
+        <c-col xl="9" md="9" xs="9">
+          <div id="card-data">
+            <div id="card-data-title"><h6>MONTH-TO-DATE SALES</h6></div>
+            <div id="card-data-subtitle" ><h1>{{ monthlytotalsales | number:'1.2-2' }}</h1></div>
+          </div>
+        </c-col>
+      </c-row>
+      <c-card-footer class="warning"> Generate Data Here </c-card-footer>
+    </c-card>
+  </c-col>
+
+  <c-col class="col-widget" md="6">
+    <c-card class="danger-5">
+      <c-row style="height: auto;">
+        <c-col xl="3" md="3" xs="3">
+          <div id="card-icon">
+            <svg cIcon name="cil-cart" size="5xl"></svg>
+          </div>
+        </c-col>
+        <c-col xl="9" md="9" xs="9">
+          <div id="card-data">
+            <div id="card-data-title"><h6>YEAR-TO-DATE SALES</h6></div>
+            <div id="card-data-subtitle" ><h1>{{ yearlytotalsales | number:'1.2-2' }}</h1></div>
+          </div>
+        </c-col>
+      </c-row>
+      <c-card-footer class="danger"> Generate Data Here </c-card-footer>
+    </c-card>
+  </c-col>
+
+</c-row>
+
+
+
+<!-- <c-row style="gap: 0px; border-width: 1;">
+  <c-col lg="6" md="6" xs="12">
+    <c-card style="height: 150px; background-color: info; border-width: 1;">
+      <svg cIcon name="cil-money" size="8xl"
+    style="position: absolute;"></svg>
+      <div><h3>SALES FOR TODAY</h3> </div>
+      <div><h1>1,000,000,000,000.00</h1></div>
+    </c-card>
+  </c-col>
+
+  <c-col lg="6" sm="6" xs="12">
+    <c-card style="height: 150px; background-color: success; border-width: 1;">
+      <svg cIcon name="cil-money" size="8xl"
+    style="position: absolute;"></svg>
+      <div><h3>SALES FOR TODAY</h3> </div>
+      <div><h1>1,000,000,000,,000,000,000.00</h1></div>
+    </c-card>
+  </c-col>
+</c-row> -->
+
+<!-- <p>widgets-dashboard works!</p> -->

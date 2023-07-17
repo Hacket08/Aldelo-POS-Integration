@@ -144,7 +144,7 @@ export class InventoryCountTransactionComponent implements OnInit {
     this.endQty = 0;
 
     for (var a of this.dataList as any) {
-      console.log("Load Data", a);
+      // console.log("Load Data", a);
       this.docId = a.ins_InventoryWarehouseID;
       this.userOwner = a.ins_CreatedBy;
       this.type = a.ins_InventoryType;
@@ -254,6 +254,7 @@ export class InventoryCountTransactionComponent implements OnInit {
         this.itemcategory.ins_IsValid = true;
         this.itemcategory.ins_AddItem = true;
 
+
         let tempItems = (await this.ItemPerCategories(
           val.ins_CategoryCode
         )) as any[];
@@ -276,6 +277,7 @@ export class InventoryCountTransactionComponent implements OnInit {
 
           this.itemdetails.ins_InventoryType = this.headerForm.controls["inventorytype"].value;
           this.itemdetails.ins_InventoryCode = this.headerForm.controls["inventorycode"].value;
+
           this.itemdetailslist.push(this.itemdetails);
         }
 
@@ -291,6 +293,7 @@ export class InventoryCountTransactionComponent implements OnInit {
   async ItemPerCategories(category: string): Promise<any[]> {
     let data: any;
     this.items = [];
+    console.log("Pass here")
     data = (await this.globalservice.getAuthList('Item')) as any;
     if (data !== false) {
       for (var val of data) {
@@ -327,19 +330,31 @@ export class InventoryCountTransactionComponent implements OnInit {
 
     
     this.type = this.headerForm.controls["inventorytype"].value;
+
+    // if (this.type == 'B') {
+    //   this.headerdata.ins_BegCountDate = this.headerForm.value.docdate;
+    //   this.headerdata.ins_EndCountDate = this.headerForm.value.docdate;
+    // } 
+    // if (this.type == 'E') {
+    //   this.headerdata.ins_EndCountDate = this.date;
+    // } 
+
     // initialize data to lines
     // this.itemdetailslist.length = 0;
     this.itemdetailslist = [];
     for (var a of this.itemcategorylist) {
       if (a.ins_Items.length > 0) {
         for (var o of a.ins_Items) {
-          console.log("Items" , o);
+          // console.log("Items" , o);
           
           this.begQty = this.begQty + Number(o.ins_BegCount);
           this.endQty = this.endQty + Number(o.ins_EndCount);
 
           o.ins_InventoryType = this.headerForm.controls["inventorytype"].value;
           o.ins_InventoryCode = this.headerForm.controls["inventorycode"].value;
+
+          // o.ins_BegCountDate = this.headerdata.ins_BegCountDate;
+          // o.ins_EndCountDate = this.headerdata.ins_EndCountDate;
           await this.itemdetailslist.push(o);
         }
       }
@@ -355,7 +370,7 @@ export class InventoryCountTransactionComponent implements OnInit {
         this.headerdata
       );
     } else {
-      output = await this.globalservice.putAuth('InventoryWarehouse', '', this.headerdata);
+      output = await this.globalservice.postAuth('InventoryWarehouse', 'PutAsync', this.headerdata);
     }
 
 
@@ -364,7 +379,7 @@ export class InventoryCountTransactionComponent implements OnInit {
       inventorywarehouseid: output.ins_InventoryWarehouseID
     });
 
-    console.log(this.docId, this.headerForm);
+    // console.log(this.docId, this.headerForm);
     this.onLoadForm(this.headerForm.value.docstatus);
   }
 
@@ -395,7 +410,7 @@ export class InventoryCountTransactionComponent implements OnInit {
       RejectComment: '',
     };
     
-    let data = await this.globalservice.putAuth('InventoryWarehouse', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryWarehouse', 'Status', approvalData);
     this.headerForm.patchValue({
       inventorytype: 'E',
       inventorycode: 'ENDI',
@@ -416,7 +431,7 @@ export class InventoryCountTransactionComponent implements OnInit {
       RejectComment: 'Document Rejected',
     };
     
-    let data = await this.globalservice.putAuth('InventoryWarehouse', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryWarehouse', 'Status', approvalData);
     this.headerForm.patchValue({
       inventorywarehouseid: id,
       docstatus: 2
@@ -426,7 +441,7 @@ export class InventoryCountTransactionComponent implements OnInit {
   }
 
   async onClose(id: number) {
-    console.log(id);
+    // console.log(id);
     let data = (await this.globalservice.docClosed('InventoryWarehouse', id)) as any;
   }
 
@@ -439,7 +454,7 @@ export class InventoryCountTransactionComponent implements OnInit {
       RejectComment: '',
     };
 
-    let data = await this.globalservice.putAuth('InventoryWarehouse', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryWarehouse', 'Status', approvalData);
     this.headerForm.patchValue({
       inventorywarehouseid: id,
       docstatus: 3
@@ -553,7 +568,7 @@ export class InventoryCountTransactionComponent implements OnInit {
   }
 
   formApproved() {
-    console.log("endQty", this.endQty);
+    // console.log("endQty", this.endQty);
 
     this.isHiddenBegQty = true;
     this.isHiddenBeg2Qty = true;

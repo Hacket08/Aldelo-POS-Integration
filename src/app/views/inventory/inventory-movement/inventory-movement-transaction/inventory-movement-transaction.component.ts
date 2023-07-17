@@ -184,7 +184,7 @@ export class InventoryMovementTransactionComponent implements OnInit {
   }
 
   async onSubmit() {
-    debugger;
+    // debugger;
     let approverlist = this.user.getCurrentUserApprover();
     this.headerdata = new InventoryMovement();
 
@@ -234,9 +234,9 @@ export class InventoryMovementTransactionComponent implements OnInit {
         this.headerdata
       );
     } else {
-      this.globalservice.putAuth(
+      this.globalservice.postAuth(
         'InventoryMovement',
-        '',
+        'PutAsync',
         this.headerdata
       );
     }
@@ -264,7 +264,7 @@ export class InventoryMovementTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth('InventoryMovement', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryMovement', 'Status', approvalData);
     this.onLoadForm(1);
     // let data = (await this.globalservice.docApproved(
     //   'InventoryMovement',
@@ -280,7 +280,7 @@ export class InventoryMovementTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: 'Document is Rejected',
     };
-    let data = await this.globalservice.putAuth('InventoryMovement', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryMovement', 'Status', approvalData);
     this.onLoadForm(2);
     // let data = (await this.globalservice.docRejected(
     //   'InventoryMovement',

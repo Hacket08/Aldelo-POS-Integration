@@ -51,6 +51,10 @@ export const navItems: INavData[] = [
         url: '/purchase/goods-receipt'
       },
       {
+        name: 'Invoice',
+        url: '/purchase/invoice'
+      },
+      {
         name: 'Report',
         url: '/purchase/purchase-report'
       },
@@ -79,23 +83,27 @@ export const navItems: INavData[] = [
         url: '/inventory/inventory-count'
       },
       {
+        name: 'Inventory Level Report',
+        url: '/inventory/inventory-level-report'
+      },
+      {
         name: 'Report',
         url: '/inventory/inventory-report'
       },
 
     ]
   },
-  {
-    name: 'Other Transaction',
-    url: '/buttons',
-    iconComponent: { name: 'cil-money' },
-    children: [
-      {
-        name: 'Expenses',
-        url: '/others/expenses'
-      },
-    ]
-  },
+  // {
+  //   name: 'Other Transaction',
+  //   url: '/buttons',
+  //   iconComponent: { name: 'cil-money' },
+  //   children: [
+  //     {
+  //       name: 'Expenses',
+  //       url: '/others/expenses'
+  //     },
+  //   ]
+  // },
   {
     name: 'Master Data',
     url: '/master-data',

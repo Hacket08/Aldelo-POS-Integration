@@ -479,7 +479,7 @@ export class WeeklyOrderTransactionComponent implements OnInit {
         this.headerdata
       );
     } else {
-      await this.globalservice.putAuth('WeeklyOrder', '', this.headerdata);
+      await this.globalservice.postAuth('WeeklyOrder', 'PutAsync', this.headerdata);
     }
 
     this.onLoadForm(this.headerForm.value.docstatus);
@@ -557,7 +557,7 @@ export class WeeklyOrderTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth('WeeklyOrder', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('WeeklyOrder', 'Status', approvalData);
     this.onLoadForm(1);
 
 
@@ -573,7 +573,7 @@ export class WeeklyOrderTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth('WeeklyOrder', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('WeeklyOrder', 'Status', approvalData);
     this.onLoadForm(4);
 
 
@@ -594,7 +594,7 @@ export class WeeklyOrderTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth('WeeklyOrder', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('WeeklyOrder', 'Status', approvalData);
     this.onLoadForm(2);
 
 
@@ -610,7 +610,7 @@ export class WeeklyOrderTransactionComponent implements OnInit {
       DocId: id,
       RejectComment: '',
     };
-    let data = await this.globalservice.putAuth('WeeklyOrder', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('WeeklyOrder', 'Status', approvalData);
     this.onLoadForm(3);
 
     // let data = (await this.globalservice.docClosed('WeeklyOrder', id)) as any;

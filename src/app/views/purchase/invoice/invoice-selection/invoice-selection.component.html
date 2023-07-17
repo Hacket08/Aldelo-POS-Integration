@@ -1,0 +1,66 @@
+<c-card>
+    <c-row  class="mb-1" >
+      <c-col sm="6">
+        <c-input-group sizing="sm">
+          <input
+            aria-describedby="button-addon2"
+            aria-label="Search Item"
+            cFormControl
+            placeholder="Search Item"
+          />
+          <button
+            cButton
+            color="secondary"
+            id="button-addon2"
+            type="button"
+            variant="outline"
+            style="border: 0rem"
+          >
+            <svg cIcon name="cil-magnifying-glass" size="sm"></svg>
+          </button>
+        </c-input-group>
+      </c-col>
+      <c-col style="text-align: right ; margin-top: 0rem;" sm="6">
+        <button
+        [cModalToggle]=""
+        cButton
+        color="transparent"
+        size="sm"
+        style="margin-left: 0.25rem; margin-bottom: 0.25rem"
+      >
+      Close  <svg cIcon name="cil-ban" size="sm"></svg>
+      </button>
+      </c-col>
+    </c-row>
+  
+    <table cTable [hover]="true" [striped]="true" size="sm" class="mt-1">
+      <thead>
+        <tr>
+          <th scope="col">PO Number</th>
+          <th scope="col">Supplier Name</th>
+          <th scope="col">Delivery Date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of dataList">
+          <td>{{ o.ins_DocNum }}</td>
+          <td>{{ o.ins_SupplierName }}</td>
+          <td>{{ o.ins_DeliveryDate }}</td>
+          <td>
+            <button
+              (click)="selectEvent(o)"
+              [cModalToggle]=""
+              cButton
+              color="info"
+              size="sm"
+              style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              Select
+              <svg cIcon name="cil-check" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card>
+  

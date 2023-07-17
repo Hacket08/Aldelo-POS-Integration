@@ -1,0 +1,104 @@
+// /* Font */
+// // @import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
+
+// //style=""
+
+// // *{
+// //     
+// // }
+
+c-row{
+    // border: 1px solid blue;
+    // margin-bottom: 25px;
+}
+
+c-col{
+    // border: 1px solid green;
+}
+
+
+.grid-container{
+    background-color: red;
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+}
+
+.grid-container > div{
+    background-color: gray;
+    text-align: center;
+    border: 1px solid black;
+}
+
+// c-card{
+//     display: flex;
+//     // margin: 12px;
+// }
+
+// .card-block{
+//     display: flex;
+//     // height: 25px;
+//     margin: 12px;
+// }
+
+.col-widget{
+    padding: 5px;
+}
+
+#card-data{
+    position: relative;
+    padding: 10px; 
+    text-align: right;
+    // padding: 12px 12px 12px 50px;
+    // border: 1px solid red;
+}
+#card-a{
+    background-color: success;
+}
+
+#card-data-subtitle {
+    // position: static; 
+    // font-size: xx-large;
+    // font-weight: bolder;
+    // border: 1px solid blue;
+    // transform: scale(1, 2);
+}
+
+#card-icon{   
+    padding: 10px;
+    color: rgb(73, 72, 72, 0.3);
+    // border: 5px solid blue;
+    // position: relative;
+    // padding: 24px 24px 24px 24px;
+    // height: 100px;
+}
+
+
+// // @media (max-width: 726px) {
+// //     #card-data-subtitle {
+// //       padding-top: 5px;
+// //       transform: scale(1, 2);
+// //     }
+// //   }
+  
+// //   @media (max-height: 400px) {
+// //     #card-data-subtitle {
+// //       transform: scale(1, 1);
+// //     }
+// //   }
+
+// // .grid-container{
+// //     display: grid;
+// //     background-color: aquamarine; 
+// //     border: 1px solid red;
+// //     grid-template-rows: 175px;
+// // }
+
+
+// // .colid{
+// //     height: 50px;
+// //     background-color: blue; 
+// //     border: 1px solid black;
+// // }

@@ -169,10 +169,10 @@ export class UsersTransactionComponent implements OnInit {
     this.headerdata.ins_UserApprover = this.userapproverlist;
 
     if (this.state == 'add') {
-      await this.globalservice.postAuth('UserAccount', '', this.headerdata);
+      await this.globalservice.postAuth('UserAccount', 'PostAsync', this.headerdata);
     } else {
       this.headerdata.ins_UserID = this.headerForm.value.userid;
-      await this.globalservice.putAuth('UserAccount', '', this.headerdata);
+      await this.globalservice.postAuth('UserAccount', 'PutAsync', this.headerdata);
     }
 
     console.log(this.headerdata);

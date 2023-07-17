@@ -53,6 +53,11 @@ import { PurchaseOrderSelectionComponent } from './purchase-order/purchase-order
 import { WidgetsModule } from '../widgets/widgets.module';
 import { PurchaseReportComponent } from './purchase-report/purchase-report.component';
 
+import { InvoiceComponent } from './invoice/invoice.component';
+import { InvoiceListComponent } from './invoice/invoice-list/invoice-list.component';
+import { InvoiceSelectionComponent } from './invoice/invoice-selection/invoice-selection.component';
+import { InvoiceTransactionComponent } from './invoice/invoice-transaction/invoice-transaction.component';
+
 @NgModule({
   declarations: [
     PurchaseOrderComponent,
@@ -64,6 +69,10 @@ import { PurchaseReportComponent } from './purchase-report/purchase-report.compo
     GoodsReceiptTransactionComponent,
     PurchaseOrderSelectionComponent,
     PurchaseReportComponent,
+    InvoiceComponent,
+    InvoiceListComponent,
+    InvoiceSelectionComponent,
+    InvoiceTransactionComponent
     // ItemDataEntryComponent
   ],
   imports: [

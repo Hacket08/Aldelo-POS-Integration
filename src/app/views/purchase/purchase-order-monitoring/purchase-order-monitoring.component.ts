@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./purchase-order-monitoring.component.scss']
 })
 export class PurchaseOrderMonitoringComponent implements OnInit {
-
+  
   constructor() { }
 
   ngOnInit(): void {

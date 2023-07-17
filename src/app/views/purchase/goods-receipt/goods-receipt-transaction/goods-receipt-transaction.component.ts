@@ -283,7 +283,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
         this.headerdata
       );
     } else {
-      this.globalservice.putAuth('GoodsReceipt', '', this.headerdata);
+      this.globalservice.postAuth('GoodsReceipt', 'PutAsync', this.headerdata);
     }
 
     this.formApproved();

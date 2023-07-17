@@ -20,7 +20,7 @@ export class WeeklyOrderListComponent implements OnInit {
     let data: any;
     this.dataList = [];
     this.userInfo = this.user.getCurrentUser();
-    
+    console.log(this.userInfo);
     if (this.userInfo.securityLevel === '1') {
       data = (await this.globalservice.getAuthList('WeeklyOrder')) as any;
     } else {

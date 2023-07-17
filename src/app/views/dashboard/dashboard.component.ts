@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
 
   public users: IUser[] = [
     {
-      name: 'Yiorgos Avraamu',
+      name: 'Branch 1',
       state: 'New',
       registered: 'Jan 1, 2021',
       country: 'Us',
@@ -58,8 +58,8 @@ export class DashboardComponent implements OnInit {
       color: 'success'
     },
     {
-      name: 'Avram Tarasios',
-      state: 'Recurring ',
+      name: 'Branch 2',
+      state: 'New ',
       registered: 'Jan 1, 2021',
       country: 'Br',
       usage: 10,
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
       color: 'info'
     },
     {
-      name: 'Quintin Ed',
+      name: 'Branch 3',
       state: 'New',
       registered: 'Jan 1, 2021',
       country: 'In',
@@ -84,8 +84,8 @@ export class DashboardComponent implements OnInit {
       color: 'warning'
     },
     {
-      name: 'Enéas Kwadwo',
-      state: 'Sleep',
+      name: 'Branch 4',
+      state: 'New',
       registered: 'Jan 1, 2021',
       country: 'Fr',
       usage: 98,
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
       color: 'danger'
     },
     {
-      name: 'Agapetus Tadeáš',
+      name: 'Branch 5',
       state: 'New',
       registered: 'Jan 1, 2021',
       country: 'Es',
@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit {
       color: 'primary'
     },
     {
-      name: 'Friderik Dávid',
+      name: 'Branch 6',
       state: 'New',
       registered: 'Jan 1, 2021',
       country: 'Pl',

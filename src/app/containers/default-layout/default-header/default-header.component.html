@@ -66,7 +66,7 @@
       <li>
         <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
       </li>
-      <li>
+      <!-- <li>
         <a cDropdownItem>
           <svg cIcon class="me-2" name="cilUser"></svg>
           Profile
@@ -77,14 +77,14 @@
           <svg cIcon class="me-2" name="cilSettings"></svg>
           Settings
         </a>
-      </li>
+      </li> -->
 
-      <li>
+      <!-- <li>
         <hr cDropdownDivider />
-      </li>
+      </li> -->
 
       <li>
-        <div *ngIf="user_role == 1">
+        <!-- <div *ngIf="user_role == 1">
           <a [routerLink]="[]" (click)="logOut()" cDropdownItem>
             <svg cIcon class="me-2" name="cilPlus"></svg>
             Add New User
@@ -94,7 +94,7 @@
         <a cDropdownItem>
           <svg cIcon class="me-2" name="cilLockLocked"></svg>
           Lock Account
-        </a>
+        </a> -->
         <a [routerLink]="[]" (click)="logOut()" cDropdownItem>
           <svg cIcon class="me-2" name="cilAccountLogout"></svg>
           Logout

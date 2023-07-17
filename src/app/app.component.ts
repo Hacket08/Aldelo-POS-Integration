@@ -5,6 +5,7 @@ import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
 import { Title } from '@angular/platform-browser';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { Constants } from '../_config/constant';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private iconSetService: IconSetService,
-    private bnIdle: BnNgIdleService
+    private bnIdle: BnNgIdleService,
   ) {
     titleService.setTitle(this.title);
     // iconSet singleton
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     //60 = 1 minute
+    
     this.bnIdle.startWatching(3600).subscribe((res) => {
       if (res) {
         console.log('session expired');

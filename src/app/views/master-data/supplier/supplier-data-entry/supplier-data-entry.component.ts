@@ -128,10 +128,10 @@ export class SupplierDataEntryComponent implements OnInit {
     this.headerdata.ins_InActive = this.headerForm.value.inactive === true ? 1 : 0;
 
     if (this.state == 'add') {
-      await this.globalservice.postAuth( 'Supplier', '', this.headerdata
+      await this.globalservice.postAuth( 'Supplier', 'PostAsync', this.headerdata
       );
     } else {
-      this.globalservice.putAuth('Supplier', '', this.headerdata);
+      this.globalservice.postAuth('Supplier', 'PutAsync', this.headerdata);
     }
 
     this.formPending();
