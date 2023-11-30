@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from '../../_services/api-http.service';
 import { SwalService } from '../../_services/swal-service';
-import { InventoryWarehouse } from '../../_model/inventory-warehouse/inventory-warehouse';
+import { InventoryCount } from '../../_model/inventory-count/inventory-count';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class InventoryWarehouseApi {
+export class InventoryCountApi {
   constructor(
     public http: ApiHttpService,
     public swal: SwalService,
-    public inventorywarehouse: InventoryWarehouse
+    public inventorycount: InventoryCount
   ) {}
 
-  public post_InventoryWarehouse(data: InventoryWarehouse, dataApi: string = '') {
+  public post_InventoryCount(data: InventoryCount, dataApi: string = '') {
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
     this.http
-      .post(this.http.getAPI('InventoryWarehouse') + '/' + dataApi, data, headers)
+      .post(this.http.getAPI('InventoryCount') + '/' + dataApi, data, headers)
       .subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Posted', 'success');
@@ -35,13 +35,13 @@ export class InventoryWarehouseApi {
       );
   }
 
-  public put_InventoryWarehouse(data: InventoryWarehouse, dataApi: string = '') {
+  public put_InventoryCount(data: InventoryCount, dataApi: string = '') {
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('InventoryWarehouse') + '/' + dataApi, data, headers)
+      .put(this.http.getAPI('InventoryCount') + '/' + dataApi, data, headers)
       .subscribe(
         (result) => {
           this.swal.commonSwalCentered('Data Succesfully Updated', 'success');
@@ -57,9 +57,9 @@ export class InventoryWarehouseApi {
       );
   }
 
-  public get_InventoryWarehouse() {
+  public get_InventoryCount() {
     const output = new Promise((resolve) => {
-      this.http.get(this.http.getAPI('InventoryWarehouse')).subscribe(
+      this.http.get(this.http.getAPI('InventoryCount')).subscribe(
         (result) => {
           resolve(result);
         },
@@ -76,9 +76,9 @@ export class InventoryWarehouseApi {
     return output;
   }
 
-  public get_InventoryWarehouseByApi(apitype: string) {
+  public get_InventoryCountByApi(apitype: string) {
     const output = new Promise((resolve) => {
-      this.http.get(this.http.getAPI('InventoryWarehouse')+ '/' + apitype).subscribe(
+      this.http.get(this.http.getAPI('InventoryCount')+ '/' + apitype).subscribe(
         (result) => {
           resolve(result);
         },
@@ -95,10 +95,10 @@ export class InventoryWarehouseApi {
     return output;
   }
 
-  public get_InventoryWarehouseBy(apitype: string) {
+  public get_InventoryCountBy(apitype: string) {
     const output = new Promise((resolve) => {
       this.http
-        .get(this.http.getAPI('InventoryWarehouse') + '/' + apitype, {
+        .get(this.http.getAPI('InventoryCount') + '/' + apitype, {
           responseType: 'text',
         })
         .subscribe(
@@ -117,10 +117,10 @@ export class InventoryWarehouseApi {
     return output;
   }
 
-  public get_InventoryWarehouse_details(objcode: string) {
+  public get_InventoryCount_details(objcode: string) {
     const output = new Promise((resolve) => {
       this.http
-        .get(this.http.getAPI('InventoryWarehouse') + '/' + objcode)
+        .get(this.http.getAPI('InventoryCount') + '/' + objcode)
         .subscribe(
           (result) => {
             resolve(result);
@@ -138,7 +138,7 @@ export class InventoryWarehouseApi {
     return output;
   }
 
-  public approve_InventoryWarehouse(id: number) {
+  public approve_InventoryCount(id: number) {
     
     console.log(id);
     const body = { title: 'Angular PUT Request' };
@@ -147,7 +147,7 @@ export class InventoryWarehouseApi {
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('InventoryWarehouse') + '/Approved/' + id , body)
+      .put(this.http.getAPI('InventoryCount') + '/Approved/' + id , body)
       .subscribe(
         (result: any) => {
           if (result.Code == "200") {
@@ -171,14 +171,14 @@ export class InventoryWarehouseApi {
 
   }
 
-  public reject_InventoryWarehouse(id: number) {
+  public reject_InventoryCount(id: number) {
     const body = { title: 'Angular PUT Request' };
     const headers = {
       accept: 'text/plain',
       'Content-Type': 'application/json',
     };
     this.http
-      .put(this.http.getAPI('InventoryWarehouse') + '/Rejected/' + id , body)
+      .put(this.http.getAPI('InventoryCount') + '/Rejected/' + id , body)
       .subscribe(
         (result: any) => {
           if (result.Code == "200") {

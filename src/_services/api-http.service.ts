@@ -38,6 +38,7 @@ constructor( private http: HttpClient, public swalService: SwalService, private 
     }
 
     public postAuth(url: any = '', body: any) {
+        console.log("headerdata", body);
         const user = JSON.parse(localStorage.getItem('userData'));
         return this.http.post<any>(url, body, {
             headers: {

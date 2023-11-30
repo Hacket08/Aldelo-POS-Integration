@@ -138,7 +138,7 @@ export class BranchTransactionComponent implements OnInit {
     this.headerdata.ins_InActive = this.headerForm.value.inactive === true ? 1 : 0;
     
     if (this.state == 'add') {
-      await this.globalservice.postAuth( 'Branch', 'PostAsync', this.headerdata
+      await this.globalservice.postAuth( 'Branch', 'PostAsyncBranch', this.headerdata
       );
     } else {
       await this.globalservice.postAuth('Branch', 'PutAsync', this.headerdata);

@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 
-export class InventoryWarehouseLines {
-    ins_InventoryWarehouseID: number = 0;
-    ins_InventoryWarehouseLinesId: number = 0;
+export class InventoryCountLines {
+    ins_InventoryCountID: number = 0;
+    ins_InventoryCountLinesId: number = 0;
 
     ins_ItemCode: string = '';
     ins_ItemDescription: string = '';

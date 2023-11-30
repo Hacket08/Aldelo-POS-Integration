@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 
-export class InventoryWarehouse {
-    ins_InventoryWarehouseID: number = 0;
+export class InventoryCount {
+    ins_InventoryCountID: number = 0;
     ins_DocNum: string = '';
     ins_PostingDate: Date;
     ins_DocStatus: number = 0;
@@ -27,5 +27,5 @@ export class InventoryWarehouse {
     ins_Badge: string = '';
     ins_BadgeName: string = '';
 
-    ins_InventoryWarehouseLines: {};
+    ins_InventoryCountLines: {};
 }

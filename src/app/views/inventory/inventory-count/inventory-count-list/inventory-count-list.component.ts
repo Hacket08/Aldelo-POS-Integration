@@ -3,7 +3,7 @@ import { GlobalService } from 'src/_shared/api/service';
 import { Users } from '../../../../../_services/user.api';
 
 
-import { InventoryWarehouse } from '../../../../../_model/inventory-warehouse/inventory-warehouse';
+import { InventoryCount } from '../../../../../_model/inventory-count/inventory-count';
 
 @Component({
   selector: 'app-inventory-count-list',
@@ -12,7 +12,7 @@ import { InventoryWarehouse } from '../../../../../_model/inventory-warehouse/in
 })
 export class InventoryCountListComponent implements OnInit {
   @Output() outputEvent = new EventEmitter();
-  dataList: InventoryWarehouse[] = [];
+  dataList: InventoryCount[] = [];
   userInfo: any;
 
   constructor(private globalservice: GlobalService, private user: Users) {}
@@ -22,26 +22,30 @@ export class InventoryCountListComponent implements OnInit {
     this.dataList = [];
     this.userInfo = this.user.getCurrentUser();
 
+
+
     if (this.userInfo.securityLevel === '1') {
-      data = (await this.globalservice.getAuthList('InventoryWarehouse')) as any;
+      data = (await this.globalservice.getAuthList('InventoryCount')) as any;
     } else {
       data = (await this.globalservice.getAuth(
-        'InventoryWarehouse',
+        'InventoryCount',
         'GetData',
         this.userInfo
       )) as any;
     }
 
-    // data = (await this.globalservice.getAuthList('InventoryWarehouse')) as any;
+
+
+    // data = (await this.globalservice.getAuthList('InventoryCount')) as any;
     // console.log(data);
     if (data !== false) {
       for (var val of data) {
         
            
-        const sumBeg = val.ins_InventoryWarehouseLines.reduce((accumulator: any, currentValue: any) => {
+        const sumBeg = val.ins_InventoryCountLines.reduce((accumulator: any, currentValue: any) => {
           return accumulator + currentValue.ins_BegCount;
         }, 0);
-        const sumEnd = val.ins_InventoryWarehouseLines.reduce((accumulator: any, currentValue: any) => {
+        const sumEnd = val.ins_InventoryCountLines.reduce((accumulator: any, currentValue: any) => {
           return accumulator + currentValue.ins_EndCount;
         }, 0);
 

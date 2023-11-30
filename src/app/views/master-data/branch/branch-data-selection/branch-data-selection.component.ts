@@ -1,34 +1,35 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 // import { SupplierService } from '../../../../../_shared/supplier/supplier.service';
 import { GlobalService } from 'src/_shared/api/service';
-import { Supplier } from '../../../../../_model/supplier/supplier';
+import { Branch } from '../../../../../_model/branch/branch';
 
 @Component({
-  selector: 'app-supplier-data-selection',
-  templateUrl: './supplier-data-selection.component.html',
-  styleUrls: ['./supplier-data-selection.component.scss']
+  selector: 'app-branch-data-selection',
+  templateUrl: './branch-data-selection.component.html',
+  styleUrls: ['./branch-data-selection.component.scss']
 })
-export class SupplierDataSelectionComponent implements OnInit {
+export class BranchDataSelectionComponent implements OnInit {
   @Output() selectionEvent= new EventEmitter();
 
   constructor(private globalservice: GlobalService) { }
 
-  supplier = new Supplier();
-  suppliers: Supplier[] = [];
+  branch = new Branch();
+  branches: Branch[] = [];
 
   async ngOnInit(): Promise<void> {
     let data: any;
-    this.suppliers = [];
+    this.branches = [];
 
-    data = (await this.globalservice.getAuthList('Supplier')) as any;
+    data = (await this.globalservice.getAuthList('Branch')) as any;
     if (data !== false) {
       for (var val of data) {
-        this.suppliers.push(val);
+        this.branches.push(val);
       }
     }
   }
 
   eventReadData(e: any) {
+    console.log("Branch", e);
     this.selectionEvent.emit(e);
   }
 

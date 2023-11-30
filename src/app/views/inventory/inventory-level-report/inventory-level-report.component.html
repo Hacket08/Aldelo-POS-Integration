@@ -1,65 +1,106 @@
-<c-card>
-    <c-row>
-        
-      <c-col lg="4" md="6" xs="12">
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            aria-describedby="button-addon2"
-            aria-label="Branch Name"
-            cFormControl
-            placeholder="Branch Name"
-          />
-        </c-input-group>
-      </c-col>
+<form cForm [formGroup]="headerForm">
+    <c-card>
+        <c-row>
+            <c-col sm="4" xs="12">
+                <c-row class="mb-1">
+                    <c-col xl="4" lg="4" md="12">
+                        <label cCol cLabel="col" for="branchcode" sizing="sm">Branch Code</label
+            >
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input
+                cFormControl
+                formControlName="branchcode"
+                id="branchcode"
+                placeholder="Select Branch"
+                readonly="true"
+              />
+              <button
+                cButton
+                color="secondary"
+                type="button"
+                variant="outline"
+                style="border: 0rem"
+                [cModalToggle]="branchEntry.id"
+                [disabled]="isDisableBranch"
+              >
+                <svg cIcon name="cil-list" size="sm"></svg>
+              </button>
+            </c-input-group>
+          </c-col>
+        </c-row>
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="fdate" sizing="sm"> From Date </label>
+                    </c-col>
+                    <c-col xl="8" lg="8" md="12">
+                        <c-input-group sizing="sm">
+                            <input cFormControl formControlName="fdate" type="text" name="date" onfocus="if(!this.value) (this.type='date')" onblur="if(!this.value)
+                this.type ='text'" />
+                        </c-input-group>
+                    </c-col>
+                </c-row>
+                <c-row class="mb-1">
+                    <c-col xl="4" lg="4" md="12">
+                        <label cCol cLabel="col" for="tdate" sizing="sm"> To Date </label>
+                    </c-col>
+                    <c-col xl="8" lg="8" md="12">
+                        <c-input-group sizing="sm">
+                            <input cFormControl formControlName="tdate" type="text" name="date" onfocus="if(!this.value) (this.type='date')" onblur="if(!this.value)
+                this.type ='text'" />
+                        </c-input-group>
+                    </c-col>
+                </c-row>
+            </c-col>
+        </c-row>
+    </c-card>
+    <c-card>
+        <div class="d-flex justify-content-start">
+            <button (click)="Generate()" cButton color="success" size="sm">
+          <strong>Generate</strong>
+        </button>
+        </div>
+    </c-card>
+</form>
 
-
-
-      <c-col lg="4" md="6" xs="12">
-        <c-input-group class="mb-1" sizing="sm">
-          <input
-            aria-describedby="button-addon2"
-            aria-label="Item Name"
-            cFormControl
-            placeholder="Item Name"
-          />
-        </c-input-group>
-      </c-col>
-      
-    </c-row>
-  </c-card>
-
-
-  <c-card class="table-responsive">
+<c-card class="table-responsive">
     <table cTable [hover]="true" [striped]="true" size="sm">
-      <thead>
-        <tr>
-          <th scope="col">Item Code</th>
-          <th scope="col">Item Name</th>
-          <th scope="col">On Hand</th>
-          <th scope="col">Rec Qty</th>
-          <th scope="col">Used Qty</th>
-          <th scope="col">Inv In Qty</th>
-          <th scope="col">Inv Out Qty</th>
-          <th scope="col">Curr Qty</th>
-          <th scope="col">End Inv</th>
-          <th scope="col">Branch Code</th>
-          <th scope="col">Branch Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let o of dataList" style="padding: 0">
-          <th>{{ o.ins_ItemCode }}</th>
-          <th>{{ o.ins_ItemDescription }}</th>
-          <td>{{ o.ins_OnHand }}</td>
-          <td>{{ o.ins_RecQty }}</td>
-          <td>{{ o.ins_UsedQty }}</td>
-          <td>{{ o.ins_InvInQty }}</td>
-          <td>{{ o.ins_InvOutQty }}</td>
-          <td>{{ o.ins_CurrQty }}</td>
-          <td>{{ o.ins_EndInv }}</td>
-          <td>{{ o.ins_BranchCode }}</td>
-          <td>{{ o.ins_BranchName }}</td>
-        </tr>
-      </tbody>
+        <thead>
+            <tr>
+                <th scope="col">Item Code</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Beg Inv</th>
+                <th scope="col">On Hand</th>
+                <th scope="col">Rec Qty</th>
+                <th scope="col">Used Qty</th>
+                <th scope="col">Inv In Qty</th>
+                <th scope="col">Inv Out Qty</th>
+                <th scope="col">Curr Qty</th>
+                <th scope="col">Branch Code</th>
+                <th scope="col">Branch Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let o of dataList" style="padding: 0">
+                <th>{{ o.ins_ItemCode }}</th>
+                <th>{{ o.ins_ItemDescription }}</th>
+                <td>{{ o.ins_BegInv | number : "1.2-2" }}</td>
+                <td>{{ o.ins_OnHand | number : "1.2-2" }}</td>
+                <td>{{ o.ins_RecQty | number : "1.2-2" }}</td>
+                <td>{{ o.ins_UsedQty | number : "1.2-2" }}</td>
+                <td>{{ o.ins_InvInQty | number : "1.2-2" }}</td>
+                <td>{{ o.ins_InvOutQty | number : "1.2-2" }}</td>
+                <td>{{ o.ins_CurrQty | number : "1.2-2" }}</td>
+                <td>{{ o.ins_BranchCode }}</td>
+                <td>{{ o.ins_BranchName }}</td>
+            </tr>
+        </tbody>
     </table>
-  </c-card>
+</c-card>
+
+<c-modal #branchEntry alignment="center" backdrop="static" id="branchEntry" size="lg">
+    <c-modal-body>
+        <app-branch-data-selection (selectionEvent)="BranchEvent($event)"></app-branch-data-selection>
+    </c-modal-body>
+</c-modal>

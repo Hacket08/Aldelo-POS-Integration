@@ -1,18 +1,28 @@
 .table {
     vertical-align: middle;
-  }
-  
-  .card {
+    overflow-x: auto;
+}
+
+//   .table {
+//     display: block;
+//     overflow-x: auto;
+//     white-space: nowrap;
+// }
+// .table tbody {
+//     display: table;
+//     width: 100%;
+// }
+.card {
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     margin-bottom: 0.5rem;
-  }
-  
-  .badge {
+}
+
+.badge {
     font-size: 0.7rem;
-  }
-  
-.input-group-sm > .form-select{
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-  font-size: 0.8rem;
-  border-radius: 0.2rem;
+}
+
+.input-group-sm>.form-select {
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 0.2rem;
 }

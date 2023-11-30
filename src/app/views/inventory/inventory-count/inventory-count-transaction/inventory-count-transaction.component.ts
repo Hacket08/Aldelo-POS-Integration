@@ -23,9 +23,9 @@ import { ItemService } from 'src/_shared/items/item.service';
 import { ItemCategories } from 'src/_model/item-categories/item-categories';
 import { ItemCategoriesService } from '../../../../../_shared/item-categories/item-categories.service';
 
-import { InventoryWarehouse } from 'src/_model/inventory-warehouse/inventory-warehouse';
-import { InventoryWarehouseLines } from 'src/_model/inventory-warehouse/inventory-warehouse-lines';
-import { InventoryWarehouseApi } from 'src/_shared/inventory-warehouse/inventory-warehouse.api';
+import { InventoryCount } from 'src/_model/inventory-count/inventory-count';
+import { InventoryCountLines } from 'src/_model/inventory-count/inventory-count-lines';
+import { InventoryCountApi } from 'src/_shared/inventory-count/inventory-count.api';
 import { InventoryMovementLines } from 'src/_model/inventory-movement/inventory-movement-lines';
 
 @Component({
@@ -34,11 +34,11 @@ import { InventoryMovementLines } from 'src/_model/inventory-movement/inventory-
   styleUrls: ['./inventory-count-transaction.component.scss'],
 })
 export class InventoryCountTransactionComponent implements OnInit {
-  @Input() dataList: InventoryWarehouse[] = [];
+  @Input() dataList: InventoryCount[] = [];
   @Output() outputEvent = new EventEmitter();
   
-  itemdetails: InventoryWarehouseLines;
-  itemdetailslist: InventoryWarehouseLines[] = [];
+  itemdetails: InventoryCountLines;
+  itemdetailslist: InventoryCountLines[] = [];
   
   headerForm!: FormGroup;
   badge: string = 'warning';
@@ -104,11 +104,11 @@ export class InventoryCountTransactionComponent implements OnInit {
     private globalservice: GlobalService,
     private fb: FormBuilder,
     private itemcategory: ItemCategories,
-    private headerdata: InventoryWarehouse,
+    private headerdata: InventoryCount,
   ) {
     this.userInfo = this.user.getCurrentUser();
     this.headerForm = this.fb.group({
-      inventorywarehouseid: '',
+      inventorycountid: '',
       remarks: '',
       docnum: '',
       docdate: this.datepipe.transform(this.postingdate, 'yyyy-MM-dd'),
@@ -145,12 +145,12 @@ export class InventoryCountTransactionComponent implements OnInit {
 
     for (var a of this.dataList as any) {
       // console.log("Load Data", a);
-      this.docId = a.ins_InventoryWarehouseID;
+      this.docId = a.ins_InventoryCountID;
       this.userOwner = a.ins_CreatedBy;
       this.type = a.ins_InventoryType;
 
       this.headerForm = this.fb.group({
-        inventorywarehouseid: this.docId,
+        inventorycountid: this.docId,
         remarks: a.ins_Remarks,
         docnum: a.ins_DocNum,
         docdate: this.datepipe.transform(a.ins_PostingDate, 'yyyy-MM-dd'),
@@ -168,7 +168,7 @@ export class InventoryCountTransactionComponent implements OnInit {
       });
 
 
-      let details = a.ins_InventoryWarehouseLines as any[];
+      let details = a.ins_InventoryCountLines as any[];
       let data: any;
       data = (await this.globalservice.getAuthList('ItemCategories')) as any;
 
@@ -188,7 +188,7 @@ export class InventoryCountTransactionComponent implements OnInit {
 
           this.itemdetailslist = [];
           for (var o of tempItems) {
-            this.itemdetails = new InventoryWarehouseLines();
+            this.itemdetails = new InventoryCountLines();
 
             this.itemdetails.ins_ItemCode = o.ins_ItemCode;
             this.itemdetails.ins_ItemDescription = o.ins_ItemDescription;
@@ -225,11 +225,11 @@ export class InventoryCountTransactionComponent implements OnInit {
     this.formDefault();
     this.userInfo = this.user.getCurrentUser();
     this.userApprover = this.user.getCurrentUserApprover();
-    const output = await this.globalservice.getMaxId('InventoryWarehouse') as any;
+    const output = await this.globalservice.getMaxId('InventoryCount') as any;
 
 
     this.headerForm.patchValue({
-      inventorywarehouseid: 0,
+      inventorycountid: 0,
       docnum: output.value,
       docdate: this.datepipe.transform(this.postingdate, 'yyyy-MM-dd'),
 
@@ -261,7 +261,7 @@ export class InventoryCountTransactionComponent implements OnInit {
 
         this.itemdetailslist = [];
         for (var o of tempItems) {
-          this.itemdetails = new InventoryWarehouseLines();
+          this.itemdetails = new InventoryCountLines();
 
           this.itemdetails.ins_ItemCode = o.ins_ItemCode;
           this.itemdetails.ins_ItemDescription = o.ins_ItemName;
@@ -309,11 +309,11 @@ export class InventoryCountTransactionComponent implements OnInit {
     this.begQty = 0;
     this.endQty = 0;
 
-    this.headerdata = new InventoryWarehouse();
+    this.headerdata = new InventoryCount();
     this.headerdata.ins_Badge = '';
     this.headerdata.ins_BadgeName = '';
 
-    this.headerdata.ins_InventoryWarehouseID = this.headerForm.value.inventorywarehouseid;
+    this.headerdata.ins_InventoryCountID = this.headerForm.value.inventorycountid;
     this.headerdata.ins_BranchCode = this.headerForm.value.branchcode;
     this.headerdata.ins_BranchName = this.headerForm.value.branchname;
     this.headerdata.ins_DocNum = this.headerForm.value.docnum;
@@ -359,24 +359,24 @@ export class InventoryCountTransactionComponent implements OnInit {
         }
       }
     }
-    this.headerdata.ins_InventoryWarehouseLines = this.itemdetailslist;
-    console.log("headerdata", this.headerdata);
+    this.headerdata.ins_InventoryCountLines = this.itemdetailslist;
+   
 
     let output: any;
     if (this.state == 'add') {
       output = await this.globalservice.postAuth(
-        'InventoryWarehouse',
+        'InventoryCount',
         'PostAsync',
         this.headerdata
       );
     } else {
-      output = await this.globalservice.postAuth('InventoryWarehouse', 'PutAsync', this.headerdata);
+      output = await this.globalservice.postAuth('InventoryCount', 'PutAsync', this.headerdata);
     }
 
 
-    this.docId = output.ins_InventoryWarehouseID;
+    this.docId = output.ins_InventoryCountID;
     this.headerForm.patchValue({
-      inventorywarehouseid: output.ins_InventoryWarehouseID
+      inventorycountid: output.ins_InventoryCountID
     });
 
     // console.log(this.docId, this.headerForm);
@@ -410,11 +410,11 @@ export class InventoryCountTransactionComponent implements OnInit {
       RejectComment: '',
     };
     
-    let data = await this.globalservice.postAuth('InventoryWarehouse', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryCount', 'Status', approvalData);
     this.headerForm.patchValue({
       inventorytype: 'E',
       inventorycode: 'ENDI',
-      inventorywarehouseid: id,
+      inventorycountid: id,
       docstatus: 1
     });
 
@@ -431,9 +431,9 @@ export class InventoryCountTransactionComponent implements OnInit {
       RejectComment: 'Document Rejected',
     };
     
-    let data = await this.globalservice.postAuth('InventoryWarehouse', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryCount', 'Status', approvalData);
     this.headerForm.patchValue({
-      inventorywarehouseid: id,
+      inventorycountid: id,
       docstatus: 2
     });
     this.docId = id;
@@ -442,7 +442,7 @@ export class InventoryCountTransactionComponent implements OnInit {
 
   async onClose(id: number) {
     // console.log(id);
-    let data = (await this.globalservice.docClosed('InventoryWarehouse', id)) as any;
+    let data = (await this.globalservice.docClosed('InventoryCount', id)) as any;
   }
 
   async onConfirmEnding(id: number) {
@@ -454,9 +454,9 @@ export class InventoryCountTransactionComponent implements OnInit {
       RejectComment: '',
     };
 
-    let data = await this.globalservice.postAuth('InventoryWarehouse', 'Status', approvalData);
+    let data = await this.globalservice.postAuth('InventoryCount', 'Status', approvalData);
     this.headerForm.patchValue({
-      inventorywarehouseid: id,
+      inventorycountid: id,
       docstatus: 3
     });
     this.docId = id;

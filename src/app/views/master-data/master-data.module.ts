@@ -52,6 +52,7 @@ import { ItempDataFilterComponent } from './items/itemp-data-filter/itemp-data-f
 import { BranchComponent } from './branch/branch.component';
 import { BranchTransactionComponent } from './branch/branch-transaction/branch-transaction.component';
 import { BranchListComponent } from './branch/branch-list/branch-list.component';
+import { BranchDataSelectionComponent } from './branch/branch-data-selection/branch-data-selection.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { BranchListComponent } from './branch/branch-list/branch-list.component'
     ItempDataFilterComponent,
     BranchComponent,
     BranchTransactionComponent,
-    BranchListComponent
+    BranchListComponent,
+    BranchDataSelectionComponent
   ],
   imports: [
     CommonModule,
@@ -91,6 +93,7 @@ import { BranchListComponent } from './branch/branch-list/branch-list.component'
     ModalModule,
   ],
   exports: [
+    BranchDataSelectionComponent,
     SupplierDataSelectionComponent,
     ItemsDataSelectionComponent
   ]
