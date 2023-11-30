@@ -93,6 +93,26 @@ export const navItems: INavData[] = [
 
     ]
   },
+
+  {
+    name: 'Production',
+    iconComponent: { name: 'cil-description' },
+    children: [
+      {
+        name: 'Production Order',
+        url: '/404',
+      },
+      {
+        name: 'Production Report',
+        url: '/404',
+      },
+      {
+        name: 'Raw Materials Used Report',
+        url: '/404',
+      }
+    ]
+  },
+
   // {
   //   name: 'Other Transaction',
   //   url: '/buttons',
@@ -114,6 +134,14 @@ export const navItems: INavData[] = [
         url: '/master-data/items'
       },
       {
+        name: 'Item Recipe',
+        url: '/404',
+      },
+      {
+        name: 'Unit Of Measurement',
+        url: '/404',
+      },
+      {
         name: 'Branch',
         url: '/master-data/branch'
       },
@@ -121,10 +149,10 @@ export const navItems: INavData[] = [
         name: 'Supplier',
         url: '/master-data/supplier'
       },
-      // {
-      //   name: 'Customer',
-      //   url: '/buttons/dropdowns'
-      // },
+      {
+        name: 'Customer',
+        url: '/404',
+      },
 
     ]
   },
@@ -146,7 +174,8 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Configuration',
-    url: '/settings/configuration',
+    // url: '/settings/configuration',
+    url: '/404',
     iconComponent: { name: 'cil-settings' }
   },
 
