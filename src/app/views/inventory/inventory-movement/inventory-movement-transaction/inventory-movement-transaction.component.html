@@ -196,7 +196,14 @@
         <tr *ngFor="let o of itemList; let i = index">
           <td>{{ o.ins_ItemCode }}</td>
           <td>{{ o.ins_ItemDescription }}</td>
-          <td>{{ o.ins_InventoryUom }}</td>
+          <td [hidden]="!isHiddenRowQuantity">{{ o.ins_InventoryUom }}</td>
+          <td [hidden]="isHiddenRowQuantity"><input
+            value="{{ o.ins_InventoryUom }}"
+            id="{{ i }}"
+            sizing="sm"
+            type="text"
+            style="width: 5rem"
+          /></td>
           <td [hidden]="!isHiddenRowQuantity">{{ o.ins_InventoryQuantity }}</td>
           <td [hidden]="isHiddenRowQuantity"><input
             value="{{ o.ins_InventoryQuantity }}"

@@ -53,6 +53,7 @@ import { BranchComponent } from './branch/branch.component';
 import { BranchTransactionComponent } from './branch/branch-transaction/branch-transaction.component';
 import { BranchListComponent } from './branch/branch-list/branch-list.component';
 import { BranchDataSelectionComponent } from './branch/branch-data-selection/branch-data-selection.component';
+import { ItemRecipeComponent } from './item-recipe/item-recipe.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { BranchDataSelectionComponent } from './branch/branch-data-selection/bra
     BranchComponent,
     BranchTransactionComponent,
     BranchListComponent,
-    BranchDataSelectionComponent
+    BranchDataSelectionComponent,
+    ItemRecipeComponent
   ],
   imports: [
     CommonModule,

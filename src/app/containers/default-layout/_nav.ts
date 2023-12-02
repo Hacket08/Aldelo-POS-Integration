@@ -135,7 +135,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Item Recipe',
-        url: '/404',
+        url: '/master-data/item-recipe',
       },
       {
         name: 'Unit Of Measurement',

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ItemsComponent } from './items/items.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { BranchComponent } from './branch/branch.component';
+import { ItemRecipeComponent } from './item-recipe/item-recipe.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,13 @@ const routes: Routes = [
         component: ItemsComponent,
         data: {
           title: 'Items',
+        },
+      },
+      {
+        path: 'item-recipe',
+        component: ItemRecipeComponent,
+        data: {
+          title: 'Item Recipe',
         },
       },
       {
