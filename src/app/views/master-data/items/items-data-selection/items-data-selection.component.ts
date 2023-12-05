@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalService } from 'src/_shared/api/service';
 import { Item } from '../../../../../_model/item/item';
+import { ItemSelection } from 'src/app_shared/models/item-selection';
+import { GlobalApiService } from 'src/app_shared/services/api/global-api.service'
 
 @Component({
   selector: 'app-items-data-selection',
@@ -9,34 +11,26 @@ import { Item } from '../../../../../_model/item/item';
 })
 export class ItemsDataSelectionComponent implements OnInit {
   @Output() selectionEvent = new EventEmitter();
-  items: Item[] = [];
-  
-  constructor(private globalservice: GlobalService) { }
+  items!: ItemSelection[];
+
+  // items: Item[] = [];
+
+  constructor(private apiservice: GlobalApiService) { }
 
   async ngOnInit(): Promise<void> {
     let data: any;
-    this.items = [];
 
-    data = (await this.globalservice.getAuthList('Item')) as any;
-    // data = (await this.itemservice.getList())  as any;
-    if (data !== false) {
-      for (var val of data) {
-        this.items.push(val);
-      }
-    }
-
+    data = await this.apiservice.getData(
+      'Item',
+      'List'
+    ).subscribe((data: any) => {
+      this.items = data;
+      console.log(this.items);
+    });
   }
 
   selectEvent(e: any) {
     this.selectionEvent.emit(e);
   }
-
-  // eventReadData(e: any) {
-  //   this.selectionEvent.emit(e);
-  // }
-
-  // PassEvent(){
-  //   this.itemSelectionEvent.emit();
-  // }
 
 }

@@ -49,6 +49,8 @@ import { InventoryMovementListComponent } from './inventory-movement/inventory-m
 import { InventoryMonitoringComponent } from './inventory-monitoring/inventory-monitoring.component';
 import { InventoryReportComponent } from './inventory-report/inventory-report.component';
 import { InventoryLevelReportComponent } from './inventory-level-report/inventory-level-report.component';
+import { InventoryCountingComponent } from './inventory-counting/inventory-counting.component';
+import { InventoryCountingTransactionComponent } from './inventory-counting-transaction/inventory-counting-transaction.component';
 // import { ItempDataFilterComponent } from '../master-data/items/itemp-data-filter/itemp-data-filter.component';
 
 @NgModule({
@@ -65,6 +67,8 @@ import { InventoryLevelReportComponent } from './inventory-level-report/inventor
     InventoryMonitoringComponent,
     InventoryReportComponent,
     InventoryLevelReportComponent,
+    InventoryCountingComponent,
+    InventoryCountingTransactionComponent,
     // ItempDataFilterComponent
   ],
   imports: [
@@ -88,6 +92,7 @@ import { InventoryLevelReportComponent } from './inventory-level-report/inventor
     BadgeModule,
     ModalModule,
     MasterDataModule,
+    SpinnerModule,
     // NgbDatepicker,
   ]
 })

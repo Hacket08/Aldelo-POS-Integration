@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { WeeklyOrderComponent } from './weekly-order/weekly-order.component';
 import { InventoryCountComponent } from './inventory-count/inventory-count.component';
+import { InventoryCountingComponent } from './inventory-counting/inventory-counting.component';
+import { InventoryCountingTransactionComponent } from './inventory-counting-transaction/inventory-counting-transaction.component';
 import { InventoryMovementComponent } from './inventory-movement/inventory-movement.component';
 import { InventoryMonitoringComponent } from './inventory-monitoring/inventory-monitoring.component';
 import { InventoryReportComponent } from './inventory-report/inventory-report.component';
@@ -43,10 +45,24 @@ const routes: Routes = [
         },
       },
       {
-        path: 'inventory-count',
-        component: InventoryCountComponent,
+        path: 'inventory-counting',
+        component: InventoryCountingComponent,
         data: {
-          title: 'Inventory Count',
+          title: 'Inventory Counting',
+        },
+      },
+      {
+        path: 'inventory-counting-transaction',
+        component: InventoryCountingTransactionComponent,
+        data: {
+          title: 'Inventory Counting Transaction',
+        },
+      },
+      {
+        path: 'inventory-counting-transaction/:documentnumber',
+        component: InventoryCountingTransactionComponent,
+        data: {
+          title: 'Inventory Counting Transaction',
         },
       },
       {
