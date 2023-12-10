@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ElementRef,
 } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   FormGroup,
   FormBuilder,
@@ -64,6 +64,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   isReadOnlyDeliveryDate = false;
   isHiddenRowQuantity = false;
 
+  decimalPipe: DecimalPipe = new DecimalPipe("en-US");
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
   postingdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');

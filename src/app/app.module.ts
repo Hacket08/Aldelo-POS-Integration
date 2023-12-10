@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { HttpClient } from '@angular/common/http';
 
+// import { EventService } from '../app_shared/services/EventService';
+
 import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,

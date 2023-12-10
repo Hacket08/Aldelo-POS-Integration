@@ -1,5 +1,4 @@
-<form cForm [formGroup]="headerForm">
-
+<form cForm [formGroup]="documentForm">
     <c-card>
         <c-row>
             <c-col sm="6" xs="12">
@@ -80,7 +79,9 @@
                     </c-col>
                     <c-col xl="8" lg="8" md="12">
                         <c-input-group sizing="sm">
-                            <input cFormControl readonly="true" />
+                            <input cFormControl 
+                            formControlName = "docnum"
+                            readonly="true" />
                         </c-input-group>
                     </c-col>
                 </c-row>
@@ -152,7 +153,16 @@
                 <th scope="col">Item Code</th>
                 <th scope="col">Item Description</th>
                 <th scope="col">Item Uom</th>
+                <th scope="col">Uom</th>
                 <th scope="col">Quantity</th>
+                <th scope="col">Item Cost</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Unit Base Uom</th>
+                <th scope="col">Unit Base Quantity</th>
+                <th scope="col">Unit Base Cost</th>
+                <th scope="col">Inventory Uom</th>
+                <th scope="col">Inventory Quantity</th>
+                <th scope="col">Inventory Cost</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -160,27 +170,45 @@
             <tr *ngFor="let item of itemTransactions; let i = index">
               <td>{{ item.ins_ItemCode }}</td>
               <td>{{ item.ins_ItemName }}</td>
+
               <td>
-                <c-input-group class="mb-1" sizing="sm">
-                    <select cSelect sizing="sm">
+                <c-input-group style="margin-bottom: 0.25rem; margin-top: 0.25rem" sizing="sm">
+                    <select id="uomid" cSelect sizing="sm"  
+                    [(ngModel)]="selectedUoms[i]"         
+                    (change)="onSelectChange(item, selectedUoms[i], i)" >
                         <option *ngFor="let uom of item.ins_ItemUnitOfMeasurement" [ngValue]="uom">
                             {{ uom.ins_BaseUOM }}
-                        </option>
+                        </option>{{ item.ins_UnitUom }}
                     </select>
                   </c-input-group>
               </td>
-              <!-- <td>{{ item.ins_Quantity }}</td> -->
+
+              <td>{{ item.ins_UnitUom }}</td>
+
               <td>
                 <input
-                  value="{{ item.ins_Quantity }}"
+                  [value]="item.ins_UnitQuantity"
                   id="{{ i }}"
                   aria-label="Quantity"
                   sizing="sm"
                   type="number"
                   name="Quantity"
-                  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                  [attr.data-index]="i"
+                  pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                  (change)="onQuantityChange(item, $event)"
                 />
               </td>
+              
+              <td>{{ item.ins_UnitCost  | number : "1.2-2" }}</td>
+              <td>{{ item.ins_LineTotal  | number : "1.2-2" }}</td>
+              
+              <td>{{ item.ins_UnitBaseUom }}</td>
+              <td>{{ item.ins_UnitBaseQuantity  | number : "1.2-2" }}</td>
+              <td>{{ item.ins_UnitBaseCost  | number : "1.2-2" }}</td>
+
+              <td>{{ item.ins_InventoryUom }}</td>
+              <td>{{ item.ins_InventoryQuantity  | number : "1.2-2" }}</td>
+              <td>{{ item.ins_InventoryCost  | number : "1.2-2" }}</td>
               <td>
                 <button
                   cButton
