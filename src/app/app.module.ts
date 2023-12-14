@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { HttpClient } from '@angular/common/http';
-
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 // import { EventService } from '../app_shared/services/EventService';
 
 import {
@@ -105,6 +105,7 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     NgbModule,
     ModalModule,
     TableModule,
+    NgxPaginationModule,
   ],
   providers: [
     {

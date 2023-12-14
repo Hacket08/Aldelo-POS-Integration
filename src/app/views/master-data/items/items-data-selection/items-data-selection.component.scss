@@ -6,3 +6,8 @@
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+.pagination ::ng-deep .ngx-pagination .current {
+  border: 1px solid gray;
+  border-radius: 0.25rem;
+}

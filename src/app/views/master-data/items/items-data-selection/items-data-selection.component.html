@@ -1,63 +1,63 @@
 <c-card>
-    <c-row  class="mb-1" >
-      <c-col sm="6">
-        <c-input-group sizing="sm">
-          <input
-            aria-describedby="button-addon2"
-            aria-label="Search Item"
-            cFormControl
-            placeholder="Search Item"
-          />
-          <button
-            cButton
-            color="secondary"
-            id="button-addon2"
-            type="button"
-            variant="outline"
-            style="border: 0rem">
-            <svg cIcon name="cil-magnifying-glass" size="sm"></svg>
-          </button>
-        </c-input-group>
-      </c-col>
-      <c-col style="text-align: right ; margin-top: 0rem;" sm="6">
-        <button
-        [cModalToggle]=""
-        cButton
-        color="transparent"
-        size="sm"
-        style="margin-left: 0.25rem; margin-bottom: 0.25rem"
-      >
-      Close  <svg cIcon name="cil-ban" size="sm"></svg>
+  <c-row class="mb-1">
+    <c-col sm="6">
+      <c-input-group sizing="sm">
+        <input aria-describedby="button-addon2" aria-label="Search Item" cFormControl placeholder="Search Item"
+          [(ngModel)]="searchText" (ngModelChange)="filterItems($event)" />
+        <button cButton color="secondary" id="button-addon2" type="button" variant="outline" style="border: 0rem">
+          <svg cIcon name="cil-magnifying-glass" size="sm"></svg>
+        </button>
+      </c-input-group>
+    </c-col>
+    <c-col style="text-align: right ; margin-top: 0rem;" sm="6">
+      <button [cModalToggle]="" cButton color="transparent" size="sm"
+        style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+        Close <svg cIcon name="cil-ban" size="sm"></svg>
       </button>
-      </c-col>
-    </c-row>
-  
-    <table cTable [hover]="true" [striped]="true" size="sm" class="mt-1">
-      <thead>
-        <tr>
-          <th scope="col">Item Code</th>
-          <th scope="col">Item Description</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let o of items">
-          <td>{{ o.ins_ItemCode }}</td>
-          <td>{{ o.ins_ItemName }}</td>
-          <td>
-            <button
-              (click)="selectEvent(o)"
-              [cModalToggle]=""
-              cButton
-              color="info"
-              size="sm"
-              style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-              Select
-              <svg cIcon name="cil-check" size="sm"></svg>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </c-card>
-  
+    </c-col>
+  </c-row>
+
+  <table cTable [hover]="true" [striped]="true" size="sm" class="mt-1">
+    <thead>
+      <tr>
+        <th scope="col">Item Code</th>
+        <th scope="col">Item Description</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of visibleItems | paginate: { itemsPerPage: itemCount, currentPage: p }">
+        <td>{{ o.ins_ItemCode }}</td>
+        <td>{{ o.ins_ItemName }}</td>
+        <td>
+          <button (click)="selectEvent(o)" [cModalToggle]="" cButton color="info" size="sm"
+            style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            Select
+            <svg cIcon name="cil-check" size="sm"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <c-row class="mt-3">
+    <c-col md="4" sm="12" xs="12">
+      <div class="d-flex justify-content-start align-items-center">
+        <c-button-group sizing="sm">
+          <button cButton color="primary" (click)="itemCountChange($event)" value="10">10</button>
+          <button cButton color="primary" (click)="itemCountChange($event)" value="20">20</button>
+          <button cButton color="primary" (click)="itemCountChange($event)" value="50">50</button>
+          <button cButton color="primary" (click)="itemCountChange($event)" value="100">100</button>
+          <button cButton color="primary" (click)="itemCountChange($event)" value="500">500</button>
+        </c-button-group>
+      </div>
+    </c-col>
+    <c-col  md="8" sm="12" xs="12">
+      <div class="d-flex justify-content-end">
+        <pagination-controls class="pagination" style="margin-top: 0.5rem;" (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </c-col>
+  </c-row>
+
+</c-card>

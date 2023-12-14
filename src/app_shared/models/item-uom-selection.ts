@@ -1,5 +1,6 @@
 export class ItemUomSelection {
     constructor(
+        public ins_ItemUomId: number,
         public ins_ItemCode: string,
         public ins_ItemName: string,
         public ins_BaseUOM: string,

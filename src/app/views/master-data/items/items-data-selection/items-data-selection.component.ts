@@ -11,26 +11,32 @@ import { GlobalApiService } from 'src/app_shared/services/api/global-api.service
 })
 export class ItemsDataSelectionComponent implements OnInit {
   @Output() selectionEvent = new EventEmitter();
-  items!: ItemSelection[];
+  items: ItemSelection[] = [];
+  searchText: string = '';
 
-  // items: Item[] = [];
+  itemCount: number = 10;
+  p: number = 1;
+  visibleItems: ItemSelection[] = this.items;
 
   constructor(private apiservice: GlobalApiService) { }
 
   async ngOnInit(): Promise<void> {
-    let data: any;
-
-    data = await this.apiservice.getData(
-      'Item',
-      'List'
-    ).subscribe((data: any) => {
-      this.items = data;
-      console.log(this.items);
-    });
+    let data = await this.apiservice.getDataAsync('Item', 'List');
+    this.items = data;
+    this.visibleItems = this.items;
   }
 
   selectEvent(e: any) {
     this.selectionEvent.emit(e);
   }
 
+  filterItems(value: string) {
+    this.visibleItems = this.items.filter(item =>
+      item.ins_ItemName.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+  itemCountChange(value: any){
+    this.itemCount = value.target.value;
+  }
 }

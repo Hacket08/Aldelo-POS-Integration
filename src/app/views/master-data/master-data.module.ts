@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconModule } from '@coreui/icons-angular';
-
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 // CoreUI Modules
 import {
   AccordionModule,
@@ -89,10 +89,12 @@ import { ItemRecipeComponent } from './item-recipe/item-recipe.component';
     DropdownModule,
     SharedModule,
     ListGroupModule,
+    PaginationModule,
     IconModule,
     TableModule,
     BadgeModule,
     ModalModule,
+    NgxPaginationModule,
   ],
   exports: [
     BranchDataSelectionComponent,

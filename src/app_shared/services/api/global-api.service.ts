@@ -13,8 +13,6 @@ export class GlobalApiService {
 
   private getOptions(): any {
     let user = JSON.parse(localStorage.getItem('userData'));
-    console.log(user);
-
     return {
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -22,12 +20,15 @@ export class GlobalApiService {
       })
     }
   }
+
+
+
   private apiSite() {
     // return Constants.API_ENDPOINT + "api/" + module;
     return this.appConfig.APIBaseUrl + "api/";
   }
 
-  getData(module: string, modfunction: string = "", modparam: string = "") {
+  get(module: string, modfunction: string = "", modparam: string = "") {
     let site = this.apiSite();
 
     if (modfunction !== "") {
@@ -36,11 +37,41 @@ export class GlobalApiService {
     if (modparam !== "") {
       modparam = '/' + `${modparam}`;
     }
+
     let url = `${site}${module}${modfunction}${modparam}`;
     let options = this.getOptions();
-
-    console.log(url);
     return this.http.get(url, options);
   }
+
+
+  postData(body: any, module: string, modfunction: string = "", modparam: string = ""){
+    let site = this.apiSite();
+
+    if (modfunction !== "") {
+      modfunction = '/' + `${modfunction}`;
+    }
+    if (modparam !== "") {
+      modparam = '/' + `${modparam}`;
+    }
+    
+    let url = `${site}${module}${modfunction}${modparam}`;
+    let options = this.getOptions();
+    options.headers = options.headers.set('Content-Type', 'application/json');
+
+    return this.http.post(url, body, options);
+  }
+
+
+
+  async getDataAsync(module: string, modfunction: string = "", modparam: string = ""): Promise<any> {
+    try {
+      const response = await this.get(module, modfunction, modparam).toPromise();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
 
 }

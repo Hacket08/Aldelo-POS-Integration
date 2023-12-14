@@ -64,12 +64,9 @@ export class LoginComponent {
         password: this.simpleForm.value.password,
       };
 
-
       let result: any;
       result = (await this.globalservice.postData("Auth","Login", body)) as any;
       const output = Object.entries(result).map(([key, value]) => ({[key]: value}))
-      console.log(output);
-
       if(output.length > 0)
       {
         localStorage.setItem("userData", JSON.stringify(result));
@@ -78,31 +75,6 @@ export class LoginComponent {
 
         location.replace('/dashboard');
       }
-
-
-
-      // this.http.getData(this.user.user_api_link(this.simpleForm.value.username, this.simpleForm.value.password)).subscribe(result => { 
-      //   if(result.length > 0)
-      //   {
-      //     localStorage.setItem("userData", JSON.stringify(result));
-      //     this.swal.commonSwalCentered('Sign In Sucessfully!!!', 'success');
-      //     location.replace('/dashboard');
-      //   }
-      //   // Object.keys(result).forEach(key => {
-      //   //     if (result[key]['userName'] === this.simpleForm.value.username && result[key]['password'] === this.simpleForm.value.password) {
-      //   //       localStorage.setItem("userData", JSON.stringify(result[key]));
-      //   //       this.swal.commonSwalCentered('Sign In Sucessfully!!!', 'success');
-      //   //       location.replace('/dashboard');
-      //   //     }
-      //   // });
-      // }, error => {
-      //   this.swal.commonSwalCentered('Cannot Connect to Server!!!', 'error');
-      // })
-
-      // if (this.user.isLoggedIn() === false) {
-      //   this.swal.commonSwalCentered('Incorrect Credentials!!!', 'error');  
-      // }
-      
     }
   }
 }
