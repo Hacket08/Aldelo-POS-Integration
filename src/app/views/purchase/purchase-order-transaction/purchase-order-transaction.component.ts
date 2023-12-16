@@ -24,20 +24,22 @@ enum UserAction {
 }
 
 @Component({
-  selector: 'app-inventory-counting-transaction',
-  templateUrl: './inventory-counting-transaction.component.html',
-  styleUrls: ['./inventory-counting-transaction.component.scss']
+  selector: 'app-purchase-order-transaction',
+  templateUrl: './purchase-order-transaction.component.html',
+  styleUrls: ['./purchase-order-transaction.component.scss'],
 })
-export class InventoryCountingTransactionComponent implements OnInit {
-
-  documentType: string = 'InventoryCount';
+export class PurchaseOrderTransactionComponent implements OnInit {
+ 
+  documentType: string = 'PurchaseOrders';
+  docurl: string = '/purchase/purchase-order';
 
   settingHidden: boolean = true;
 
   decimalPipe: DecimalPipe = new DecimalPipe("en-US");
   datepipe: DatePipe = new DatePipe('en-US');
   date: Date = new Date();
-  inputType = 'text';
+  docdateInputType  = 'text';
+  duedateInputType  = 'text';
 
   documentForm = new FormGroup({
     docnum: new FormControl(''),
@@ -82,8 +84,7 @@ export class InventoryCountingTransactionComponent implements OnInit {
 
   postingdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
   docdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
-  duedate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
-  deliverydate = this.datepipe.transform(
+  duedate = this.datepipe.transform(
     this.date.setDate(this.date.getDate() + 3),
     'yyyy-MM-dd'
   );
@@ -117,11 +118,15 @@ export class InventoryCountingTransactionComponent implements OnInit {
   removeItemHidden: boolean = true;
   uomItemHidden: boolean = true;
   quantityItemHidden: boolean = true;
+  priceItemHidden: boolean = true;
   addItemHidden: boolean = true;
 
+  
+  docdateReadOnly: boolean = true;
   duedateReadOnly: boolean = true;
   remarksReadOnly: boolean = true;
 
+  cardcodeDisable: boolean = true;
 
   LoadSettingDefault() {
     this.spinnerHidden = true;
@@ -139,10 +144,14 @@ export class InventoryCountingTransactionComponent implements OnInit {
     this.removeItemHidden = true;
     this.uomItemHidden = true;
     this.quantityItemHidden = true;
+    this.priceItemHidden = true;
     this.addItemHidden = true;
 
     this.duedateReadOnly = true;
+    this.docdateReadOnly = true;
     this.remarksReadOnly = true;
+
+    this.cardcodeDisable = true;
   }
 
   constructor(private activeroute: ActivatedRoute,
@@ -217,6 +226,7 @@ export class InventoryCountingTransactionComponent implements OnInit {
     this.docnum = response.ins_DocNum;
     this.cardcode = response.ins_CardCode;
     this.cardname = response.ins_CardName;
+
     this.branchcode = response.ins_BranchCode;
     this.branchname = response.ins_BranchName;
     this.remarks = response.ins_Remarks;
@@ -251,7 +261,6 @@ export class InventoryCountingTransactionComponent implements OnInit {
 
     this.itemTransactionLines = [];
     for (var v of response.ins_TransactionLine) {
-
       let uomlist = await this.apiservice.getDataAsync('Item', 'UomList', v.ins_ItemCode);
       let getuom = uomlist.find((uom: any) => uom.ins_ItemUomId === v.ins_ItemUomId);
 
@@ -287,12 +296,25 @@ export class InventoryCountingTransactionComponent implements OnInit {
     this.docdate = this.datepipe.transform(selectedDate, 'yyyy-MM-dd');
   }
 
-  onInputFocus() {
-    this.inputType = 'date';
+  onDueDateChange() {
+    const selectedDate = this.documentForm.get('duedate').value;
+    this.duedate = this.datepipe.transform(selectedDate, 'yyyy-MM-dd');
+  }
+  
+  onInputFocus(fieldName: string): void {
+    if (fieldName === 'docdate') {
+      this.docdateInputType = 'date';
+    } else if (fieldName === 'duedate') {
+      this.duedateInputType = 'date';
+    }
   }
 
-  onInputBlur() {
-    this.inputType = 'text';
+  onInputBlur(fieldName: string): void {
+    if (fieldName === 'docdate') {
+      this.docdateInputType = 'text';
+    } else if (fieldName === 'duedate') {
+      this.duedateInputType = 'text';
+    }
   }
 
   async submitTranaction() {
@@ -323,10 +345,10 @@ export class InventoryCountingTransactionComponent implements OnInit {
           this.documentType,
           'AddTransaction'
         ).subscribe((response: any) => {
-          this.documentid = response.ins_InventoryCountID;
+          this.documentid = response.ins_PurchaseOrderID;
           this.docnum = response.ins_DocNum;
 
-          this.router.navigate([`/inventory/inventory-counting-transaction/${this.documentid}`]);
+          this.router.navigate([`${this.docurl}-transaction/${this.documentid}`]);
 
           this.swal.commonSwalCentered('Transaction Succesfully Posted', 'success');
           this.editTransaction(this.documentid);
@@ -341,10 +363,10 @@ export class InventoryCountingTransactionComponent implements OnInit {
           this.documentType,
           'UpdateTransaction'
         ).subscribe((response: any) => {
-          this.documentid = response.ins_InventoryCountID;
+          this.documentid = response.ins_PurchaseOrderID;
           this.docnum = response.ins_DocNum;
 
-          this.router.navigate([`/inventory/inventory-counting-transaction/${this.documentid}`]);
+          this.router.navigate([`${this.docurl}-transaction/${this.documentid}`]);
           this.swal.commonSwalCentered('Transaction Succesfully Updated', 'warning');
           this.editTransaction(this.documentid);
           this.spinnerHidden = true;
@@ -407,10 +429,10 @@ export class InventoryCountingTransactionComponent implements OnInit {
 
         this.apiservice.postData(trans, this.documentType, 'UpdateTransactionStatus')
           .subscribe((response: any) => {
-            this.documentid = response.ins_InventoryCountID;
+            this.documentid = response.ins_PurchaseOrderID;
             this.docnum = response.ins_DocNum;
 
-            this.router.navigate([`/inventory/inventory-counting-transaction/${this.documentid}`]);
+            this.router.navigate([`${this.docurl}-transaction/${this.documentid}`]);
 
             const successMessage = `${text}`;
             this.swal.commonSwalCentered(`Transaction ${successMessage}`, status !== 1 ? 'error' : 'success');
@@ -446,7 +468,15 @@ export class InventoryCountingTransactionComponent implements OnInit {
   }
 
   BackToList() {
-    this.router.navigate(['/inventory/inventory-counting']);
+    this.router.navigate([this.docurl]);
+  }
+
+  PartnerEvent(val: any) {
+    this.documentForm.patchValue({
+      cardcode: val.ins_CardCode,
+      cardname: val.ins_CardName,
+    });
+    this.onDataChange();
   }
 
   async ItemEvent(val: any) {
@@ -495,8 +525,6 @@ export class InventoryCountingTransactionComponent implements OnInit {
     this.selectedUoms.splice(index, 1);
   }
 
-
-
   onSelectChange(selectedItem: any, selectedUom: any) {
     selectedItem.ins_UnitUom = selectedUom.ins_BaseUOM;
     selectedItem.ins_UnitBaseUom = selectedUom.ins_InventoryUOM;
@@ -515,6 +543,26 @@ export class InventoryCountingTransactionComponent implements OnInit {
 
     selectedItem.ins_UnitCost = this.ConvertToDouble(unitcost.toString());
     selectedItem.ins_LineTotal = this.ConvertToDouble(linetotal.toString());
+
+    let amount = this.itemTransactionLines.reduce((sum, item) => sum + item.ins_LineTotal, 0);
+    this.doctotal = this.ConvertToDouble(amount.toString());
+    this.documentForm.patchValue({
+      doctotal: this.decimalPipe.transform(this.doctotal, "1.2-2"),
+    });
+  }
+
+  onPriceChange(selectedItem: any, val: any) {
+    const cost = val.target.value;
+    selectedItem.ins_UnitCost = this.ConvertToDouble(cost);
+
+    let basequantity = this.ConvertToDouble(selectedItem.ins_UnitBaseQuantity);
+    let quantity = this.ConvertToDouble(selectedItem.ins_UnitQuantity);
+    let unitbasecost = cost / basequantity;
+    selectedItem.ins_UnitBaseCost = this.ConvertToDouble(unitbasecost.toString());
+    selectedItem.ins_InventoryCost = this.ConvertToDouble(unitbasecost.toString());
+    let linetotal = quantity * cost;
+    selectedItem.ins_LineTotal = this.ConvertToDouble(linetotal.toString());
+
 
     let amount = this.itemTransactionLines.reduce((sum, item) => sum + item.ins_LineTotal, 0);
     this.doctotal = this.ConvertToDouble(amount.toString());
@@ -637,11 +685,14 @@ export class InventoryCountingTransactionComponent implements OnInit {
     this.removeItemHidden = false;
     this.uomItemHidden = false;
     this.quantityItemHidden = false;
+    this.priceItemHidden = false;
     this.addItemHidden = false;
 
     this.duedateReadOnly = false;
+    this.docdateReadOnly = false;
     this.remarksReadOnly = false;
 
+    this.cardcodeDisable = false;
   }
 
   formPending() {
@@ -659,11 +710,14 @@ export class InventoryCountingTransactionComponent implements OnInit {
     this.removeItemHidden = false;
     this.uomItemHidden = false;
     this.quantityItemHidden = false;
+    this.priceItemHidden = false;
     this.addItemHidden = false;
 
     this.duedateReadOnly = false;
+    this.docdateReadOnly = false;
     this.remarksReadOnly = false;
 
+    this.cardcodeDisable = false;
 
     let isApprover = this.approverlist.toLowerCase().indexOf(this.userInfo.emailAddress);
 

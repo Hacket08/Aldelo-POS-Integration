@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-// import { SupplierService } from '../../../../../_shared/supplier/supplier.service';
-import { GlobalService } from 'src/_shared/api/service';
-import { Supplier } from '../../../../../_model/supplier/supplier';
+import { PartnerSelection } from 'src/app_shared/models/partner-selection';
+import { GlobalApiService } from 'src/app_shared/services/api/global-api.service'
 
 @Component({
   selector: 'app-supplier-data-selection',
@@ -9,31 +8,33 @@ import { Supplier } from '../../../../../_model/supplier/supplier';
   styleUrls: ['./supplier-data-selection.component.scss']
 })
 export class SupplierDataSelectionComponent implements OnInit {
-  @Output() selectionEvent= new EventEmitter();
+  @Output() selectionEvent = new EventEmitter();
+  list: PartnerSelection[] = [];
+  searchText: string = '';
 
-  constructor(private globalservice: GlobalService) { }
+  itemCount: number = 10;
+  p: number = 1;
+  visibleList: PartnerSelection[] = this.list;
 
-  supplier = new Supplier();
-  suppliers: Supplier[] = [];
+  constructor(private apiservice: GlobalApiService) { }
 
   async ngOnInit(): Promise<void> {
-    let data: any;
-    this.suppliers = [];
-
-    data = (await this.globalservice.getAuthList('Supplier')) as any;
-    if (data !== false) {
-      for (var val of data) {
-        this.suppliers.push(val);
-      }
-    }
+    let data = await this.apiservice.getDataAsync('Supplier', 'List');
+    this.list = data;
+    this.visibleList = this.list;
   }
 
-  eventReadData(e: any) {
+  selectEvent(e: any) {
     this.selectionEvent.emit(e);
   }
 
-  PassEvent(){
-    this.selectionEvent.emit();
+  filterItems(value: string) {
+    this.visibleList = this.list.filter(list =>
+      list.ins_CardName.toLowerCase().includes(value.toLowerCase())
+    );
   }
 
+  itemCountChange(value: any){
+    this.itemCount = value.target.value;
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalService } from 'src/_shared/api/service';
-import { PurchaseOrder } from '../../../../../_model/purchase-order/purchase-order';
+import { PurchaseOrder } from 'src/_model/purchase-order/purchase-order';
 
 @Component({
   selector: 'app-purchase-order-selection',

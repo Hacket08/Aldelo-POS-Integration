@@ -43,12 +43,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let o of suppliers">
-          <td>{{ o.ins_SupplierCode }}</td>
-          <td>{{ o.ins_SupplierName }}</td>
+        <tr *ngFor="let o of visibleList | paginate: { itemsPerPage: itemCount, currentPage: p }">
+          <td>{{ o.ins_CardCode }}</td>
+          <td>{{ o.ins_CardName }}</td>
           <td>
             <button
-              (click)="eventReadData(o)"
+              (click)="selectEvent(o)"
               [cModalToggle]=""
               cButton
               color="info"
@@ -62,5 +62,24 @@
         </tr>
       </tbody>
     </table>
+
+    <c-row class="mt-3">
+      <c-col md="4" sm="12" xs="12">
+        <div class="d-flex justify-content-start align-items-center">
+          <c-button-group sizing="sm">
+            <button cButton color="primary" (click)="itemCountChange($event)" value="10">10</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="20">20</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="50">50</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="100">100</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="500">500</button>
+          </c-button-group>
+        </div>
+      </c-col>
+      <c-col  md="8" sm="12" xs="12">
+        <div class="d-flex justify-content-end">
+          <pagination-controls class="pagination" style="margin-top: 0.5rem;" (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </c-col>
+    </c-row>
   </c-card>
  

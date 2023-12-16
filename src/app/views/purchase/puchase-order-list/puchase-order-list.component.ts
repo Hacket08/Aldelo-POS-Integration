@@ -6,11 +6,11 @@ import { GlobalApiService } from 'src/app_shared/services/api/global-api.service
 import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-purchase-order',
-  templateUrl: './purchase-order.component.html',
-  styleUrls: ['./purchase-order.component.scss'],
+  selector: 'app-puchase-order-list',
+  templateUrl: './puchase-order-list.component.html',
+  styleUrls: ['./puchase-order-list.component.scss'],
 })
-export class PurchaseOrderComponent implements OnInit {
+export class PuchaseOrderListComponent implements OnInit {
   documentType: string = 'PurchaseOrders';
 
   transactions: TransactionList[] = [];
@@ -102,7 +102,6 @@ export class PurchaseOrderComponent implements OnInit {
 
     this.visibleTransaction = this.transactions;
 
-    console.log(this.visibleTransaction);
   }
 
   filterTransactions() {

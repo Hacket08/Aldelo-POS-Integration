@@ -1,4 +1,25 @@
-.table{
+.table {
     vertical-align: middle;
-}
-
+  }
+  
+  .card {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .badge{
+    font-size: 0.7rem;
+  }
+  
+  .input-group-sm > .form-select{
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 0.2rem;
+  }
+  
+  // .placeholder{color: grey;}
+  // select option:first-child{color: grey; display: none;}
+  // select option{color: #555;} // bootstrap default color
+  // .thead, .tbody, .tfoot, .tr, .td, .th {
+  //   margin-bottom: 45rem;
+  // }

@@ -8,6 +8,7 @@
 
 <c-card class="table-responsive">
   <table cTable [hover]="true" [striped]="true" size="sm">
+
     <thead>
       <tr>
         <th scope="col">
@@ -19,8 +20,22 @@
         </th>
         <th scope="col">
           <c-input-group class="mb-1" sizing="sm">
+            <input aria-describedby="button-addon2" aria-label="Document Number" cFormControl
+              placeholder="Supplier Name" [(ngModel)]="filterCardName"
+              (ngModelChange)="filterTransactions()" />
+          </c-input-group>
+        </th>
+        <th scope="col">
+          <c-input-group class="mb-1" sizing="sm">
             <input cFormControl type="text" name="date" [attr.type]="inputType" (focus)="onInputFocus()"
               (blur)="onInputBlur()" placeholder="Posting Date" [(ngModel)]="filterPostingDate"
+              (ngModelChange)="filterTransactions()" />
+          </c-input-group>
+        </th>
+        <th scope="col">
+          <c-input-group class="mb-1" sizing="sm">
+            <input cFormControl type="text" name="date" [attr.type]="inputType" (focus)="onInputFocus()"
+              (blur)="onInputBlur()" placeholder="Delivery Date" [(ngModel)]="filterDueDate"
               (ngModelChange)="filterTransactions()" />
           </c-input-group>
         </th>
@@ -55,7 +70,9 @@
     <thead>
       <tr>
         <th scope="col">Doc Number</th>
+        <th scope="col">Supplier Name</th>
         <th scope="col">Posting Date</th>
+        <th scope="col">Delivery Date</th>
         <th scope="col">Created By</th>
         <th scope="col">Branch Name</th>
         <th scope="col">Status</th>
@@ -66,12 +83,12 @@
       <tr *ngFor="let o of visibleTransaction  | paginate: { itemsPerPage: itemCount, currentPage: p } "
         style="padding: 0">
         <th>{{ o.ins_DocNum }}</th>
-        <td>{{ o.ins_PostingDate | date: "yyyy-MM-dd" }}</td>
+        <td>{{ o.ins_CardName }}</td>
+        <td>{{ o.ins_PostingDate | date: "MM-dd-yyyy" }}</td>
+        <td>{{ o.ins_DueDate | date: "MM-dd-yyyy" }}</td>
         <td>{{ o.ins_CreatedBy }}</td>
         <td>{{ o.ins_BranchName }}</td>
-        <td>
-          <c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge>
-        </td>
+        <td><c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge></td>
         <td>
           <button (click)="edit(o)" cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
             <svg cIcon name="cil-pencil" size="sm"></svg>

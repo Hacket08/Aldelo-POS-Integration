@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component'
+import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component'
 import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component'
 import { PurchaseReportComponent } from './purchase-report/purchase-report.component'
 
@@ -32,6 +33,20 @@ const routes: Routes = [
         component: PurchaseOrderComponent,
         data: {
           title: 'Purchase Order',
+        },
+      },
+      {
+        path: 'purchase-order-transaction',
+        component: PurchaseOrderTransactionComponent,
+        data: {
+          title: 'Purchase Order Transaction',
+        },
+      },
+      {
+        path: 'purchase-order-transaction/:documentnumber',
+        component: PurchaseOrderTransactionComponent,
+        data: {
+          title: 'Purchase Order Transaction',
         },
       },
       {

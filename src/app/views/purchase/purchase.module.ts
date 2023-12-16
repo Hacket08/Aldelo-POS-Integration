@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconModule } from '@coreui/icons-angular';
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+
 
 import { MasterDataModule } from '../master-data/master-data.module'
 
@@ -43,12 +45,12 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
 //Form Declarations
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
-import { PuchaseOrderListComponent } from './purchase-order/puchase-order-list/puchase-order-list.component';
-import { PurchaseOrderTransactionComponent } from '../purchase/purchase-order/purchase-order-transaction/purchase-order-transaction.component';
+import { PuchaseOrderListComponent } from './puchase-order-list/puchase-order-list.component';
+import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component';
 import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component';
 import { GoodsReceiptListComponent } from './goods-receipt/goods-receipt-list/goods-receipt-list.component';
 import { GoodsReceiptTransactionComponent } from './goods-receipt/goods-receipt-transaction/goods-receipt-transaction.component';
-import { PurchaseOrderSelectionComponent } from './purchase-order/purchase-order-selection/purchase-order-selection.component';
+import { PurchaseOrderSelectionComponent } from './purchase-order-selection/purchase-order-selection.component';
 
 import { WidgetsModule } from '../widgets/widgets.module';
 import { PurchaseReportComponent } from './purchase-report/purchase-report.component';
@@ -90,13 +92,15 @@ import { InvoiceTransactionComponent } from './invoice/invoice-transaction/invoi
     ButtonGroupModule,
     DropdownModule,
     SharedModule,
+    SpinnerModule,
     ListGroupModule,
     IconModule,
     TableModule,
     BadgeModule,
     ModalModule,
     MasterDataModule,
-    WidgetsModule
+    WidgetsModule,
+    NgxPaginationModule
     // NgbDatepicker,
   ]
 })

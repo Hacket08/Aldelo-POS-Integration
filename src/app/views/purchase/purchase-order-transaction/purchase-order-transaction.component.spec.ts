@@ -5,8 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CardModule, GridModule, TableModule, UtilitiesModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
-import { iconSubset } from '../../../../icons/icon-subset';
-import { DocsComponentsModule } from '../../../../../components';
+import { iconSubset } from '../../../icons/icon-subset';
+import { DocsComponentsModule } from '../../../../components';
 
 
 

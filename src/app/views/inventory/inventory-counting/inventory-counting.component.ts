@@ -98,7 +98,7 @@ export class InventoryCountingComponent implements OnInit {
     this.visibleTransaction = this.transactions;
   }
 
-  filterTransactions(value: string, field: number) {
+  filterTransactions() {
     let status = '';
    
     if (this.filterDocStatus === "-1") {

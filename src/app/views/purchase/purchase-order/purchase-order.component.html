@@ -1,4 +1,120 @@
-<!-- hidden to hide elements -->
-
-<app-puchase-order-list (outputEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-puchase-order-list>
-<app-purchase-order-transaction [dataList]="parentData" (outputEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-purchase-order-transaction>
+<c-card>
+    <div class="d-flex justify-content-end">
+      <button cButton color="success" size="sm" (click)="create()">
+        <strong>Create New Transaction</strong>
+      </button>
+    </div>
+  </c-card>
+  
+  <c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+  
+      <thead>
+        <tr>
+          <th scope="col">
+            <c-input-group class="mb-1" sizing="sm">
+              <input aria-describedby="button-addon2" aria-label="Document Number" cFormControl
+                placeholder="Document Number" [(ngModel)]="filterDocnum"
+                (ngModelChange)="filterTransactions()" />
+            </c-input-group>
+          </th>
+          <th scope="col">
+            <c-input-group class="mb-1" sizing="sm">
+              <input aria-describedby="button-addon2" aria-label="Document Number" cFormControl
+                placeholder="Supplier Name" [(ngModel)]="filterCardName"
+                (ngModelChange)="filterTransactions()" />
+            </c-input-group>
+          </th>
+          <th scope="col">
+            <c-input-group class="mb-1" sizing="sm">
+              <input cFormControl type="text" name="date" [attr.type]="inputType" (focus)="onInputFocus()"
+                (blur)="onInputBlur()" placeholder="Posting Date" [(ngModel)]="filterPostingDate"
+                (ngModelChange)="filterTransactions()" />
+            </c-input-group>
+          </th>
+          <th scope="col">
+            <c-input-group class="mb-1" sizing="sm">
+              <input cFormControl type="text" name="date" [attr.type]="inputType" (focus)="onInputFocus()"
+                (blur)="onInputBlur()" placeholder="Delivery Date" [(ngModel)]="filterDueDate"
+                (ngModelChange)="filterTransactions()" />
+            </c-input-group>
+          </th>
+          <th scope="col">
+            <c-input-group class="mb-1" sizing="sm">
+              <input aria-describedby="button-addon2" aria-label="Created By" cFormControl placeholder="Created By"
+                [(ngModel)]="filterCreatedBy" (ngModelChange)="filterTransactions()" />
+            </c-input-group>
+          </th>
+          <th scope="col">
+            <c-input-group class="mb-1" sizing="sm">
+              <input aria-describedby="button-addon2" aria-label="Branch Name" cFormControl placeholder="Branch Name"
+                [(ngModel)]="filterBranchName" (ngModelChange)="filterTransactions()" />
+            </c-input-group>
+          </th>
+          <th scope="col">
+            <c-input-group class="mb-1" sizing="sm">
+              <select cSelect sizing="sm" [(ngModel)]="filterDocStatus" (ngModelChange)="filterTransactions()">
+                <option value="-1">View All</option>
+                <option value="0">Pending</option>
+                <option value="1">Approved</option>
+                <option value="2">Rejected</option>
+                <option value="3">Cancelled</option>
+                <option value="-9">Deleted</option>
+                <option value="-8">Closed</option>
+              </select>
+            </c-input-group>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <thead>
+        <tr>
+          <th scope="col">Doc Number</th>
+          <th scope="col">Supplier Name</th>
+          <th scope="col">Posting Date</th>
+          <th scope="col">Delivery Date</th>
+          <th scope="col">Created By</th>
+          <th scope="col">Branch Name</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of visibleTransaction  | paginate: { itemsPerPage: itemCount, currentPage: p } "
+          style="padding: 0">
+          <th>{{ o.ins_DocNum }}</th>
+          <td>{{ o.ins_CardName }}</td>
+          <td>{{ o.ins_PostingDate | date: "MM-dd-yyyy" }}</td>
+          <td>{{ o.ins_DueDate | date: "MM-dd-yyyy" }}</td>
+          <td>{{ o.ins_CreatedBy }}</td>
+          <td>{{ o.ins_BranchName }}</td>
+          <td><c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge></td>
+          <td>
+            <button (click)="edit(o)" cButton color="info" size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+              <svg cIcon name="cil-pencil" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <c-row class="mt-3">
+      <c-col md="4" sm="12" xs="12">
+        <div class="d-flex justify-content-start align-items-center">
+          <c-button-group sizing="sm">
+            <button cButton color="primary" (click)="itemCountChange($event)" value="10">10</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="20">20</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="50">50</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="100">100</button>
+            <button cButton color="primary" (click)="itemCountChange($event)" value="500">500</button>
+          </c-button-group>
+        </div>
+      </c-col>
+      <c-col md="8" sm="12" xs="12">
+        <div class="d-flex justify-content-end">
+          <pagination-controls class="pagination" style="margin-top: 0.5rem;"
+            (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card>
