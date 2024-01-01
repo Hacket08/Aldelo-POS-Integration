@@ -24,6 +24,12 @@ export class Transaction {
         public ins_CreatedBy: string,
         public ins_BranchCode: string,
         public ins_BranchName: string,
+        
+        public ins_BaseDocNum: string,
+        public ins_BaseDocEntry: number,
+        public ins_BaseDocType: number,
+        public ins_BaseLineNum: number,
+        public ins_ObjectType: number,
 
         public ins_TransactionLine: TransactionLine[]
     ) { }

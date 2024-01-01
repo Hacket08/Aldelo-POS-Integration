@@ -22,6 +22,8 @@ export class SupplierDataSelectionComponent implements OnInit {
     let data = await this.apiservice.getDataAsync('Supplier', 'List');
     this.list = data;
     this.visibleList = this.list;
+
+    console.log("Supplier", this.list)
   }
 
   selectEvent(e: any) {

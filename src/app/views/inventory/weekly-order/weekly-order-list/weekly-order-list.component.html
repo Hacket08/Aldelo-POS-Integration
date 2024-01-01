@@ -88,6 +88,7 @@
           <td>{{ o.ins_OrderBy }}</td>
           <td><c-badge color="{{ o.ins_Badge }}">{{ o.ins_BadgeName }}</c-badge> 
             <div *ngIf="o.ins_IsPOCreated == 1; then IsCreated"></div>
+            
             <ng-template #IsCreated>
               <strong style="font-style: italic;">  (PO Created)</strong>
             </ng-template>

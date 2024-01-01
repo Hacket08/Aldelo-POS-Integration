@@ -1,17 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Users } from 'src/_services/user.api';
-import { Transaction } from 'src/app_shared/models/transaction';
+import { RoleList } from 'src/app_shared/models/role-list';
 import { GlobalApiService } from 'src/app_shared/services/api/global-api.service'
 
 @Component({
-  selector: 'app-purchase-order-selection',
-  templateUrl: './purchase-order-selection.component.html',
-  styleUrls: ['./purchase-order-selection.component.scss'],
+  selector: 'app-role-data-selection',
+  templateUrl: './role-data-selection.component.html',
+  styleUrls: ['./role-data-selection.component.scss']
 })
-export class PurchaseOrderSelectionComponent implements OnInit {
-  @Output() selectionEvent = new EventEmitter();
+export class RoleDataSelectionComponent implements OnInit {
+  @Output() selectionEvent= new EventEmitter();
 
-  documentType: string = 'PurchaseOrders';
+  documentType: string = 'Role';
   // Login Details
   userInfo: any;
   userApprover: any;
@@ -26,15 +26,12 @@ export class PurchaseOrderSelectionComponent implements OnInit {
   branchname: string = '';
 
 
-
-
-
-  list: Transaction[] = [];
+  list: RoleList[] = [];
   searchText: string = '';
 
   itemCount: number = 10;
   p: number = 1;
-  visibleList: Transaction[] = this.list;
+  visibleList: RoleList[] = this.list;
 
   constructor(private apiservice: GlobalApiService,
     private user: Users) { 
@@ -59,16 +56,9 @@ export class PurchaseOrderSelectionComponent implements OnInit {
   async ngOnInit(): Promise<void> {
 
     let data: any;
-    
+    data = await this.apiservice.getDataAsync(this.documentType, 'List');
 
-    if (this.userInfo.securityLevel === '1') {
-      data = await this.apiservice.getDataAsync(this.documentType, 'List');
-    } else {
-      data = await this.apiservice.getDataAsync(this.documentType, 'ListPerBranch', this.branchcode);
-    }
-
-
-    console.log("data", data);
+    console.log("role", data);
     
     this.list = data;
     this.visibleList = this.list;
@@ -80,11 +70,12 @@ export class PurchaseOrderSelectionComponent implements OnInit {
 
   filterItems(value: string) {
     this.visibleList = this.list.filter(list =>
-      list.ins_DocNum.toLowerCase().includes(value.toLowerCase())
+      list.ins_RoleName.toLowerCase().includes(value.toLowerCase())
     );
   }
 
   itemCountChange(value: any){
     this.itemCount = value.target.value;
   }
+
 }

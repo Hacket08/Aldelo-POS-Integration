@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalService } from 'src/_shared/api/service';
-import { Users } from '../../../../../_services/user.api';
-import { GoodsReceipt } from '../../../../../_model/goods-receipt/goods-receipt';
+import { Users } from '../../../../_services/user.api';
+import { GoodsReceipt } from '../../../../_model/goods-receipt/goods-receipt';
 
 @Component({
   selector: 'app-goods-receipt-list',

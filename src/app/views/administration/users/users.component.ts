@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-// import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Users } from 'src/_services/user.api';
+import { UserList } from 'src/app_shared/models/user-list';
+import { GlobalApiService } from 'src/app_shared/services/api/global-api.service';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
-import { IconSetService } from '@coreui/icons-angular';
-import { brandSet, flagSet, freeSet } from '@coreui/icons';
 
 @Component({
   selector: 'app-users',
@@ -10,33 +12,53 @@ import { brandSet, flagSet, freeSet } from '@coreui/icons';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  @Output() parentData: any[] = [];
-  isListViewHidden = true;
-  isTransactionViewHidden = true;
+  documentType: string = 'UserAccount';
+  docurl: string = '/administration/users';
+
+  users: UserList[] = [];
+  visibleUser: UserList[] = this.users;
 
 
-  constructor(public iconSet: IconSetService) {
-    iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
-  }
+  userInfo: any;
+  inputType = 'text';
+  datepipe: DatePipe = new DatePipe('en-US');
+
+  constructor(private router: Router,
+    private user: Users,
+    private apiservice: GlobalApiService) { }
 
   ngOnInit(): void {
-    this.isTransactionViewHidden = false;
-    this.isListViewHidden = true;
+    this.view();
   }
 
-  async eventNewTransaction(a: any) {
-    this.parentData = [];
+  async view() {
+    let response: any;
 
-    if (a !== undefined) {
-      this.parentData.push(a as any);
+    this.userInfo = this.user.getCurrentUser();
+    let userid = this.userInfo.userId;
+    let emailAddress = this.userInfo.emailAddress;
+
+    response = await this.apiservice.getDataAsync(this.documentType, 'GetUser');
+
+    console.log(response);
+    this.users = [];
+    for (var v of response) {
+      
+      let newUser = new UserList(v.ins_Id, v.ins_UserName, v.ins_FullName, v.ins_EmailAddress, v.ins_BranchCode,
+          v.ins_BranchName, v.ins_RoleCode, v.ins_RoleName );
+
+      this.users.push(newUser);
     }
-    
-    this.isListViewHidden = false;
-    this.isTransactionViewHidden = true;
+
+    this.visibleUser = this.users;
+    console.log(this.visibleUser);
   }
 
-  eventListTransaction() {
-    this.isListViewHidden = true;
-    this.isTransactionViewHidden = false;
+  create() {
+    this.router.navigate([`${this.docurl}-transaction`]);
+  }
+
+  edit(v: any) {
+    this.router.navigate([`${this.docurl}-transaction/${v.ins_Id}`]);
   }
 }

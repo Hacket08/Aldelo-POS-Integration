@@ -54,6 +54,8 @@ import { BranchTransactionComponent } from './branch/branch-transaction/branch-t
 import { BranchListComponent } from './branch/branch-list/branch-list.component';
 import { BranchDataSelectionComponent } from './branch/branch-data-selection/branch-data-selection.component';
 import { ItemRecipeComponent } from './item-recipe/item-recipe.component';
+import { RoleDataSelectionComponent } from './role/role-data-selection/role-data-selection.component';
+import { RoleTransactionComponent } from './role/role-transaction/role-transaction.component';
 
 
 @NgModule({
@@ -71,7 +73,9 @@ import { ItemRecipeComponent } from './item-recipe/item-recipe.component';
     BranchTransactionComponent,
     BranchListComponent,
     BranchDataSelectionComponent,
-    ItemRecipeComponent
+    ItemRecipeComponent,
+    RoleDataSelectionComponent,
+    RoleTransactionComponent
   ],
   imports: [
     CommonModule,
@@ -99,7 +103,8 @@ import { ItemRecipeComponent } from './item-recipe/item-recipe.component';
   exports: [
     BranchDataSelectionComponent,
     SupplierDataSelectionComponent,
-    ItemsDataSelectionComponent
+    ItemsDataSelectionComponent,
+    RoleDataSelectionComponent
   ]
 })
 

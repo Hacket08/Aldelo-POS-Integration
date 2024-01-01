@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalService } from 'src/_shared/api/service';
-import { UserAccount } from '../../../../../_model/useraccount';
+import { UserAccount } from '../../../../_model/useraccount';
 
 @Component({
   selector: 'app-users-list',

@@ -19,7 +19,7 @@
                     </button>
 
                     <button cButton color="success" size="sm" type="submit" style="margin-left: 0.25rem"
-                        (click)="$event.preventDefault(); submitTranaction()" [hidden]="saveHidden">
+                        (click)="$event.preventDefault(); submitTransaction()" [hidden]="saveHidden">
                         <svg cIcon name="cil-save" size="sm"></svg>
                         <strong> Save</strong>
                     </button>
@@ -34,6 +34,13 @@
                                     <svg cIcon name="cil-check" size="sm"></svg> Confirm
                                 </button>
                             </li>
+
+                            <li>
+                                <button cDropdownItem (click)="actionClick(5)" [hidden]="deliveryHidden">
+                                    <svg cIcon name="cil-check" size="sm"></svg> Confirm Delivery
+                                </button>
+                            </li>
+                            
                             <li>
                                 <button cDropdownItem (click)="actionClick(1)" [hidden]="approvedHidden">
                                     <svg cIcon name="cil-check" size="sm"></svg> Approved
@@ -214,89 +221,426 @@
 
 
 
-<c-card class="table-responsive">
-    <table cTable [hover]="true" [striped]="true" size="sm">
-        <thead>
-            <tr>
-                <th scope="col">Item Code</th>
-                <th scope="col">Item Description</th>
-                <th scope="col" [hidden]="uomItemHidden">Item Uom</th>
-                <th scope="col" [hidden]="!uomItemHidden">Uom</th>
-                <th scope="col" [hidden]="quantityItemHidden">Quantity</th>
-                <th scope="col" [hidden]="!quantityItemHidden">Quantity</th>
-                <th scope="col" [hidden]="priceItemHidden">Item Cost</th>
-                <th scope="col" [hidden]="!priceItemHidden">Item Cost</th>
-                <th scope="col" style="text-align: right; padding-right: 3rem;">Total Amount</th>
-                <th scope="col" [hidden]="settingHidden">Unit Base Uom</th>
-                <th scope="col" [hidden]="settingHidden">Unit Base Quantity</th>
-                <th scope="col" [hidden]="settingHidden">Unit Base Cost</th>
-                <th scope="col" [hidden]="settingHidden">Inventory Uom</th>
-                <th scope="col" [hidden]="settingHidden">Inventory Quantity</th>
-                <th scope="col" [hidden]="settingHidden">Inventory Cost</th>
-                <th scope="col" [hidden]="removeItemHidden">Action</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of itemTransactionLines; index as i">
-                <td>{{ item.ins_ItemCode }}</td>
-                <td>{{ item.ins_ItemName }}</td>
 
-                <td [hidden]="uomItemHidden">
-                    <c-input-group style="margin-bottom: 0.25rem; margin-top: 0.25rem" sizing="sm">
-                        <select id="uomid" cSelect sizing="sm" [(ngModel)]="selectedUoms[i]"
-                            [ngModelOptions]="{standalone: true}"
-                            (change)="onSelectChange(item, selectedUoms[i]); onDataChange()">
-                            <option *ngFor="let uom of item.ins_ItemUnitOfMeasurement" [ngValue]="uom">
-                                {{ uom.ins_BaseUOM }}
-                            </option>{{ item.ins_UnitUom }}
-                        </select>
-                    </c-input-group>
-                </td>
+<div [ngSwitch]="rolecode"> 
+    <div *ngSwitchCase="'BRUSR'">
+        
+        <c-card class="table-responsive">
+            <table cTable [hover]="true" [striped]="true" size="sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Item Code</th>
+                        <th scope="col">Item Description</th>
+                        <th scope="col" [hidden]="uomItemHidden">Item Uom</th>
+                        <th scope="col" [hidden]="!uomItemHidden">Uom</th>
+                        <th scope="col" [hidden]="quantityItemHidden">Quantity</th>
+                        <th scope="col" [hidden]="!quantityItemHidden">Quantity</th>
+                        <th scope="col" [hidden]="priceItemHidden">Unit Price</th>
+                        <th scope="col" [hidden]="!priceItemHidden">Unit Price</th>
+                        <th scope="col" >Received Quantity</th>
+                        <th scope="col" style="text-align: right; padding-right: 3rem;">Total Amount</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Cost</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Cost</th>
+                        <th scope="col" [hidden]="removeItemHidden">Action</th>
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemTransactionLines; index as i">
+                        <td>{{ item.ins_ItemCode }}</td>
+                        <td>{{ item.ins_ItemName }}</td>
+        
+                        <td [hidden]="uomItemHidden">
+                            <c-input-group style="margin-bottom: 0.25rem; margin-top: 0.25rem" sizing="sm">
+                                <select id="uomid" cSelect sizing="sm" [(ngModel)]="selectedUoms[i]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (change)="onSelectChange(item, selectedUoms[i]); onDataChange()">
+                                    <option *ngFor="let uom of item.ins_ItemUnitOfMeasurement" [ngValue]="uom">
+                                        {{ uom.ins_BaseUOM }}
+                                    </option>{{ item.ins_UnitUom }}
+                                </select>
+                            </c-input-group>
+                        </td>
+        
+                        <td [hidden]="!uomItemHidden">{{ item.ins_UnitUom }}</td>
+        
+                        <td [hidden]="quantityItemHidden">
+                            <input [(ngModel)]="item.ins_UnitQuantity" id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
+                                name="Quantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onQuantityChange(item, $event); onDataChange()" />
+                        </td>
+                        <td [hidden]="!quantityItemHidden">{{ item.ins_UnitQuantity | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="priceItemHidden">
+                            <input [(ngModel)]="item.ins_UnitCost" id="{{ i }}" aria-label="UnitPrice" sizing="sm" type="number"
+                                name="UnitPrice" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onPriceChange(item, $event); onDataChange()" />
+                        </td>
+        
+                        <td [hidden]="!priceItemHidden" style="text-align: right; padding-right: 3rem;">{{ item.ins_UnitCost | number : "1.2-2" }}</td>
 
-                <td [hidden]="!uomItemHidden">{{ item.ins_UnitUom }}</td>
+                        <td >{{ item.ins_ReceivedQuantity | number : "1.2-2" }}</td>
+        
+                        <td style="text-align: right; padding-right: 3rem;">{{ item.ins_LineTotal | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseCost | number : "1.6-6" }}</td>
+                
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryCost | number : "1.6-6" }}</td>
+        
+                        <td [hidden]="removeItemHidden">
+                            <button cButton (click)="$event.preventDefault(); onItemRemove(i); onDataChange()" color="danger"
+                                size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+                                <svg cIcon name="cil-ban" size="sm"></svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button cButton (click)="$event.preventDefault()" [cModalToggle]="itemEntry.id" color="success" size="sm"
+                    [hidden]="addItemHidden">
+                    <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+                    <strong> Add Item</strong>
+                </button>
+            </div>
+        </c-card>
 
-                <td [hidden]="quantityItemHidden">
-                    <input [value]="item.ins_UnitQuantity" id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
-                        name="Quantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
-                        (change)="onQuantityChange(item, $event); onDataChange()" />
-                </td>
-                <td [hidden]="!quantityItemHidden">{{ item.ins_UnitQuantity | number : "1.2-2" }}</td>
 
-                <td [hidden]="priceItemHidden">
-                    <input [value]="item.ins_UnitCost" id="{{ i }}" aria-label="UnitPrice" sizing="sm" type="number"
-                        name="UnitPrice" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
-                        (change)="onPriceChange(item, $event); onDataChange()" />
-                </td>
+    </div> 
+    <div *ngSwitchCase="'ORREL'">
+        
+        <c-card class="table-responsive">
+            <table cTable [hover]="true" [striped]="true" size="sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Item Code</th>
+                        <th scope="col">Item Description</th>
+                        <th scope="col" [hidden]="uomItemHidden">Item Uom</th>
+                        <th scope="col" [hidden]="!uomItemHidden">Uom</th>
+                        <th scope="col" [hidden]="quantityItemHidden">Ordered Quantity</th>
+                        <th scope="col" [hidden]="!quantityItemHidden">Ordered Quantity</th>
+                        <th scope="col" [hidden]="releasedItemHidden">Released Quantity</th>
+                        <th scope="col" [hidden]="!releasedItemHidden">Released Quantity</th>
+                        <th scope="col" [hidden]="priceItemHidden">Unit Price</th>
+                        <th scope="col" [hidden]="!priceItemHidden">Unit Price</th>
+                        <!-- <th scope="col" >Received Quantity</th> -->
+                        <th scope="col" style="text-align: right; padding-right: 3rem;">Total Amount</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Cost</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Cost</th>
+                        <th scope="col" [hidden]="removeItemHidden">Action</th>
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemTransactionLines; index as i">
+                        <td>{{ item.ins_ItemCode }}</td>
+                        <td>{{ item.ins_ItemName }}</td>
+        
+                        <td [hidden]="uomItemHidden">
+                            <c-input-group style="margin-bottom: 0.25rem; margin-top: 0.25rem" sizing="sm">
+                                <select id="uomid" cSelect sizing="sm" [(ngModel)]="selectedUoms[i]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (change)="onSelectChange(item, selectedUoms[i]); onDataChange()">
+                                    <option *ngFor="let uom of item.ins_ItemUnitOfMeasurement" [ngValue]="uom">
+                                        {{ uom.ins_BaseUOM }}
+                                    </option>{{ item.ins_UnitUom }}
+                                </select>
+                            </c-input-group>
+                        </td>
+        
+                        <td [hidden]="!uomItemHidden">{{ item.ins_UnitUom }}</td>
+        
+                        <td [hidden]="quantityItemHidden">
+                            <input [(ngModel)]="item.ins_UnitQuantity" id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
+                                name="Quantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onQuantityChange(item, $event); onDataChange()" />
+                        </td>
+                        <td [hidden]="!quantityItemHidden">{{ item.ins_UnitQuantity | number : "1.2-2" }}</td>
+        
 
-                <td [hidden]="!priceItemHidden" style="text-align: right; padding-right: 3rem;">{{ item.ins_UnitCost | number : "1.2-2" }}</td>
-                <td style="text-align: right; padding-right: 3rem;">{{ item.ins_LineTotal | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="releasedItemHidden">
+                            <input [(ngModel)]="item.ins_ReleasedQuantity" id="{{ i }}" aria-label="ReleasedQuantity" sizing="sm" type="number"
+                                name="ReleasedQuantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onReleasedQuantityChange(item, $event); onDataChange()" />
+                        </td>
 
-                <td [hidden]="settingHidden">{{ item.ins_UnitBaseUom }}</td>
-                <td [hidden]="settingHidden">{{ item.ins_UnitBaseQuantity | number : "1.2-2" }}</td>
-                <td [hidden]="settingHidden">{{ item.ins_UnitBaseCost | number : "1.2-2" }}</td>
+                        <td [hidden]="!releasedItemHidden">{{ item.ins_ReleasedQuantity | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="priceItemHidden">
+                            <input [(ngModel)]="item.ins_UnitCost" id="{{ i }}" aria-label="UnitPrice" sizing="sm" type="number"
+                                name="UnitPrice" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onPriceChange(item, $event); onDataChange()" />
+                        </td>
+        
+                        <td [hidden]="!priceItemHidden" style="text-align: right; padding-right: 3rem;">{{ item.ins_UnitCost | number : "1.2-2" }}</td>
+                        
+                        <!-- <td >{{ item.ins_ReceivedQuantity | number : "1.2-2" }}</td> -->
+        
+                        <td style="text-align: right; padding-right: 3rem;">{{ item.ins_LineTotal | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseCost | number : "1.6-6" }}</td>
+                
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryCost | number : "1.6-6" }}</td>
+        
+                        <td [hidden]="removeItemHidden">
+                            <button cButton (click)="$event.preventDefault(); onItemRemove(i); onDataChange()" color="danger"
+                                size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+                                <svg cIcon name="cil-ban" size="sm"></svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button cButton (click)="$event.preventDefault()" [cModalToggle]="itemEntry.id" color="success" size="sm"
+                    [hidden]="addItemHidden">
+                    <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+                    <strong> Add Item</strong>
+                </button>
+            </div>
+        </c-card>
 
-                <td [hidden]="settingHidden">{{ item.ins_InventoryUom }}</td>
-                <td [hidden]="settingHidden">{{ item.ins_InventoryQuantity | number : "1.2-2" }}</td>
-                <td [hidden]="settingHidden">{{ item.ins_InventoryCost | number : "1.2-2" }}</td>
+    </div> 
 
-                <td [hidden]="removeItemHidden">
-                    <button cButton (click)="$event.preventDefault(); onItemRemove(i); onDataChange()" color="danger"
-                        size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
-                        <svg cIcon name="cil-ban" size="sm"></svg>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div>
-        <button cButton (click)="$event.preventDefault()" [cModalToggle]="itemEntry.id" color="success" size="sm"
-            [hidden]="addItemHidden">
-            <svg cIcon name="cil-playlist-add" size="1xl"></svg>
-            <strong> Add Item</strong>
-        </button>
-    </div>
-</c-card>
+
+
+
+
+    <div *ngSwitchCase="'BRAPR'"></div> 
+    <div *ngSwitchCase="'ADMIN'">
+
+        <c-card class="table-responsive">
+            <table cTable [hover]="true" [striped]="true" size="sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Item Code</th>
+                        <th scope="col">Item Description</th>
+                        <th scope="col" [hidden]="uomItemHidden">Item Uom</th>
+                        <th scope="col" [hidden]="!uomItemHidden">Uom</th>
+                        <th scope="col" [hidden]="quantityItemHidden">Quantity</th>
+                        <th scope="col" [hidden]="!quantityItemHidden">Quantity</th>
+                        <th scope="col" [hidden]="releasedItemHidden">Released Quantity</th>
+                        <th scope="col" [hidden]="!releasedItemHidden">Released Quantity</th>
+                        <th scope="col" [hidden]="priceItemHidden">Unit Price</th>
+                        <th scope="col" [hidden]="!priceItemHidden">Unit Price</th>
+                        <th scope="col" >Received Quantity</th>
+                        <th scope="col" style="text-align: right; padding-right: 3rem;">Total Amount</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Cost</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Cost</th>
+                        <th scope="col" [hidden]="removeItemHidden">Action</th>
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemTransactionLines; index as i">
+                        <td>{{ item.ins_ItemCode }}</td>
+                        <td>{{ item.ins_ItemName }}</td>
+        
+                        <td [hidden]="uomItemHidden">
+                            <c-input-group style="margin-bottom: 0.25rem; margin-top: 0.25rem" sizing="sm">
+                                <select id="uomid" cSelect sizing="sm" [(ngModel)]="selectedUoms[i]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (change)="onSelectChange(item, selectedUoms[i]); onDataChange()">
+                                    <option *ngFor="let uom of item.ins_ItemUnitOfMeasurement" [ngValue]="uom">
+                                        {{ uom.ins_BaseUOM }}
+                                    </option>{{ item.ins_UnitUom }}
+                                </select>
+                            </c-input-group>
+                        </td>
+        
+                        <td [hidden]="!uomItemHidden">{{ item.ins_UnitUom }}</td>
+        
+                        <td [hidden]="quantityItemHidden">
+                            <input [(ngModel)]="item.ins_UnitQuantity" id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
+                                name="Quantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onQuantityChange(item, $event); onDataChange()" />
+                        </td>
+                        <td [hidden]="!quantityItemHidden">{{ item.ins_UnitQuantity | number : "1.2-2" }}</td>
+
+                        <td [hidden]="!releasedItemHidden" >{{ item.ins_ReleasedQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="releasedItemHidden">
+                            <input [(ngModel)]="item.ins_ReleasedQuantity" id="{{ i }}" aria-label="ReleasedQuantity" sizing="sm" type="number"
+                                name="ReleasedQuantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onReleasedQuantityChange(item, $event); onDataChange()" />
+                        </td>
+
+        
+                        <td [hidden]="priceItemHidden">
+                            <input [(ngModel)]="item.ins_UnitCost" id="{{ i }}" aria-label="UnitPrice" sizing="sm" type="number"
+                                name="UnitPrice" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onPriceChange(item, $event); onDataChange()" />
+                        </td>
+        
+                        <td [hidden]="!priceItemHidden" style="text-align: right; padding-right: 3rem;">{{ item.ins_UnitCost | number : "1.2-2" }}</td>
+                        
+        
+
+                        <td >{{ item.ins_ReceivedQuantity | number : "1.2-2" }}</td>
+        
+                        <td style="text-align: right; padding-right: 3rem;">{{ item.ins_LineTotal | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseCost | number : "1.6-6" }}</td>
+                
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryCost | number : "1.6-6" }}</td>
+        
+                        <td [hidden]="removeItemHidden">
+                            <button cButton (click)="$event.preventDefault(); onItemRemove(i); onDataChange()" color="danger"
+                                size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+                                <svg cIcon name="cil-ban" size="sm"></svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button cButton (click)="$event.preventDefault()" [cModalToggle]="itemEntry.id" color="success" size="sm"
+                    [hidden]="addItemHidden">
+                    <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+                    <strong> Add Item</strong>
+                </button>
+            </div>
+        </c-card>
+
+    </div> 
+    
+    <div *ngSwitchCase="'ADMFI'">
+
+        <c-card class="table-responsive">
+            <table cTable [hover]="true" [striped]="true" size="sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Item Code</th>
+                        <th scope="col">Item Description</th>
+                        <th scope="col" [hidden]="uomItemHidden">Item Uom</th>
+                        <th scope="col" [hidden]="!uomItemHidden">Uom</th>
+                        <th scope="col" [hidden]="quantityItemHidden">Ordered Quantity</th>
+                        <th scope="col" [hidden]="!quantityItemHidden">Ordered Quantity</th>
+                        <th scope="col" [hidden]="releasedItemHidden">Released Quantity</th>
+                        <th scope="col" [hidden]="!releasedItemHidden">Released Quantity</th>
+                        <th scope="col" [hidden]="priceItemHidden">Unit Price</th>
+                        <th scope="col" [hidden]="!priceItemHidden">Unit Price</th>
+                        <!-- <th scope="col" >Received Quantity</th> -->
+                        <th scope="col" style="text-align: right; padding-right: 3rem;">Total Amount</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Unit Base Cost</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Uom</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Quantity</th>
+                        <th scope="col" [hidden]="settingHidden">Inventory Cost</th>
+                        <th scope="col" [hidden]="removeItemHidden">Action</th>
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemTransactionLines; index as i">
+                        <td>{{ item.ins_ItemCode }}</td>
+                        <td>{{ item.ins_ItemName }}</td>
+        
+                        <td [hidden]="uomItemHidden">
+                            <c-input-group style="margin-bottom: 0.25rem; margin-top: 0.25rem" sizing="sm">
+                                <select id="uomid" cSelect sizing="sm" [(ngModel)]="selectedUoms[i]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (change)="onSelectChange(item, selectedUoms[i]); onDataChange()">
+                                    <option *ngFor="let uom of item.ins_ItemUnitOfMeasurement" [ngValue]="uom">
+                                        {{ uom.ins_BaseUOM }}
+                                    </option>{{ item.ins_UnitUom }}
+                                </select>
+                            </c-input-group>
+                        </td>
+        
+                        <td [hidden]="!uomItemHidden">{{ item.ins_UnitUom }}</td>
+        
+                        <td [hidden]="quantityItemHidden">
+                            <input [(ngModel)]="item.ins_UnitQuantity" id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
+                                name="Quantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onQuantityChange(item, $event); onDataChange()" />
+                        </td>
+                        <td [hidden]="!quantityItemHidden">{{ item.ins_UnitQuantity | number : "1.2-2" }}</td>
+        
+
+        
+                        <td [hidden]="releasedItemHidden">
+                            <input [(ngModel)]="item.ins_ReleasedQuantity" id="{{ i }}" aria-label="ReleasedQuantity" sizing="sm" type="number"
+                                name="ReleasedQuantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onReleasedQuantityChange(item, $event); onDataChange()" />
+                        </td>
+
+                        <td [hidden]="!releasedItemHidden">{{ item.ins_ReleasedQuantity | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="priceItemHidden">
+                            <input [(ngModel)]="item.ins_UnitCost" id="{{ i }}" aria-label="UnitPrice" sizing="sm" type="number"
+                                name="UnitPrice" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                (change)="onPriceChange(item, $event); onDataChange()" />
+                        </td>
+        
+                        <td [hidden]="!priceItemHidden" style="text-align: right; padding-right: 3rem;">{{ item.ins_UnitCost | number : "1.2-2" }}</td>
+                        
+                        <!-- <td >{{ item.ins_ReceivedQuantity | number : "1.2-2" }}</td> -->
+        
+                        <td style="text-align: right; padding-right: 3rem;">{{ item.ins_LineTotal | number : "1.2-2" }}</td>
+        
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_UnitBaseCost | number : "1.6-6" }}</td>
+                
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryUom }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryQuantity | number : "1.2-2" }}</td>
+                        <td [hidden]="settingHidden">{{ item.ins_InventoryCost | number : "1.6-6" }}</td>
+        
+                        <td [hidden]="removeItemHidden">
+                            <button cButton (click)="$event.preventDefault(); onItemRemove(i); onDataChange()" color="danger"
+                                size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+                                <svg cIcon name="cil-ban" size="sm"></svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button cButton (click)="$event.preventDefault()" [cModalToggle]="itemEntry.id" color="success" size="sm"
+                    [hidden]="addItemHidden">
+                    <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+                    <strong> Add Item</strong>
+                </button>
+            </div>
+        </c-card>
+
+    </div> 
+  </div>
+
+
+
+
+
+
+
+
 
 <form cForm [formGroup]="documentForm">
     <c-card>

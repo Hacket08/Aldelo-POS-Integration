@@ -1,0 +1,387 @@
+<form cForm [formGroup]="documentForm">
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+        <div class="d-flex justify-content-start align-items-center">
+          <span class="dot {{ badge }}" [hidden]="!spinnerHidden"></span>
+          <span [hidden]="spinnerHidden"><c-spinner color="primary" size="sm"
+              style="margin-top: 0.30rem"></c-spinner></span>
+          <div class="d-flex align-items-center" style="margin-top: 0.25rem; margin-left: 1rem">
+            <strong [hidden]="!spinnerHidden">{{ badgename }}</strong>
+            <strong [hidden]="spinnerHidden">Loading...</strong>
+          </div>
+        </div>
+      </c-col>
+      <c-col sm="6" xs="12">
+        <div class="d-flex justify-content-end">
+          <button cButton color="secondary" size="sm" [hidden]="printerHidden">
+            <svg cIcon name="cil-print" size="sm"></svg>
+          </button>
+
+          <button cButton color="success" size="sm" type="submit" style="margin-left: 0.25rem"
+            (click)="$event.preventDefault(); submitTransaction()" [hidden]="saveHidden">
+            <svg cIcon name="cil-save" size="sm"></svg>
+            <strong> Save</strong>
+          </button>
+
+          <c-dropdown variant="btn-group" style="margin-left: 0.25rem">
+            <button color="info" size="sm" cButton cDropdownToggle>
+              <strong>Action</strong>
+            </button>
+            <ul cDropdownMenu style="font-size: 100%">
+              <li>
+                <button cDropdownItem (click)="actionClick(9)" [hidden]="confirmHidden">
+                  <svg cIcon name="cil-check" size="sm"></svg> Confirm
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="actionClick(1)" [hidden]="approvedHidden">
+                  <svg cIcon name="cil-check" size="sm"></svg> Approved
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="actionClick(2)" [hidden]="rejectHidden">
+                  <svg cIcon name="cil-ban" size="sm"></svg> Reject
+                </button>
+              </li>
+              <li>
+                <hr cDropdownDivider [hidden]="dividerHidden" />
+              </li>
+              <li>
+                <button cDropdownItem (click)="actionClick(3)" [hidden]="cancelHidden">
+                  <svg cIcon name="cil-ban" size="sm"></svg> Cancel
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="actionClick(-8)" [hidden]="closeHidden">
+                  <svg cIcon name="cil-ban" size="sm"></svg> Close
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="actionClick(-9)" [hidden]="deleteHidden">
+                  <svg cIcon name="cil-trash" size="sm"></svg> Delete
+                </button>
+              </li>
+              <li>
+                <button cDropdownItem (click)="actionClick(-1)" [hidden]="backToListHidden">
+                  <svg cIcon name="cil-exit-to-app" size="sm"></svg> Back To List
+                </button>
+              </li>
+            </ul>
+          </c-dropdown>
+        </div>
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <c-row>
+      <c-col sm="6" xs="12">
+
+        <!-- Supplier Code -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="basedocnum" sizing="sm">PO Number</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="basedocnum" [(ngModel)]="basedocnum" placeholder="Select Purchase Order"
+                readonly="true" />
+              <button cButton color="secondary" type="button" variant="outline" style="border: 0rem"
+                [cModalToggle]="purchaseOrderEntry.id" [disabled]="basedocnumDisable">
+                <svg cIcon name="cil-list" size="sm"></svg>
+              </button>
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+
+        <!-- Supplier Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="cardcode" sizing="sm">Supplier Code</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="cardcode" [(ngModel)]="cardcode" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Supplier Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="cardname" sizing="sm">Supplier Name</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="cardname" [(ngModel)]="cardname" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Branch Name -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="branchname" sizing="sm">Branch Name</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="branchname" [(ngModel)]="branchname" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+
+        <!-- Created By -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="createdby" sizing="sm">Created By</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="createdby" [(ngModel)]="createdby" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+      </c-col>
+
+      <c-col sm="6" xs="12">
+
+        <!-- Doc Number -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docnum" sizing="sm">Doc Number</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="docnum" [(ngModel)]="docnum" readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Posting Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="postingdate" sizing="sm">Posting Date</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl type="text" name="date" onfocus="if(!this.value) (this.type='date')"
+                onblur="if(!this.value) this.type ='text'" formControlName="postingdate" [(ngModel)]="postingdate"
+                readonly="true" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+        <!-- Document Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="docdate" sizing="sm">Document Date</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl type="text" name="date" [attr.type]="docdateInputType" formControlName="docdate"
+                [(ngModel)]="docdate" (change)="onDocDateChange(); onDataChange()" (focus)="onInputFocus('docdate')"
+                (blur)="onInputBlur('docdate')" [readonly]="docdateReadOnly" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+
+        <!-- Delivery Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="duedate" sizing="sm">Received Date</label>
+          </c-col>
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl type="text" name="date" [attr.type]="duedateInputType" formControlName="duedate"
+                [(ngModel)]="duedate" (change)="onDueDateChange(); onDataChange()" (focus)="onInputFocus('duedate')"
+                (blur)="onInputBlur('duedate')" [readonly]="duedateReadOnly" />
+            </c-input-group>
+          </c-col>
+        </c-row>
+
+      </c-col>
+    </c-row>
+  </c-card>
+
+  <c-card>
+    <!-- Remarks -->
+    <c-row class="mb-1">
+      <c-col xl="12">
+        <label cCol cLabel="col" for="remarks" sizing="sm">Remarks</label>
+      </c-col>
+      <c-col xl="12">
+        <c-input-group sizing="sm">
+          <input cFormControl name="remarks" formControlName="remarks" [(ngModel)]="remarks" (change)="onDataChange()"
+            [readonly]="remarksReadOnly" />
+        </c-input-group>
+      </c-col>
+    </c-row>
+  </c-card>
+</form>
+
+
+
+<c-card class="table-responsive">
+  <table cTable [hover]="true" [striped]="true" size="sm">
+    <thead>
+      <tr>
+        <th scope="col">Item Code</th>
+        <th scope="col">Item Description</th>
+        <th scope="col" >Item Uom</th>
+        <th scope="col" >Ordered Quantity</th>
+        <th scope="col" >Released Quantity</th>
+        <th scope="col" [hidden]="quantityItemHidden">Quantity</th>
+        <th scope="col" [hidden]="!quantityItemHidden">Quantity</th>
+        <th scope="col" [hidden]="priceItemHidden">Unit Price</th>
+        <th scope="col" [hidden]="!priceItemHidden">Unit Price</th>
+        <th scope="col" style="text-align: right; padding-right: 3rem;">Total Amount</th>
+        <th scope="col" [hidden]="settingHidden">Unit Base Uom</th>
+        <th scope="col" [hidden]="settingHidden">Unit Base Quantity</th>
+        <th scope="col" [hidden]="settingHidden">Unit Base Cost</th>
+        <th scope="col" [hidden]="settingHidden">Inventory Uom</th>
+        <th scope="col" [hidden]="settingHidden">Inventory Quantity</th>
+        <th scope="col" [hidden]="settingHidden">Inventory Cost</th>
+        <th scope="col" [hidden]="removeItemHidden">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of itemTransactionLines; index as i">
+        <td>{{ item.ins_ItemCode }}</td>
+        <td>{{ item.ins_ItemName }}</td>
+
+        <td>{{ item.ins_UnitUom }}</td>
+        <td>{{ item.ins_OrderQuantity | number : "1.2-2" }}</td>
+        <td>{{ item.ins_ReleasedQuantity | number : "1.2-2" }}</td>
+
+        <td [hidden]="quantityItemHidden">
+          <input [(ngModel)]="item.ins_UnitQuantity"  id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
+            name="Quantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+            (change)="onQuantityChange(item, $event); onDataChange()" />
+        </td>
+        <td [hidden]="!quantityItemHidden">{{ item.ins_UnitQuantity | number : "1.2-2" }}</td>
+
+        <td [hidden]="priceItemHidden">
+          <input [(ngModel)]="item.ins_UnitCost" id="{{ i }}" aria-label="UnitPrice" sizing="sm" type="number"
+            name="UnitPrice" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+            (change)="onPriceChange(item, $event); onDataChange()" />
+        </td>
+
+        <td [hidden]="!priceItemHidden" style="text-align: right; padding-right: 3rem;">{{ item.ins_UnitCost | number :
+          "1.2-2" }}</td>
+        <td style="text-align: right; padding-right: 3rem;">{{ item.ins_LineTotal | number : "1.2-2" }}</td>
+
+        <td [hidden]="settingHidden">{{ item.ins_UnitBaseUom }}</td>
+        <td [hidden]="settingHidden">{{ item.ins_UnitBaseQuantity | number : "1.2-2" }}</td>
+        <td [hidden]="settingHidden">{{ item.ins_UnitBaseCost | number : "1.6-6" }}</td>
+
+        <td [hidden]="settingHidden">{{ item.ins_InventoryUom }}</td>
+        <td [hidden]="settingHidden">{{ item.ins_InventoryQuantity | number : "1.2-2" }}</td>
+        <td [hidden]="settingHidden">{{ item.ins_InventoryCost | number : "1.6-6" }}</td>
+
+        <td [hidden]="removeItemHidden">
+          <button cButton (click)="$event.preventDefault(); onItemRemove(i); onDataChange()" color="danger" size="sm"
+            style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+            <svg cIcon name="cil-ban" size="sm"></svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <button cButton (click)="$event.preventDefault()" [cModalToggle]="itemEntry.id" color="success" size="sm"
+      [hidden]="addItemHidden">
+      <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+      <strong> Add Item</strong>
+    </button>
+  </div>
+</c-card>
+
+<form cForm [formGroup]="documentForm">
+  <c-card>
+      <c-row>
+          <c-col sm="6" xs="12">
+
+              <div>
+
+              <!-- Posting Date -->
+              <c-row class="mb-1">
+                  <c-col xl="4" lg="4" md="12">
+                      <label cCol cLabel="col" for="duedate" sizing="sm">Approved Date</label>
+                  </c-col>
+                  <c-col xl="8" lg="8" md="12">
+                      <c-input-group sizing="sm">
+                          <input cFormControl type="text" name="date" onfocus="if(!this.value) (this.type='date')"
+                              onblur="if(!this.value) this.type ='text'" formControlName="duedate"
+                              [(ngModel)]="duedate" readonly="true" />
+                      </c-input-group>
+                  </c-col>
+              </c-row>
+
+              <!-- Created By -->
+              <c-row class="mb-1">
+                  <c-col xl="4" lg="4" md="12">
+                      <label cCol cLabel="col" for="createdby" sizing="sm">Approved By</label>
+                  </c-col>
+                  <c-col xl="8" lg="8" md="12">
+                      <c-input-group sizing="sm">
+                          <input cFormControl formControlName="createdby" [(ngModel)]="createdby" readonly="true" />
+                      </c-input-group>
+                  </c-col>
+              </c-row>
+
+              <c-row class="mb-1">
+                  <c-col xl="4" lg="4" md="12">
+                      <label cLabel for="approverremarks" sizing="sm">Approver Remarks</label>
+                  </c-col>
+                  <c-col xl="8" lg="8" md="12">
+                      <c-input-group sizing="sm">
+                          <textarea cFormControl id="approverremarks" sizing="sm" rows="5"></textarea>
+                      </c-input-group>
+                  </c-col>
+              </c-row>
+              </div>
+          </c-col>
+
+          <c-col sm="6" xs="12">
+              <!-- Posting Date -->
+              <c-row class="mb-1">
+                  <c-col xl="4" lg="4" md="12">
+                      <label cCol cLabel="col" for="doctotal" sizing="sm">Total Amount</label>
+                  </c-col>
+                  <c-col xl="8" lg="8" md="12">
+                      <c-input-group sizing="sm">
+                          <input cFormControl formControlName="doctotal" [(ngModel)]="doctotal" readonly="true" />
+                      </c-input-group>
+                  </c-col>
+              </c-row>
+
+          </c-col>
+      </c-row>
+  </c-card>
+</form>
+
+
+
+<c-modal #itemEntry id="itemEntry" alignment="center" backdrop="static" size="lg">
+  <c-modal-body>
+    <app-items-data-selection (selectionEvent)="ItemEvent($event)"></app-items-data-selection>
+  </c-modal-body>
+</c-modal>
+
+<c-modal #partnerEntry alignment="center" backdrop="static" id="partnerEntry" size="lg">
+  <c-modal-body>
+    <app-supplier-data-selection (selectionEvent)="PartnerEvent($event)"></app-supplier-data-selection>
+  </c-modal-body>
+</c-modal>
+
+
+<c-modal #purchaseOrderEntry id="purchaseOrderEntry" alignment="center" backdrop="static" size="lg">
+  <c-modal-body>
+    <app-purchase-order-selection (selectionEvent)="PurchaseOrderEvent($event)"></app-purchase-order-selection>
+  </c-modal-body>
+</c-modal>

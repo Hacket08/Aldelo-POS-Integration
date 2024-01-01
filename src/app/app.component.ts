@@ -13,7 +13,7 @@ import { Constants } from '../_config/constant';
   template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
-  title = 'CODEIT : Online Portal Solution';
+  title = 'ZYNTAX : Online Portal Solution';
 
   constructor(
     private router: Router,

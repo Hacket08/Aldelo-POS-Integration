@@ -6,6 +6,7 @@ import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/pu
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component'
 import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component'
 import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component'
+import { GoodsReceiptTransactionComponent } from './goods-receipt-transaction/goods-receipt-transaction.component'
 import { PurchaseReportComponent } from './purchase-report/purchase-report.component'
 
 import { InvoiceComponent } from './invoice/invoice.component'
@@ -54,6 +55,20 @@ const routes: Routes = [
         component: GoodsReceiptComponent,
         data: {
           title: 'Goods Receipt',
+        },
+      },
+      {
+        path: 'goods-receipt-transaction',
+        component: GoodsReceiptTransactionComponent,
+        data: {
+          title: 'Goods Receipt Transaction',
+        },
+      },
+      {
+        path: 'goods-receipt-transaction/:documentnumber',
+        component: GoodsReceiptTransactionComponent,
+        data: {
+          title: 'Goods Receipt Transaction',
         },
       },
       {

@@ -131,7 +131,7 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     BnNgIdleService,
     Title
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

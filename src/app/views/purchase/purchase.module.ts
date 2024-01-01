@@ -45,11 +45,15 @@ import { PurchaseRoutingModule } from './purchase-routing.module';
 //Form Declarations
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 import { PurchaseOrderMonitoringComponent } from './purchase-order-monitoring/purchase-order-monitoring.component';
+
 import { PuchaseOrderListComponent } from './puchase-order-list/puchase-order-list.component';
 import { PurchaseOrderTransactionComponent } from './purchase-order-transaction/purchase-order-transaction.component';
+
 import { GoodsReceiptComponent } from './goods-receipt/goods-receipt.component';
-import { GoodsReceiptListComponent } from './goods-receipt/goods-receipt-list/goods-receipt-list.component';
-import { GoodsReceiptTransactionComponent } from './goods-receipt/goods-receipt-transaction/goods-receipt-transaction.component';
+import { GoodsReceiptListComponent } from './goods-receipt-list/goods-receipt-list.component';
+
+import { GoodsReceiptTransactionComponent } from './goods-receipt-transaction/goods-receipt-transaction.component';
+
 import { PurchaseOrderSelectionComponent } from './purchase-order-selection/purchase-order-selection.component';
 
 import { WidgetsModule } from '../widgets/widgets.module';
@@ -59,6 +63,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { InvoiceListComponent } from './invoice/invoice-list/invoice-list.component';
 import { InvoiceSelectionComponent } from './invoice/invoice-selection/invoice-selection.component';
 import { InvoiceTransactionComponent } from './invoice/invoice-transaction/invoice-transaction.component';
+
 
 @NgModule({
   declarations: [

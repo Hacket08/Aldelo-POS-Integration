@@ -1,6 +1,7 @@
 import { ItemUomSelection } from "./item-uom-selection";
 
 export class ItemTransactionLine {
+   
     constructor(
         public ins_ItemCode: string,
         public ins_ItemName: string,
@@ -19,6 +20,17 @@ export class ItemTransactionLine {
         public ins_UnitBaseQuantity: number,
         public ins_UnitBaseCost: number,
 
-        public ins_ItemUomId: number
+        public ins_ItemUomId: number,
+        
+        public ins_BaseDocNum: string,
+        public ins_BaseDocEntry: number,
+        public ins_BaseDocType: number,
+        public ins_BaseLineNum: number,
+        public ins_ObjectType: number,
+        
+        public ins_OrderQuantity: number,
+        public ins_ReceivedQuantity: number,
+        public ins_ReleasedQuantity: number,
+        public ins_ReleasedInventoryQuantity: number,
     ) { }
 }

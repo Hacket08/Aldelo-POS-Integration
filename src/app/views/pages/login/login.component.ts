@@ -31,9 +31,9 @@ export class LoginComponent {
         username: [
           '',
           [
-            Validators.required,
-            Validators.minLength(this.vf.formRules.usernameMin),
-            Validators.pattern(this.vf.formRules.nonEmpty),
+            Validators.required
+            // Validators.minLength(this.vf.formRules.usernameMin),
+            // Validators.pattern(this.vf.formRules.nonEmpty),
           ]
         ],
         password: ['', 
