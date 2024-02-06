@@ -1,6 +1,7 @@
 <form cForm [formGroup]="documentForm">
   <c-card>
     <c-row>
+
       <c-col>
         <div class="d-flex justify-content-start align-items-center">
           <div style="padding-left: 0.5rem; padding-top: 0.25rem;">
@@ -14,14 +15,16 @@
           </div>
         </div>
       </c-col>
+
       <c-col>
         <div class="d-flex justify-content-end">
+
           <button cButton (click)="$event.preventDefault()" color="secondary" size="sm">
             <svg cIcon name="cil-print" size="sm"></svg>
           </button>
 
-          <button cButton color="success" size="sm" (click)=" $event.preventDefault();  submitTransaction()" style="margin-left: 0.25rem;"
-            [hidden]="saveHidden">
+          <button cButton color="success" size="sm" (click)=" $event.preventDefault();  submitTransaction()"
+            style="margin-left: 0.25rem;" [hidden]="saveHidden">
             <svg cIcon name="cil-save" size="sm"></svg>
             <strong>Save</strong>
           </button>
@@ -53,6 +56,7 @@
               </li>
             </ul>
           </c-dropdown>
+
         </div>
       </c-col>
     </c-row>
@@ -70,8 +74,7 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="firstname" [(ngModel)]="firstname" 
-              (change)="onDataChange()" />
+              <input cFormControl formControlName="firstname" [(ngModel)]="firstname" (change)="onDataChange()" />
             </c-input-group>
           </c-col>
         </c-row>
@@ -85,8 +88,8 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="middleinitial" [(ngModel)]="middleinitial" 
-              (change)="onDataChange()"/>
+              <input cFormControl formControlName="middleinitial" [(ngModel)]="middleinitial"
+                (change)="onDataChange()" />
             </c-input-group>
           </c-col>
         </c-row>
@@ -100,8 +103,7 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="lastname" [(ngModel)]="lastname" 
-              (change)="onDataChange()"/>
+              <input cFormControl formControlName="lastname" [(ngModel)]="lastname" (change)="onDataChange()" />
             </c-input-group>
           </c-col>
         </c-row>
@@ -117,8 +119,8 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <select cSelect formControlName="securitylevel" [(ngModel)]="securitylevel" 
-              (change)="onDataChange()" sizing="sm">
+              <select cSelect formControlName="securitylevel" [(ngModel)]="securitylevel" (change)="onDataChange()"
+                sizing="sm">
                 <option value="0">Regular User</option>
                 <option value="1">Admin User</option>
               </select>
@@ -135,8 +137,7 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="emailaddress" [(ngModel)]="emailaddress" 
-              (change)="onDataChange()"/>
+              <input cFormControl formControlName="emailaddress" [(ngModel)]="emailaddress" (change)="onDataChange()" />
             </c-input-group>
           </c-col>
         </c-row>
@@ -149,8 +150,7 @@
       </c-col>
       <c-col xl="12">
         <c-input-group sizing="sm">
-          <input cFormControl formControlName="fullname" [(ngModel)]="fullname" 
-          (change)="onDataChange()"/>
+          <input cFormControl formControlName="fullname" [(ngModel)]="fullname" (change)="onDataChange()" />
         </c-input-group>
       </c-col>
     </c-row>
@@ -218,9 +218,8 @@
             <c-input-group sizing="sm">
               <input cFormControl formControlName="branchcode" [(ngModel)]="branchcode" placeholder="Select Branch"
                 readonly="true" />
-              <button id="branch" cButton color="secondary" type="button" variant="outline" style="border: 0rem" 
-                (click)="$event.preventDefault()"
-                [cModalToggle]="userBranch.id" >
+              <button id="branch" cButton color="secondary" type="button" variant="outline" style="border: 0rem"
+                (click)="$event.preventDefault()" [cModalToggle]="userBranchData.id">
                 <svg cIcon name="cil-list" size="sm"></svg>
               </button>
             </c-input-group>
@@ -257,8 +256,8 @@
             <c-input-group sizing="sm">
               <input cFormControl formControlName="rolecode" [(ngModel)]="rolecode" placeholder="Select Role"
                 readonly="true" />
-              <button id="role" cButton color="secondary" type="button" variant="outline" style="border: 0rem" [cModalToggle]="userRole.id"
-                >
+              <button id="role" cButton color="secondary" type="button" variant="outline" style="border: 0rem"
+                [cModalToggle]="userRole.id">
                 <svg cIcon name="cil-list" size="sm"></svg>
               </button>
             </c-input-group>
@@ -286,13 +285,31 @@
       <c-col>
         <div class="d-flex justify-content-start align-items-center">
           <div style="padding-top: 0.25rem; padding-bottom: 0.50rem;">
-            <label style="font-size: 0.875rem; font-weight: bolder;" >
+            <label style="font-size: 0.875rem; font-weight: bolder;">
               Business Partner Restriction
             </label>
           </div>
         </div>
       </c-col>
+
+
+      <c-col>
+
+        <div class="d-flex justify-content-end">
+          <div style="padding-right: 0.5rem; padding-top: 0.25rem;">
+            <c-form-check [switch]="true">
+              <label style="font-size: 0.875rem;" cFormCheckLabel>
+                Allow All Supplier
+              </label>
+              <input formControlName="allowsupplier" [(ngModel)]="allowsupplier" cFormControl cFormCheckInput
+                type="checkbox" (change)="onDataChange()" />
+            </c-form-check>
+          </div>
+        </div>
+      </c-col>
+
     </c-row>
+
     <table cTable [hover]="true" [striped]="true" size="sm">
       <thead>
         <tr>
@@ -304,8 +321,8 @@
         <tr *ngFor="let o of userSupplier; let i = index">
           <td>{{ o.ins_CardName }}</td>
           <td>
-            <button cButton (click)="$event.preventDefault(); onSupplierRemove(i); onDataChange()" color="danger" size="sm"
-              style="margin-left: 0.25rem; margin-bottom: 0.25rem;">
+            <button cButton (click)="$event.preventDefault(); onPartnerRemove(i); onDataChange()" color="danger"
+              size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem;">
               <svg cIcon name="cil-ban" size="sm"></svg>
             </button>
           </td>
@@ -313,13 +330,72 @@
       </tbody>
     </table>
     <div>
-      <button cButton  color="success" size="sm" [cModalToggle]="partnerEntry.id">
+      <button cButton (click)="$event.preventDefault();" color="success" size="sm" [disabled]="supplierDisable"
+        [cModalToggle]="partnerEntry.id">
         <svg cIcon name="cil-playlist-add" size="1xl"></svg>
         <strong>Add Supplier</strong>
       </button>
     </div>
   </c-card>
 
+
+  <!-- Branch -->
+  <c-card class="table-responsive">
+    <c-row>
+      <c-col>
+        <div class="d-flex justify-content-start align-items-center">
+          <div style="padding-top: 0.25rem; padding-bottom: 0.50rem;">
+            <label style="font-size: 0.875rem; font-weight: bolder;">
+              Branch Restriction
+            </label>
+          </div>
+        </div>
+      </c-col>
+
+
+      <c-col>
+
+        <div class="d-flex justify-content-end">
+          <div style="padding-right: 0.5rem; padding-top: 0.25rem;">
+            <c-form-check [switch]="true">
+              <label style="font-size: 0.875rem;" cFormCheckLabel>
+                Allow All Branches
+              </label>
+              <input formControlName="allowbranch" [(ngModel)]="allowbranch" cFormControl cFormCheckInput
+                type="checkbox" (change)="onDataChange()" />
+            </c-form-check>
+          </div>
+        </div>
+      </c-col>
+
+    </c-row>
+    <table cTable [hover]="true" [striped]="true" size="sm">
+      <thead>
+        <tr>
+          <th scope="col">Branch Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of userBranch; let i = index">
+          <td>{{ o.ins_BranchName }}</td>
+          <td>
+            <button cButton (click)="$event.preventDefault(); onBranchRemove(i); onDataChange()" color="danger"
+              size="sm" style="margin-left: 0.25rem; margin-bottom: 0.25rem;">
+              <svg cIcon name="cil-ban" size="sm"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <button cButton (click)="$event.preventDefault();" color="success" size="sm" [disabled]="branchDisable"
+        [cModalToggle]="userBranchList.id">
+        <svg cIcon name="cil-playlist-add" size="1xl"></svg>
+        <strong>Add Branch</strong>
+      </button>
+    </div>
+  </c-card>
 
   <!-- Approver -->
   <c-card class="table-responsive">
@@ -361,7 +437,7 @@
       </tbody>
     </table>
     <div>
-      <button cButton  color="success" size="sm">
+      <button cButton color="success" size="sm">
         <svg cIcon name="cil-playlist-add" size="1xl"></svg>
         <strong>Add Approver</strong>
       </button>
@@ -374,16 +450,24 @@
     </c-modal-body>
   </c-modal>
 
-  <c-modal #userBranch alignment="center" backdrop="static" id="userBranch" size="lg">
+  <c-modal #userBranchData alignment="center" backdrop="static" id="userBranchData" size="lg">
     <c-modal-body>
       <app-branch-data-selection (selectionEvent)="BranchEvent($event)"></app-branch-data-selection>
     </c-modal-body>
   </c-modal>
 
+
+  <c-modal #userBranchList alignment="center" backdrop="static" id="userBranchList" size="lg">
+    <c-modal-body>
+      <app-branch-data-selection (selectionEvent)="BranchListEvent($event)"></app-branch-data-selection>
+    </c-modal-body>
+  </c-modal>
+
+
   <c-modal #partnerEntry alignment="center" backdrop="static" id="partnerEntry" size="lg">
     <c-modal-body>
-        <app-supplier-data-selection (selectionEvent)="PartnerEvent($event)"></app-supplier-data-selection>
+      <app-supplier-data-selection (selectionEvent)="PartnerEvent($event)"></app-supplier-data-selection>
     </c-modal-body>
-</c-modal>
+  </c-modal>
 
 </form>

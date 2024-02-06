@@ -1,13 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
-
-import { IconSetService } from '@coreui/icons-angular';
-import { brandSet, flagSet, freeSet } from '@coreui/icons';
-
-import {
-  Supplier,
-  SupplierList,
-} from '../../../../_model/supplier/supplier';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Users } from 'src/_services/user.api';
+import { UserList } from 'src/app_shared/models/user-list';
+import { GlobalApiService } from 'src/app_shared/services/api/global-api.service';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { Supplier } from 'src/app_shared/models/supplier';
 
 @Component({
   selector: 'app-supplier',
@@ -15,33 +12,70 @@ import {
   styleUrls: ['./supplier.component.scss']
 })
 export class SupplierComponent implements OnInit {
-  @Output() parentData: any[] = [];
-  isListViewHidden = true;
-  isTransactionViewHidden = true;
+  documentType: string = 'Supplier';
+  docurl: string = '/master-data/supplier';
+
+  partner: Supplier[] = [];
+  visibleUser: Supplier[] = this.partner;
 
 
-  constructor(public iconSet: IconSetService) {
-    iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
-  }
+  userInfo: any;
+  inputType = 'text';
+  datepipe: DatePipe = new DatePipe('en-US');
+
+  
+  filterCardCode: string = '';
+  filterCardName: string = '';
+  filterContactPerson: string = '';
+  filterPhone: string = '';
+
+
+  constructor(private router: Router,
+    private user: Users,
+    private apiservice: GlobalApiService) { }
 
   ngOnInit(): void {
-    this.isTransactionViewHidden = false;
-    this.isListViewHidden = true;
+    this.view();
   }
 
-  async eventNewTransaction(a: any) {
-    this.parentData = [];
+  async view() {
+    let response: any;
 
-    if (a !== undefined) {
-      this.parentData.push(a as any);
+    this.userInfo = this.user.getCurrentUser();
+    let userid = this.userInfo.userId;
+    let emailAddress = this.userInfo.emailAddress;
+
+    response = await this.apiservice.getDataAsync(this.documentType, 'GetPartner');
+
+    console.log(response);
+    this.partner = [];
+    for (var v of response) {
+      
+      let newUser = new Supplier(v.ins_CardCode, v.ins_CardName, v.ins_ContactPerson, v.ins_Position,
+                      v.ins_Address1, v.ins_Address2, v.ins_Address3, v.ins_Phone, v.ins_EmailAddress, v.ins_CreatedBy);
+
+      this.partner.push(newUser);
     }
-    
-    this.isListViewHidden = false;
-    this.isTransactionViewHidden = true;
+
+    this.visibleUser = this.partner;
+    console.log(this.visibleUser);
   }
 
-  eventListTransaction() {
-    this.isListViewHidden = true;
-    this.isTransactionViewHidden = false;
+  create() {
+    this.router.navigate([`${this.docurl}-data-entry`]);
+  }
+
+  edit(v: any) {
+    this.router.navigate([`${this.docurl}-data-entry/${v.ins_CardCode}`]);
+  }
+
+  filterTransactions() {
+    this.visibleUser = this.partner.filter(trans =>
+      trans.ins_CardCode.toLowerCase().includes(this.filterCardCode.toLowerCase())
+      && trans.ins_CardName.toLowerCase().includes(this.filterCardName.toLowerCase())
+      && trans.ins_ContactPerson.toLowerCase().includes(this.filterContactPerson.toLowerCase())
+      && trans.ins_Phone.toLowerCase().includes(this.filterPhone.toLowerCase())
+    );
+
   }
 }

@@ -14,7 +14,7 @@
       </c-col>
       <c-col sm="6" xs="12">
         <div class="d-flex justify-content-end">
-          <button cButton color="secondary" size="sm" [hidden]="printerHidden">
+          <button cButton color="secondary" size="sm" (click)="$event.preventDefault(); openForm()" [hidden]="printerHidden">
             <svg cIcon name="cil-print" size="sm"></svg>
           </button>
 
@@ -85,8 +85,8 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="basedocnum" [(ngModel)]="basedocnum" placeholder="Select Purchase Order"
-                readonly="true" />
+              <input cFormControl formControlName="basedocnum" [(ngModel)]="basedocnum"
+                placeholder="Select Purchase Order" readonly="true" />
               <button cButton color="secondary" type="button" variant="outline" style="border: 0rem"
                 [cModalToggle]="purchaseOrderEntry.id" [disabled]="basedocnumDisable">
                 <svg cIcon name="cil-list" size="sm"></svg>
@@ -183,7 +183,7 @@
             <c-input-group sizing="sm">
               <input cFormControl type="text" name="date" [attr.type]="docdateInputType" formControlName="docdate"
                 [(ngModel)]="docdate" (change)="onDocDateChange(); onDataChange()" (focus)="onInputFocus('docdate')"
-                (blur)="onInputBlur('docdate')" [readonly]="docdateReadOnly" />
+                (blur)="onInputBlur('docdate')"  readonly="true" />
             </c-input-group>
           </c-col>
         </c-row>
@@ -198,7 +198,7 @@
             <c-input-group sizing="sm">
               <input cFormControl type="text" name="date" [attr.type]="duedateInputType" formControlName="duedate"
                 [(ngModel)]="duedate" (change)="onDueDateChange(); onDataChange()" (focus)="onInputFocus('duedate')"
-                (blur)="onInputBlur('duedate')" [readonly]="duedateReadOnly" />
+                (blur)="onInputBlur('duedate')" readonly="true"/>
             </c-input-group>
           </c-col>
         </c-row>
@@ -231,9 +231,10 @@
       <tr>
         <th scope="col">Item Code</th>
         <th scope="col">Item Description</th>
-        <th scope="col" >Item Uom</th>
-        <th scope="col" >Ordered Quantity</th>
-        <th scope="col" >Released Quantity</th>
+        <th scope="col">Item Uom</th>
+        <th scope="col">Ordered Quantity</th>
+        <th scope="col">Released Quantity</th>
+        <th scope="col">Released Inventory Quantity</th>
         <th scope="col" [hidden]="quantityItemHidden">Quantity</th>
         <th scope="col" [hidden]="!quantityItemHidden">Quantity</th>
         <th scope="col" [hidden]="priceItemHidden">Unit Price</th>
@@ -257,9 +258,10 @@
         <td>{{ item.ins_UnitUom }}</td>
         <td>{{ item.ins_OrderQuantity | number : "1.2-2" }}</td>
         <td>{{ item.ins_ReleasedQuantity | number : "1.2-2" }}</td>
+        <td>{{ item.ins_ReleasedInventoryQuantity | number : "1.2-2" }}</td>
 
         <td [hidden]="quantityItemHidden">
-          <input [(ngModel)]="item.ins_UnitQuantity"  id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
+          <input [(ngModel)]="item.ins_UnitQuantity" id="{{ i }}" aria-label="Quantity" sizing="sm" type="number"
             name="Quantity" [attr.data-index]="i" pattern="^[0-9]+(\.[0-9]{1,2})?$"
             (change)="onQuantityChange(item, $event); onDataChange()" />
         </td>
@@ -303,65 +305,66 @@
 
 <form cForm [formGroup]="documentForm">
   <c-card>
-      <c-row>
-          <c-col sm="6" xs="12">
+    <c-row>
+      <c-col sm="6" xs="12">
 
-              <div>
+        <div hidden>
 
-              <!-- Posting Date -->
-              <c-row class="mb-1">
-                  <c-col xl="4" lg="4" md="12">
-                      <label cCol cLabel="col" for="duedate" sizing="sm">Approved Date</label>
-                  </c-col>
-                  <c-col xl="8" lg="8" md="12">
-                      <c-input-group sizing="sm">
-                          <input cFormControl type="text" name="date" onfocus="if(!this.value) (this.type='date')"
-                              onblur="if(!this.value) this.type ='text'" formControlName="duedate"
-                              [(ngModel)]="duedate" readonly="true" />
-                      </c-input-group>
-                  </c-col>
-              </c-row>
+          <!-- Posting Date -->
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cCol cLabel="col" for="duedate" sizing="sm">Approved Date</label>
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <input cFormControl type="text" name="date" onfocus="if(!this.value) (this.type='date')"
+                  onblur="if(!this.value) this.type ='text'" formControlName="duedate" [(ngModel)]="duedate"
+                  readonly="true" />
+              </c-input-group>
+            </c-col>
+          </c-row>
 
-              <!-- Created By -->
-              <c-row class="mb-1">
-                  <c-col xl="4" lg="4" md="12">
-                      <label cCol cLabel="col" for="createdby" sizing="sm">Approved By</label>
-                  </c-col>
-                  <c-col xl="8" lg="8" md="12">
-                      <c-input-group sizing="sm">
-                          <input cFormControl formControlName="createdby" [(ngModel)]="createdby" readonly="true" />
-                      </c-input-group>
-                  </c-col>
-              </c-row>
+          <!-- Created By -->
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cCol cLabel="col" for="createdby" sizing="sm">Approved By</label>
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <input cFormControl formControlName="createdby" [(ngModel)]="createdby" readonly="true" />
+              </c-input-group>
+            </c-col>
+          </c-row>
 
-              <c-row class="mb-1">
-                  <c-col xl="4" lg="4" md="12">
-                      <label cLabel for="approverremarks" sizing="sm">Approver Remarks</label>
-                  </c-col>
-                  <c-col xl="8" lg="8" md="12">
-                      <c-input-group sizing="sm">
-                          <textarea cFormControl id="approverremarks" sizing="sm" rows="5"></textarea>
-                      </c-input-group>
-                  </c-col>
-              </c-row>
-              </div>
+          <c-row class="mb-1">
+            <c-col xl="4" lg="4" md="12">
+              <label cLabel for="approverremarks" sizing="sm">Approver Remarks</label>
+            </c-col>
+            <c-col xl="8" lg="8" md="12">
+              <c-input-group sizing="sm">
+                <textarea cFormControl id="approverremarks" sizing="sm" rows="5"></textarea>
+              </c-input-group>
+            </c-col>
+          </c-row>
+
+        </div>
+      </c-col>
+
+      <c-col sm="6" xs="12">
+        <!-- Posting Date -->
+        <c-row class="mb-1">
+          <c-col xl="4" lg="4" md="12">
+            <label cCol cLabel="col" for="doctotal" sizing="sm">Total Amount</label>
           </c-col>
-
-          <c-col sm="6" xs="12">
-              <!-- Posting Date -->
-              <c-row class="mb-1">
-                  <c-col xl="4" lg="4" md="12">
-                      <label cCol cLabel="col" for="doctotal" sizing="sm">Total Amount</label>
-                  </c-col>
-                  <c-col xl="8" lg="8" md="12">
-                      <c-input-group sizing="sm">
-                          <input cFormControl formControlName="doctotal" [(ngModel)]="doctotal" readonly="true" />
-                      </c-input-group>
-                  </c-col>
-              </c-row>
-
+          <c-col xl="8" lg="8" md="12">
+            <c-input-group sizing="sm">
+              <input cFormControl formControlName="doctotal" [(ngModel)]="doctotal" readonly="true" />
+            </c-input-group>
           </c-col>
-      </c-row>
+        </c-row>
+
+      </c-col>
+    </c-row>
   </c-card>
 </form>
 

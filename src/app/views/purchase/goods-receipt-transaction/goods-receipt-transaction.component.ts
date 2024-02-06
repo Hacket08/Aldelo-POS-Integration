@@ -33,7 +33,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   documentType: string = 'GoodsReceipt';
   docurl: string = '/purchase/goods-receipt';
 
-  settingHidden: boolean = false;
+  settingHidden: boolean = true;
 
   decimalPipe: DecimalPipe = new DecimalPipe("en-US");
   datepipe: DatePipe = new DatePipe('en-US');
@@ -144,7 +144,7 @@ export class GoodsReceiptTransactionComponent implements OnInit {
 
   LoadSettingDefault() {
     this.spinnerHidden = true;
-    this.printerHidden = true;
+    this.printerHidden = false;
     this.saveHidden = true;
     this.confirmHidden = true;
     this.approvedHidden = true;
@@ -316,12 +316,13 @@ export class GoodsReceiptTransactionComponent implements OnInit {
 
       let orderquantity = v.ins_OrderQuantity;
       let receivedquantity = v.ins_ReceivedQuantity;
+      let receivedinventoryquantity = v.ins_ReceivedInventoryQuantity;
       let releasedquantity = v.ins_ReleasedQuantity;
       let releasedinventoryquantity = v.ins_ReleasedInventoryQuantity;
 
       let newTransaction = new ItemTransactionLine(itemcode, itemname, uomlist, unituom, unitquantity, unitcost, linetotal, inventoryuom,
         inventoryquantity, inventorycost, unitbaseuom, unitbasequantity, unitbasecost, itemuomid,
-        basedocnum, basedocentry, basedoctype, baselinenum, this.objecttype, orderquantity, receivedquantity, releasedquantity, releasedinventoryquantity);
+        basedocnum, basedocentry, basedoctype, baselinenum, this.objecttype, orderquantity, receivedquantity, receivedinventoryquantity, releasedquantity, releasedinventoryquantity);
 
       this.itemTransactionLines.push(newTransaction);
 
@@ -548,8 +549,11 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     });
 
     let response = await this.apiservice.getDataAsync("PurchaseOrders", 'GetTransaction', data.ins_Id);
+    console.log("response", response);
     this.itemTransactionLines = [];
     for (var v of response.ins_TransactionLine) {
+
+
       let uomlist = await this.apiservice.getDataAsync('Item', 'UomList', v.ins_ItemCode);
       let getuom = uomlist.find((uom: any) => uom.ins_ItemUomId === v.ins_ItemUomId);
 
@@ -557,37 +561,45 @@ export class GoodsReceiptTransactionComponent implements OnInit {
       let itemcode = v.ins_ItemCode;
       let itemname = v.ins_ItemName;
       let unitcost = v.ins_UnitCost;
-      let unitquantity = v.ins_ReleasedQuantity;
       let linetotal = v.ins_LineTotal;
       let unituom = v.ins_UnitUOM;
 
       let inventoryuom = v.ins_InventoryUOM;
       let inventorycost = this.ConvertToDouble(v.ins_InventoryCost, '6');
-      let inventoryquantity = v.ins_ReleasedInventoryQuantity;
+      // let inventoryquantity = v.ins_ReleasedInventoryQuantity;
 
       let unitbasecost = this.ConvertToDouble(v.ins_UnitBaseCost, '6');
       let unitbasequantity = v.ins_UnitBaseQuantity;
       let unitbaseuom = v.ins_UnitBaseUOM;
 
       let baselinenum = v.ins_LineNum;
-      let orderquantity = v.ins_UnitQuantity - v.ins_ReceivedQuantity;
+      let orderquantity = v.ins_UnitQuantity;
       let receivedquantity = v.ins_ReceivedQuantity;
-      let releasedquantity = v.ins_ReleasedQuantity;
-      let releasedinventoryquantity = v.ins_ReleasedInventoryQuantity
-      if (orderquantity !== 0) {
+      let receivedinventoryquantity = v.ins_ReceivedInventoryQuantity;
+
+
+      let releasedquantity = v.ins_ReleasedQuantity - v.ins_ReceivedQuantity;
+      let releasedinventoryquantity = v.ins_ReleasedInventoryQuantity - v.ins_ReceivedInventoryQuantity;
+
+
+      let unitquantity = v.ins_ReleasedQuantity - v.ins_ReceivedQuantity;
+      let inventoryquantity = v.ins_ReleasedInventoryQuantity - v.ins_ReceivedInventoryQuantity;
+
+      if (unitquantity !== 0) {
 
         let newTransaction = new ItemTransactionLine(itemcode, itemname, uomlist, unituom, unitquantity, unitcost, linetotal, inventoryuom,
           inventoryquantity, inventorycost, unitbaseuom, unitbasequantity, unitbasecost, itemuomid,
-          this.basedocnum, this.basedocentry, this.basedoctype, baselinenum, this.objecttype, orderquantity, 
-          receivedquantity, releasedquantity, releasedinventoryquantity);
-  
+          this.basedocnum, this.basedocentry, this.basedoctype, baselinenum, this.objecttype, orderquantity,
+          receivedquantity, receivedinventoryquantity, releasedquantity, releasedinventoryquantity);
+
         this.itemTransactionLines.push(newTransaction);
-  
+
         this.selectedUoms[v.ins_LineNum] = getuom;
       }
     }
 
     this.onDataChange();
+
   }
 
   async ItemEvent(val: any) {
@@ -614,12 +626,13 @@ export class GoodsReceiptTransactionComponent implements OnInit {
 
     let orderquantity = 0;
     let receivedquantity = 0;
+    let receivedinventoryquantity = 0;
     let releasedquantity = unitquantity;
     let releasedinventoryquantity = inventoryquantity;
 
     let newTransaction = new ItemTransactionLine(itemcode, itemname, uomlist, unituom, unitquantity, unitcost, linetotal, inventoryuom,
       inventoryquantity, inventorycost, unitbaseuom, unitbasequantity, unitbasecost, getuom.ins_ItemUomId,
-      null, null, null, null, this.objecttype, orderquantity, receivedquantity, releasedquantity, releasedinventoryquantity);
+      null, null, null, null, this.objecttype, orderquantity, receivedquantity, receivedinventoryquantity, releasedquantity, releasedinventoryquantity);
 
     this.itemTransactionLines.push(newTransaction);
     this.lastAddedIndex = this.itemTransactionLines.length - 1;
@@ -705,13 +718,13 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     console.log("_unitcost", _unitcost);
     console.log("val.target.id", val.target.id);
 
-
     if (_relqty < _qty) {
       // selectedItem.ins_UnitQuantity = this.ConvertToDouble(_rqty, '2');
       this.swal.commonSwalCentered(
         'Recieve Quantity is Greater Than PO Quantity',
         'error'
       );
+
       selectedItem.ins_UnitQuantity = this.ConvertToDouble(_relqty, '2');
       selectedItem.ins_UnitCost = this.ConvertToDouble(_unitcost, '2');
       let _rqty1 = selectedItem.ins_UnitQuantity;
@@ -742,8 +755,6 @@ export class GoodsReceiptTransactionComponent implements OnInit {
       doctotal: this.decimalPipe.transform(this.doctotal, "1.2-2"),
     });
 
-
-
   }
 
   buildTransaction() {
@@ -758,9 +769,10 @@ export class GoodsReceiptTransactionComponent implements OnInit {
         v.ins_InventoryUom, v.ins_InventoryQuantity, v.ins_InventoryCost,
         v.ins_UnitBaseUom, v.ins_UnitBaseQuantity, v.ins_UnitBaseCost, v.ins_ItemUomId, index,
         v.ins_BaseDocNum, v.ins_BaseDocEntry, v.ins_BaseDocType, v.ins_BaseLineNum, v.ins_ObjectType,
-        v.ins_OrderQuantity, v.ins_ReceivedQuantity, v.ins_ReleasedQuantity, v.ins_ReleasedInventoryQuantity
+        v.ins_OrderQuantity, v.ins_ReceivedQuantity, v.ins_ReceivedInventoryQuantity, v.ins_ReleasedQuantity, v.ins_ReleasedInventoryQuantity
       );
 
+      console.log("newTransactionLine", newTransactionLine);
       transactionline.push(newTransactionLine);
       index++;
     }
@@ -778,6 +790,23 @@ export class GoodsReceiptTransactionComponent implements OnInit {
   onDataChange() {
     this.printerHidden = true;
     this.saveHidden = false;
+
+
+
+    if (this.cardcode === 'SUP00010') {
+      this.quantityItemHidden = true;
+      this.priceItemHidden = true;
+    }
+    else if (this.cardcode === 'SUP00042') {
+      this.quantityItemHidden = true;
+      this.priceItemHidden = true;
+    }
+    else
+    {
+      this.quantityItemHidden = false;
+      this.priceItemHidden = false;
+    }
+
   }
 
   ConvertToDouble(val: string, dec: string): number {
@@ -905,6 +934,9 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     if (this.userInfo.securityLevel === "1") {
       this.deleteHidden = false;
     }
+
+
+
   }
 
   formApproved() {
@@ -940,5 +972,13 @@ export class GoodsReceiptTransactionComponent implements OnInit {
     this.badgename = 'DELETED';
 
     this.LoadSettingDefault();
+  }
+
+
+  openForm() {
+    console.log(this.docstatus);
+    // const url = `https://localhost:44382/Reporting/PaymentSlip?crdocnum="${ this.docnum }"`;
+    window.open(this.apiservice.view("GoodsReceiptPOSlip", `crdocnum="${this.docnum}"`), '_blank');
+
   }
 }

@@ -1,16 +1,11 @@
-<form cForm [formGroup]="headerForm">
+<form cForm [formGroup]="documentForm">
   <c-card>
     <c-row>
       <c-col>
         <div class="d-flex justify-content-start align-items-center">
           <div style="padding-left: 0.5rem; padding-top: 0.25rem;">
             <c-form-check [switch]="true">
-              <input
-                formControlName="inactive"
-                cFormControl
-                cFormCheckInput
-                type="checkbox"
-              />
+              <input formControlName="inactive" cFormControl cFormCheckInput type="checkbox" />
               <label style="font-size: 0.875rem;" cFormCheckLabel>
                 In Active
               </label>
@@ -20,18 +15,11 @@
       </c-col>
       <c-col>
         <div class="d-flex justify-content-end">
-          <button cButton color="secondary" size="sm">
+          <button cButton color="secondary" size="sm"  [hidden]="printerHidden">
             <svg cIcon name="cil-print" size="sm"></svg>
           </button>
 
-          <button
-            cButton
-            color="success"
-            size="sm"
-            (click)="onSubmit()"
-            style="margin-left: 0.25rem;"
-            [hidden]="isHiddenSave"
-          >
+          <button cButton color="success" size="sm" (click)="$event.preventDefault(); submitTransaction()" [hidden]="saveHidden" style="margin-left: 0.25rem;">
             <svg cIcon name="cil-save" size="sm"></svg>
             <strong>Save</strong>
           </button>
@@ -41,18 +29,6 @@
               <strong>Action</strong>
             </button>
             <ul cDropdownMenu style="font-size: 100%;">
-              <!-- <li>
-                <button cDropdownItem (click)="onApprove(docId)" [hidden]="isHiddenApproveBtn"><svg cIcon name="cil-check" size="sm"></svg> Approve</button>
-              </li>
-              <li>
-                <button cDropdownItem (click)="onReject(docId)" [hidden]="isHiddenRejectBtn"><svg cIcon name="cil-ban" size="sm"></svg> Reject</button>
-              </li>
-              <li>
-                <hr cDropdownDivider [hidden]="isHiddenDiv">
-              </li> -->
-              <!-- <li>
-                <button routerLink="./" cDropdownItem>Something else here</button>
-              </li> -->
               <li>
                 <button cDropdownItem [hidden]="isHiddenDeleteBtn">
                   <svg cIcon name="cil-trash" size="sm"></svg>
@@ -60,24 +36,13 @@
                 </button>
               </li>
               <li>
-                <button cDropdownItem (click)="onCancel()">
+                <button cDropdownItem (click)="actionClick(-1)">
                   <svg cIcon name="cil-exit-to-app" size="sm"></svg>
                   Back To List
                 </button>
               </li>
             </ul>
           </c-dropdown>
-
-          <!-- <button
-            cButton
-            (click)="onCancel()"
-            color="danger"
-            size="sm"
-            style="margin-left: 0.25rem"
-          >
-            <svg cIcon name="cil-exit-to-app" size="sm"></svg>
-            <strong></strong>
-          </button> -->
         </div>
       </c-col>
     </c-row>
@@ -89,13 +54,13 @@
         <!-- Supplier Code -->
         <c-row class="mb-1">
           <c-col xl="4" lg="4" md="12">
-            <label cCol cLabel="col" for="suppliercode" sizing="sm">
+            <label cCol cLabel="col" for="cardcode" sizing="sm">
               Supplier Code
             </label>
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="suppliercode" />
+              <input cFormControl formControlName="cardcode" [(ngModel)]="cardcode" readonly/>
             </c-input-group>
           </c-col>
         </c-row>
@@ -103,17 +68,18 @@
         <!-- Supplier Name -->
         <c-row class="mb-1">
           <c-col xl="4" lg="4" md="12">
-            <label cCol cLabel="col" for="suppliername" sizing="sm">
+            <label cCol cLabel="col" for="cardname" sizing="sm">
               Supplier Name
             </label>
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="suppliername" />
+              <input cFormControl formControlName="cardname" [(ngModel)]="cardname" (change)="onDataChange()"/>
             </c-input-group>
           </c-col>
         </c-row>
       </c-col>
+
       <c-col lg="6" md="6" xs="12">
         <!-- Contact Person -->
         <c-row class="mb-1">
@@ -124,7 +90,7 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="contactperson" />
+              <input cFormControl  formControlName="contactperson" [(ngModel)]="contactperson" (change)="onDataChange()"/>
             </c-input-group>
           </c-col>
         </c-row>
@@ -138,7 +104,7 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="position" />
+              <input cFormControl formControlName="position" [(ngModel)]="position" (change)="onDataChange()"/>
             </c-input-group>
           </c-col>
         </c-row>
@@ -152,7 +118,7 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="phone" />
+              <input cFormControl formControlName="phone" [(ngModel)]="phone" (change)="onDataChange()"/>
             </c-input-group>
           </c-col>
         </c-row>
@@ -166,7 +132,7 @@
           </c-col>
           <c-col xl="8" lg="8" md="12">
             <c-input-group sizing="sm">
-              <input cFormControl formControlName="emailaddress" />
+              <input cFormControl formControlName="emailaddress" [(ngModel)]="emailaddress" (change)="onDataChange()"/>
             </c-input-group>
           </c-col>
         </c-row>
@@ -182,13 +148,9 @@
             Address 1
           </label>
           <c-col [sm]="10">
-            <input
-              formControlName="address1"
-              cFormControl
-              id="address1"
-              sizing="sm"
-              type="text"
-            />
+            <c-input-group sizing="sm">
+              <textarea cFormControl formControlName="address1" [(ngModel)]="address1" rows="3" (change)="onDataChange()"></textarea>
+            </c-input-group>
           </c-col>
         </c-row>
 
@@ -197,13 +159,9 @@
             Address 2
           </label>
           <c-col [sm]="10">
-            <input
-              formControlName="address2"
-              cFormControl
-              id="address2"
-              sizing="sm"
-              type="text"
-            />
+            <c-input-group sizing="sm">
+              <textarea cFormControl formControlName="address2" [(ngModel)]="address2" rows="3" (change)="onDataChange()"></textarea>
+            </c-input-group>
           </c-col>
         </c-row>
 
@@ -212,13 +170,9 @@
             Address 3
           </label>
           <c-col [sm]="10">
-            <input
-              formControlName="address3"
-              cFormControl
-              id="address3"
-              sizing="sm"
-              type="text"
-            />
+            <c-input-group sizing="sm">
+              <textarea cFormControl formControlName="address3" [(ngModel)]="address3" rows="3" (change)="onDataChange()"></textarea>
+            </c-input-group>
           </c-col>
         </c-row>
       </c-col>

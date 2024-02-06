@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IconSetService } from '@coreui/icons-angular';
-import { brandSet, flagSet, freeSet } from '@coreui/icons';
-import { ItemService } from '../../../../_shared/items/item.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Users } from 'src/_services/user.api';
+import { UserList } from 'src/app_shared/models/user-list';
+import { GlobalApiService } from 'src/app_shared/services/api/global-api.service';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-items',
@@ -9,38 +11,72 @@ import { ItemService } from '../../../../_shared/items/item.service';
   styleUrls: ['./items.component.scss'],
 })
 export class ItemsComponent implements OnInit {
-  @Output() itemParentData: any[] = [];
-  isListViewHidden = false;
-  isTransactionViewHidden = false;
+  documentType: string = 'UserAccount';
+  docurl: string = '/administration/users';
 
-  constructor(public iconSet: IconSetService, public itemservice: ItemService) {
-    iconSet.icons = { ...freeSet, ...brandSet, ...flagSet };
-  }
+  users: UserList[] = [];
+  visibleUser: UserList[] = this.users;
+
+
+  userInfo: any;
+  inputType = 'text';
+  datepipe: DatePipe = new DatePipe('en-US');
+
+  
+  filterUsername: string = '';
+  filterBranchName: string = '';
+  filterRoleName: string = '';
+  filterEmailAddress: string = '';
+  filterFullName: string = '';
+
+  constructor(private router: Router,
+    private user: Users,
+    private apiservice: GlobalApiService) { }
 
   ngOnInit(): void {
-    this.isTransactionViewHidden = true;
-    this.isListViewHidden = false;
+    this.view();
   }
 
-  async eventNewTransaction(a: any) {
-    
-    this.itemParentData = [];
+  async view() {
+    let response: any;
 
-    if (a !== undefined) {
-      const data = await this.itemservice.getDetails(a.ins_ItemCode);
-      for (var val of data as any) {
-        this.itemParentData.push(val as any);
-      }
+    this.userInfo = this.user.getCurrentUser();
+    let userid = this.userInfo.userId;
+    let emailAddress = this.userInfo.emailAddress;
+
+    response = await this.apiservice.getDataAsync(this.documentType, 'GetUser');
+
+    console.log(response);
+    this.users = [];
+    for (var v of response) {
+      
+      let newUser = new UserList(v.ins_Id, v.ins_UserName, v.ins_FullName, v.ins_EmailAddress, v.ins_BranchCode,
+          v.ins_BranchName, v.ins_RoleCode, v.ins_RoleName );
+
+      this.users.push(newUser);
     }
-    this.isListViewHidden = true;
-    this.isTransactionViewHidden = false;
-    console.log('New View');
+
+    this.visibleUser = this.users;
+    console.log(this.visibleUser);
   }
 
-  eventListTransaction() {
-    this.itemParentData = [];
-    this.isListViewHidden = false;
-    this.isTransactionViewHidden = true;
-    console.log('List View');
+  create() {
+    this.router.navigate([`${this.docurl}-transaction`]);
+  }
+
+  edit(v: any) {
+    this.router.navigate([`${this.docurl}-transaction/${v.ins_Id}`]);
+  }
+
+  filterTransactions() {
+    this.visibleUser = this.users.filter(trans =>
+      trans.ins_UserName.toLowerCase().includes(this.filterUsername.toLowerCase())
+      && trans.ins_FullName.toLowerCase().includes(this.filterFullName.toLowerCase())
+      && trans.ins_EmailAddress.toLowerCase().includes(this.filterEmailAddress.toLowerCase())
+      && trans.ins_RoleName.toLowerCase().includes(this.filterRoleName.toLowerCase())
+      && trans.ins_BranchName.toLowerCase().includes(this.filterBranchName.toLowerCase())
+    );
+
   }
 }
+

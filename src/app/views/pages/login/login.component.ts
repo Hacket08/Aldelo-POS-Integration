@@ -66,6 +66,8 @@ export class LoginComponent {
 
       let result: any;
       result = (await this.globalservice.postData("Auth","Login", body)) as any;
+      console.log("Login", result);
+
       const output = Object.entries(result).map(([key, value]) => ({[key]: value}))
       if(output.length > 0)
       {

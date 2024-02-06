@@ -1,0 +1,17 @@
+<c-card class="mt-4">
+    <c-card-header>
+      Branch Daily Sales Monitoring <strong>[ OLD TOWN ]</strong>
+    </c-card-header>
+    <c-card-body>
+      <c-row>
+        <c-chart *ngIf="mainChart.data" 
+        [data]="mainChart.data" 
+        [height]="300" 
+        [ngStyle]="{ 'marginTop.rem': 1,  'marginBottom.rem': 1,  'marginRight.rem': 1}"
+        [options]="mainChart.options"
+          [type]="mainChart.type">
+          Main chart
+        </c-chart>
+      </c-row>
+    </c-card-body>
+  </c-card>

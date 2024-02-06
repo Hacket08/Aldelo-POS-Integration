@@ -23,16 +23,14 @@ export const navItems: INavData[] = [
     children: [
       {
         name: 'Sales Monitoring',
-        url: '/sales/sales-monitoring',
-        attributes: { hidden: true }
+        url: '/sales/sales-monitoring'
       },
       {
         name: 'Branch Sales Monitoring',
-        url: '/sales/branch-sales-monitoring',
-        attributes: { hidden: false }
+        url: '/sales/branch-sales-monitoring'
       },
       {
-        name: 'Report',
+        name: 'Sales Report',
         url: '/sales/sales-report'
       },
     ]
@@ -52,7 +50,7 @@ export const navItems: INavData[] = [
         url: '/purchase/purchase-order'
       },
       {
-        name: 'Goods Receipt',
+        name: 'Goods Receipt PO',
         url: '/purchase/goods-receipt'
       },
       {
@@ -210,7 +208,11 @@ export const navBranchItems: INavData[] = [
       {
         name: 'Purchase Order',
         url: '/purchase/purchase-order'
-      }
+      },
+      {
+        name: 'Goods Receipt PO',
+        url: '/purchase/goods-receipt'
+      },
     ]
   },
   {
@@ -263,6 +265,76 @@ export const navApproverItems: INavData[] = [
       }
     ]
   },
+];
+
+
+
+export const navHeadOfficeItems: INavData[] = [
+  {
+    title: true,
+    name: ''
+  },
+  {
+    name: 'Dashboard',
+    url: '/dashboard',
+    iconComponent: { name: 'cil-speedometer' },
+  },
+  {
+    title: true,
+    name: 'Data Monitoring'
+  },
+  {
+    name: 'Sales',
+    url: '/sales',
+    iconComponent: { name: 'cil-chart-line' },
+    children: [
+      {
+        name: 'Sales Monitoring',
+        url: '/sales/sales-monitoring'
+      },
+    ]
+  },
+  {
+    name: 'Purchase',
+    url: '/purchase',
+    iconComponent: { name: 'cil-truck' },
+    children: [
+      {
+        name: 'Purchase Order',
+        url: '/purchase/purchase-order'
+      },
+      {
+        name: 'Goods Receipt PO',
+        url: '/purchase/goods-receipt'
+      },
+    ]
+  },
+  {
+    name: 'Inventory',
+    url: '/inventory',
+    iconComponent: { name: 'cil-clipboard' },
+    children: [
+      {
+        name: 'Inventory Counting',
+        url: '/inventory/inventory-counting'
+      },
+    ]
+  },
+  {
+    name: 'Master Data',
+    url: '/master-data',
+    iconComponent: { name: 'cil-description' },
+    children: [
+      {
+        name: 'Branch',
+        url: '/master-data/branch'
+      },
+      {
+        name: 'Supplier',
+        url: '/master-data/supplier'
+      },
+    ]
+  }
 ];
 
 

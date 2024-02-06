@@ -117,6 +117,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   // Actions
   spinnerHidden: boolean = true;
+  actionHidden: boolean = true;
   printerHidden: boolean = true;
   saveHidden: boolean = true;
   confirmHidden: boolean = true;
@@ -144,7 +145,8 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   LoadSettingDefault() {
     this.spinnerHidden = true;
-    this.printerHidden = true;
+    this.printerHidden = false;
+    this.actionHidden = false;
     this.saveHidden = true;
     this.confirmHidden = true;
     this.approvedHidden = true;
@@ -306,19 +308,20 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
       let orderquantity = v.ins_OrderQuantity;
       let receivedquantity = v.ins_ReceivedQuantity;
+      let receivedinventoryquantity = v.ins_ReceivedInventoryQuantity;
       let releasedquantity = v.ins_ReleasedQuantity;
       let releasedinventoryquantity = v.ins_ReleasedInventoryQuantity;
 
       let newTransaction = new ItemTransactionLine(itemcode, itemname, uomlist, unituom, unitquantity, unitcost, linetotal, inventoryuom,
         inventoryquantity, inventorycost, unitbaseuom, unitbasequantity, unitbasecost, itemuomid,
-        basedocnum, basedocentry, basedoctype, baselinenum, this.objecttype, orderquantity, receivedquantity, releasedquantity, releasedinventoryquantity);
+        basedocnum, basedocentry, basedoctype, baselinenum, this.objecttype, orderquantity, receivedquantity,
+        receivedinventoryquantity, releasedquantity, releasedinventoryquantity);
 
       this.itemTransactionLines.push(newTransaction);
-
       this.selectedUoms[v.ins_LineNum] = getuom;
-
     }
-
+    
+    this.docstatus = response.ins_DocStatus;
     this.OnLoadForm(response.ins_DocStatus);
   }
 
@@ -361,13 +364,23 @@ export class PurchaseOrderTransactionComponent implements OnInit {
         if (this.docstatus !== 0) {
           this.swal.commonSwalCentered('Transaction is Updated! No Change Apply', 'error');
           this.editTransaction(this.documentid);
-          this.spinnerHidden = false;
+          this.spinnerHidden = true;
           return;
         }
       }
 
     }
 
+    if (this.cardcode === "") {
+      this.swal.commonSwalCentered(
+        'Invalid Supplier',
+        'error'
+      );
+
+      this.editTransaction(this.documentid);
+      this.spinnerHidden = true;
+      return;
+    }
 
     let trans = this.buildTransaction();
 
@@ -392,7 +405,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
         break;
       case UserAction.EDIT:
 
-
         this.apiservice.postData(trans,
           this.documentType,
           'UpdateTransaction'
@@ -406,14 +418,10 @@ export class PurchaseOrderTransactionComponent implements OnInit {
           this.spinnerHidden = true;
         })
 
-
         break;
-
       default:
         break;
     }
-
-
   }
 
   actionClick(actionid: number) {
@@ -430,7 +438,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       case 3:
         this.CancelTransaction(actionid);
         break;
-
       case 5:
         this.DeliveryTransaction(actionid);
         break;
@@ -475,7 +482,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
             const successMessage = `${text}`;
             // this.swal.commonSwalCentered(`Transaction ${successMessage}`, status !== 1 ? 'error' : 'success');
 
-
             this.swal.commonSwalCentered(`Transaction ${successMessage}`, icon);
             this.editTransaction(this.documentid);
             this.spinnerHidden = true;
@@ -509,6 +515,15 @@ export class PurchaseOrderTransactionComponent implements OnInit {
   }
 
   DeliveryTransaction(status: number) {
+
+    if (this.cardcode === "") {
+      this.swal.commonSwalCentered(
+        'Invalid Supplier',
+        'error'
+      );
+      return;
+    }
+
     this.performTransaction('Confirm', 'Confirm', 'Delivery Confirmed', 'success', status);
   }
 
@@ -547,12 +562,13 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
     let orderquantity = 0;
     let receivedquantity = 0;
+    let receivedinventoryquantity = 0;
     let releasedquantity = unitquantity;
     let releasedinventoryquantity = inventoryquantity;
 
     let newTransaction = new ItemTransactionLine(itemcode, itemname, uomlist, unituom, unitquantity, unitcost, linetotal, inventoryuom,
       inventoryquantity, inventorycost, unitbaseuom, unitbasequantity, unitbasecost, getuom.ins_ItemUomId,
-      null, null, null, null, this.objecttype, orderquantity, receivedquantity, releasedquantity, releasedinventoryquantity);
+      null, null, null, null, this.objecttype, orderquantity, receivedquantity, receivedinventoryquantity, releasedquantity, releasedinventoryquantity);
 
     this.itemTransactionLines.push(newTransaction);
     this.lastAddedIndex = this.itemTransactionLines.length - 1;
@@ -574,8 +590,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.itemTransactionLines.splice(index, 1);
     this.selectedUoms.splice(index, 1);
   }
-
-
 
   onSelectChange(selectedItem: any, selectedUom: any) {
     selectedItem.ins_UnitUom = selectedUom.ins_BaseUOM;
@@ -700,6 +714,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
     }
     else {
+
       selectedItem.ins_UnitCost = this.ConvertToDouble(cost, '2');
 
       let basequantity = this.ConvertToDouble(selectedItem.ins_UnitBaseQuantity, '2');
@@ -718,10 +733,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       });
 
     }
-
-
   }
-
 
   onReleasedQuantityChange(selectedItem: any, val: any) {
 
@@ -746,8 +758,6 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       selectedItem.ins_ReleasedQuantity = this.ConvertToDouble(_qty, '2');
       selectedItem.ins_UnitCost = this.ConvertToDouble(_unitcost, '2');
     }
-
-
 
     let unitbasecost = this.ConvertToDouble(selectedItem.ins_UnitBaseCost, '6');
     let quantity = this.ConvertToDouble(selectedItem.ins_ReleasedQuantity, '2');
@@ -836,7 +846,8 @@ export class PurchaseOrderTransactionComponent implements OnInit {
         v.ins_InventoryUom, v.ins_InventoryQuantity, v.ins_InventoryCost,
         v.ins_UnitBaseUom, v.ins_UnitBaseQuantity, v.ins_UnitBaseCost, v.ins_ItemUomId, index,
         v.ins_BaseDocNum, v.ins_BaseDocEntry, v.ins_BaseDocType, v.ins_BaseLineNum, v.ins_ObjectType,
-        v.ins_OrderQuantity, v.ins_ReceivedQuantity, v.ins_ReleasedQuantity, v.ins_ReleasedInventoryQuantity
+        v.ins_OrderQuantity, v.ins_ReceivedQuantity, v.ins_ReceivedInventoryQuantity,
+        v.ins_ReleasedQuantity, v.ins_ReleasedInventoryQuantity
       );
 
       transactionline.push(newTransactionLine);
@@ -855,6 +866,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
   onDataChange() {
     this.printerHidden = true;
+    this.actionHidden = true;
     this.saveHidden = false;
   }
 
@@ -922,6 +934,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
 
     this.LoadSettingDefault();
 
+    this.actionHidden = false;
     this.removeItemHidden = false;
     this.uomItemHidden = false;
     this.quantityItemHidden = false;
@@ -936,7 +949,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.cardcodeDisable = false;
 
 
-    if (this.rolecode === 'BRUSR' ) {
+    if (this.rolecode === 'BRUSR') {
       this.priceItemHidden = true;
       this.duedateReadOnly = true;
       this.docdateReadOnly = true;
@@ -951,7 +964,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
       // this.duedateReadOnly = true;
     }
 
-    if (this.rolecode === 'ADMIN' ) {
+    if (this.rolecode === 'ADMIN') {
 
       this.releasedItemHidden = true;
       this.priceItemHidden = true;
@@ -969,6 +982,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.LoadSettingDefault();
 
     this.printerHidden = false;
+    this.actionHidden = false;
     this.confirmHidden = false;
     this.dividerHidden = false;
     this.cancelHidden = false;
@@ -990,7 +1004,7 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     let isApprover = this.approverlist.toLowerCase().indexOf(this.userInfo.emailAddress);
 
     if (this.userInfo.securityLevel !== "1") {
-      if (this.transOwner !== this.userInfo.fullName) {
+      if (this.transUserId !== this.userInfo.userId) {
         this.LoadSettingDefault();
         if (isApprover === 0) {
           // Is Transaction Approver
@@ -1038,26 +1052,31 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     }
 
     this.LoadSettingDefault();
-    
-    if (this.rolecode === 'BRUSR') {
-      this.cancelHidden = false;
+
+    if (this.userInfo.securityLevel !== "1") {
+      if (this.transUserId !== this.userInfo.userId) {
+
+        if (this.rolecode === 'BRUSR') {
+          this.cancelHidden = false;
+        }
+
+        if (this.rolecode === 'ORREL' || this.rolecode === 'ADMIN' || this.rolecode === 'ADMFI') {
+
+          this.badgename = 'ORDER';
+
+          this.duedateReadOnly = false;
+
+          this.deliveryHidden = false;
+          this.dividerHidden = false;
+
+          this.releasedItemHidden = false;
+          this.priceItemHidden = false;
+
+          this.rejectHidden = false;
+        }
+      }
+
     }
-
-    if (this.rolecode === 'ORREL' || this.rolecode === 'ADMIN' || this.rolecode === 'ADMFI') {
-
-      this.badgename = 'ORDER';
-
-      this.duedateReadOnly = false;
-
-      this.deliveryHidden = false;
-      this.dividerHidden = false;
-
-      this.releasedItemHidden = false;
-      this.priceItemHidden = false;
-
-      this.rejectHidden = false;
-    }
-
   }
 
   formRejected() {
@@ -1092,6 +1111,11 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.badge = 'secondary';
     this.badgename = 'FOR DELIVERY';
 
+    if (this.received === 1) {
+      this.badge = 'primary';
+      this.badgename = 'RECEIVED';
+    }
+
     this.LoadSettingDefault();
   }
 
@@ -1102,4 +1126,16 @@ export class PurchaseOrderTransactionComponent implements OnInit {
     this.LoadSettingDefault();
   }
 
+  openForm() {
+    
+    console.log(this.docstatus);
+    if (this.docstatus === 5) {
+          // const url = `https://localhost:44382/Reporting/PaymentSlip?crdocnum="${ this.docnum }"`;
+      window.open(this.apiservice.view("DeliverySlip",`crdocnum="${ this.docnum }"`), '_blank');
+    }
+    else{
+      window.open(this.apiservice.view("PurchaseOrderSlip",`crdocnum="${ this.docnum }"`), '_blank');
+    }
+
+  }
 }

@@ -50,6 +50,7 @@ import { SalesReportComponent } from './sales-report/sales-report.component';
 
 import { WidgetsModule } from '../widgets/widgets.module';
 import { SalesWidgetsModule } from '../sales-widgets/sales-widgets.module';
+import { ChartsModule } from '../charts/charts.module';
 
 
 @NgModule({
@@ -86,6 +87,7 @@ import { SalesWidgetsModule } from '../sales-widgets/sales-widgets.module';
     ButtonGroupModule,
     ModalModule,
     MasterDataModule,
+    ChartsModule,
     // DocsComponentsModule,
   ],
   declarations: [

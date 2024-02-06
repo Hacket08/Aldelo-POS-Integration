@@ -29,7 +29,10 @@ export class ItemTransactionLine {
         public ins_ObjectType: number,
         
         public ins_OrderQuantity: number,
+        
         public ins_ReceivedQuantity: number,
+        public ins_ReceivedInventoryQuantity: number,
+
         public ins_ReleasedQuantity: number,
         public ins_ReleasedInventoryQuantity: number,
     ) { }

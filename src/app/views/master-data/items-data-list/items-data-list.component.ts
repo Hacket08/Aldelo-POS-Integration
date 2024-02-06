@@ -3,7 +3,7 @@ import { GlobalService } from 'src/_shared/api/service';
 
 import {
   Item
-} from '../../../../../_model/item/item';
+} from '../../../../_model/item/item';
 
 @Component({
   selector: 'app-items-data-list',

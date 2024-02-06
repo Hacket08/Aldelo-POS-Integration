@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalService } from 'src/_shared/api/service';
-import { Supplier } from '../../../../../_model/supplier/supplier';
+import { Supplier } from '../../../../_model/supplier/supplier';
 
 @Component({
   selector: 'app-supplier-data-list',

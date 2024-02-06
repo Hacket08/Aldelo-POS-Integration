@@ -1,2 +1,99 @@
-<app-items-data-list (itemListEvent)="eventNewTransaction($event)" *ngIf="!isListViewHidden"></app-items-data-list>
-<app-items-data-entry [itemData]="itemParentData" (itemDataEvent)="eventListTransaction()" *ngIf="!isTransactionViewHidden"></app-items-data-entry>
+<c-card>
+    <div class="d-flex justify-content-end">
+        <button cButton color="success" size="sm" (click)="create()">
+            <strong>Create New User</strong>
+        </button>
+    </div>
+</c-card>
+<!-- 
+<c-card>
+    <c-row>
+        <c-col lg="4" md="6" xs="12">
+            <c-input-group class="mb-1" sizing="sm">
+                <input aria-describedby="button-addon2" aria-label="User Name" cFormControl placeholder="User Name" />
+            </c-input-group>
+
+            <c-input-group class="mb-1" sizing="sm">
+                <input aria-describedby="button-addon2" aria-label="Full Name" cFormControl placeholder="Full Name" />
+            </c-input-group>
+
+        </c-col>
+
+        <c-col lg="4" md="6" xs="12">
+
+            <c-input-group class="mb-1" sizing="sm">
+                <input aria-describedby="button-addon2" aria-label="Email Address" cFormControl
+                    placeholder="Email Address" />
+            </c-input-group>
+        </c-col>
+        <c-col lg="4" md="6" xs="12"></c-col>
+    </c-row>
+</c-card> -->
+
+<c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Username" cFormControl
+                            placeholder="Username" [(ngModel)]="filterUsername"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Full Name" cFormControl
+                            placeholder="Full Name" [(ngModel)]="filterFullName"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Email Address" cFormControl
+                            placeholder="Email Address" [(ngModel)]="filterEmailAddress"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Role Name" cFormControl
+                            placeholder="Role Name" [(ngModel)]="filterRoleName"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Default Branch" cFormControl
+                            placeholder="Default Branch" [(ngModel)]="filterBranchName"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col"></th>
+            </tr>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Email Address</th>
+                <th scope="col">Role Name</th>
+                <th scope="col">Default Branch</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let o of visibleUser" style="padding: 0;">
+                <td>{{ o.ins_UserName }}</td>
+                <td>{{ o.ins_FullName }}</td>
+                <td>{{ o.ins_EmailAddress }}</td>
+                <td>{{ o.ins_RoleName }}</td>
+                <td>{{ o.ins_BranchName }}</td>
+                <td>
+                    <button (click)="edit(o)" cButton color="info" size="sm"
+                        style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+                        <svg cIcon name="cil-pencil" size="sm"></svg>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</c-card>

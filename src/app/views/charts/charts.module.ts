@@ -7,9 +7,11 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { ChartsComponent } from './charts.component';
 import { ChartsRoutingModule } from './charts-routing.module';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
+import { SalesDataChartsComponent } from './sales-data-charts/sales-data-charts.component';
+import { DailySalesDataChartsComponent } from './daily-sales-data-charts/daily-sales-data-charts.component';
 
 @NgModule({
-  declarations: [ChartsComponent],
+  declarations: [ChartsComponent, SalesDataChartsComponent, DailySalesDataChartsComponent],
   imports: [
     CommonModule,
     ChartsRoutingModule,
@@ -18,6 +20,10 @@ import { DocsComponentsModule } from '@docs-components/docs-components.module';
     GridModule,
     BadgeModule,
     DocsComponentsModule
+  ],
+  exports: [
+    SalesDataChartsComponent,
+    DailySalesDataChartsComponent,
   ]
 })
 export class ChartsModule {

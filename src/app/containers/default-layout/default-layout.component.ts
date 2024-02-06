@@ -3,7 +3,7 @@ import { IconModule } from '@coreui/icons-angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { brandSet, flagSet, freeSet } from '@coreui/icons';
 
-import { navItems, navBranchItems, navApproverItems } from './_nav';
+import { navItems, navBranchItems, navApproverItems, navHeadOfficeItems } from './_nav';
 import { Users } from 'src/_services/user.api';
 
 @Component({
@@ -29,12 +29,15 @@ export class DefaultLayoutComponent {
 
     switch (rolecode) {
       case 'BRUSR':
+      case 'OMNGR':
         this.navItems = navBranchItems;
         break;
       case 'ORREL':
       case 'BRAPR':
-      case 'ADMFI':
         this.navItems = navApproverItems;
+        break;
+      case 'ADMFI':
+        this.navItems = navHeadOfficeItems;
         break;
       default:
         this.navItems = navItems;

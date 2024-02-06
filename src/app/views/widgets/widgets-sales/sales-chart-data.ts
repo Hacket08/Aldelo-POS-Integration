@@ -336,7 +336,7 @@ export class SalesChartData {
       });
 
       
-      console.log(data);
+      //console.log(data);
     });
 
     // const output = await this.genDataList(date).then().finally();

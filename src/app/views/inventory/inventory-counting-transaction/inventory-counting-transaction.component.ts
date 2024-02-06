@@ -283,13 +283,14 @@ export class InventoryCountingTransactionComponent implements OnInit {
       let unitbaseuom = v.ins_UnitBaseUOM;
       let orderquantity = v.ins_OrderQuantity;
       let receivedquantity = v.ins_ReceivedQuantity;
+      let receivedinventoryquantity = v.ins_ReceivedInventoryQuantity;
 
       let releasedquantity = v.ins_ReleasedQuantity;
       let releasedinventoryquantity = v.ins_ReleasedInventoryQuantity
 
       let newTransaction = new ItemTransactionLine(itemcode, itemname, uomlist, unituom, unitquantity, unitcost, linetotal, inventoryuom,
         inventoryquantity, inventorycost, unitbaseuom, unitbasequantity, unitbasecost, itemuomid, 
-        null,null,null,null, this.objecttype, orderquantity, receivedquantity, releasedquantity, releasedinventoryquantity);
+        null,null,null,null, this.objecttype, orderquantity, receivedquantity, receivedinventoryquantity, releasedquantity, releasedinventoryquantity);
       this.itemTransactionLines.push(newTransaction);
 
       this.selectedUoms[v.ins_LineNum] = getuom;
@@ -490,13 +491,14 @@ export class InventoryCountingTransactionComponent implements OnInit {
 
     let orderquantity = 0;
     let receivedquantity = 0;
+    let receivedinventoryquantity = 0;
     let releasedquantity = unitquantity;
     let releasedinventoryquantity = inventoryquantity;
 
     let newTransaction = new ItemTransactionLine(itemcode, itemname, uomlist, unituom, 
       unitquantity, unitcost, linetotal, inventoryuom, inventoryquantity, 
       inventorycost, unitbaseuom, unitbasequantity, unitbasecost, getuom.ins_ItemUomId, 
-      null,null,null,null, this.objecttype, orderquantity, receivedquantity, releasedquantity, releasedinventoryquantity);
+      null,null,null,null, this.objecttype, orderquantity, receivedquantity, receivedinventoryquantity , releasedquantity, releasedinventoryquantity);
 
     this.itemTransactionLines.push(newTransaction);
     this.lastAddedIndex = this.itemTransactionLines.length - 1;
@@ -583,7 +585,7 @@ export class InventoryCountingTransactionComponent implements OnInit {
         v.ins_InventoryUom, v.ins_InventoryQuantity, v.ins_InventoryCost,
         v.ins_UnitBaseUom, v.ins_UnitBaseQuantity, v.ins_UnitBaseCost, v.ins_ItemUomId, index, 
         v.ins_BaseDocNum, v.ins_BaseDocEntry, v.ins_BaseDocType, v.ins_BaseLineNum, v.ins_ObjectType,
-        v.ins_OrderQuantity, v.ins_ReceivedQuantity, v.ins_ReleasedQuantity, v.ins_ReleasedInventoryQuantity
+        v.ins_OrderQuantity, v.ins_ReceivedQuantity, v.ins_ReceivedInventoryQuantity, v.ins_ReleasedQuantity, v.ins_ReleasedInventoryQuantity
       );
 
       transactionline.push(newTransactionLine);

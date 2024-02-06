@@ -5,7 +5,7 @@
         </button>
     </div>
 </c-card>
-
+<!-- 
 <c-card>
     <c-row>
         <c-col lg="4" md="6" xs="12">
@@ -28,14 +28,52 @@
         </c-col>
         <c-col lg="4" md="6" xs="12"></c-col>
     </c-row>
-</c-card>
+</c-card> -->
 
 <c-card class="table-responsive">
     <table cTable [hover]="true" [striped]="true" size="sm">
         <thead>
             <tr>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Username" cFormControl
+                            placeholder="Username" [(ngModel)]="filterUsername"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Full Name" cFormControl
+                            placeholder="Full Name" [(ngModel)]="filterFullName"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Email Address" cFormControl
+                            placeholder="Email Address" [(ngModel)]="filterEmailAddress"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Role Name" cFormControl
+                            placeholder="Role Name" [(ngModel)]="filterRoleName"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Default Branch" cFormControl
+                            placeholder="Default Branch" [(ngModel)]="filterBranchName"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col"></th>
+            </tr>
+            <tr>
                 <th scope="col">Username</th>
-                <th scope="col">Fullname</th>
+                <th scope="col">Full Name</th>
                 <th scope="col">Email Address</th>
                 <th scope="col">Role Name</th>
                 <th scope="col">Default Branch</th>

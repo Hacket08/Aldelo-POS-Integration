@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ItemService } from '../../../../../_shared/items/item.service';
+import { ItemService } from '../../../../_shared/items/item.service';
 
 import {
   Item
-} from '../../../../../_model/item/item';
+} from '../../../../_model/item/item';
 
 // import { Injectable } from '@angular/core';
 // @Injectable({

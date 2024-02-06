@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SwalService } from '../../../../../_services/swal-service';
-import { ApiHttpService } from '../../../../../_services/api-http.service';
+import { SwalService } from '../../../../_services/swal-service';
+import { ApiHttpService } from '../../../../_services/api-http.service';
 
 // load item shared files
 import { Item } from 'src/_model/item/item';
-import { ItemApi } from '../../../../../_shared/items/item.api';
+import { ItemApi } from '../../../../_shared/items/item.api';
 import { GlobalService } from 'src/_shared/api/service';
 
 @Component({

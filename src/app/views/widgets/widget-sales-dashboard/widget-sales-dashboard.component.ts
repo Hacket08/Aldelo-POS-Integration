@@ -31,10 +31,10 @@ export class WidgetSalesDashboardComponent implements OnInit, AfterContentInit {
   date: Date = new Date();
   currentdate = this.datepipe.transform(this.date, 'yyyy-MM-dd');
 
-  currentsales: number;
-  prevsales: number;
-  currentsalesofthemonth: number;
-  currentsalesoftheyear: number;
+  currentsales: number = 0;
+  prevsales: number = 0;
+  currentsalesofthemonth: number = 0;
+  currentsalesoftheyear: number = 0;
 
   constructor(
     private globalservice: GlobalService,
@@ -153,8 +153,11 @@ export class WidgetSalesDashboardComponent implements OnInit, AfterContentInit {
   };
 
   ngOnInit(): void {
-    this.setData();
-    this.getMonthlySalesSummary('2022-05-02');
+
+    this.currentsales = 0.00;
+    console.log(this.currentsales);
+    // this.setData();
+    // this.getMonthlySalesSummary('2022-05-02');
   }
 
   ngAfterContentInit(): void {

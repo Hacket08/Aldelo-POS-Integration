@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig } from 'src/_config/app-config';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,21 @@ export class GlobalApiService {
     }
   }
 
-
+  private reportSite() {
+    // return Constants.API_ENDPOINT + "api/" + module;
+    return this.appConfig.ReportBaseUrl + "Reporting/";
+  }
 
   private apiSite() {
     // return Constants.API_ENDPOINT + "api/" + module;
     return this.appConfig.APIBaseUrl + "api/";
+  }
+
+  view(module: string, modparam: string = "") {
+        // const url = `https://localhost:44382/Reporting/PaymentSlip?crdocnum="${ this.docnum }"`;
+    let site = this.reportSite();
+    let url = `${site}${module}?${modparam}`;
+    return url
   }
 
   get(module: string, modfunction: string = "", modparam: string = "") {
@@ -73,5 +84,9 @@ export class GlobalApiService {
   }
 
 
+
+  getData(module: string, modfunction: string = "", modparam: string = "") {
+    return this.get(module, modfunction, modparam);
+  }
 
 }

@@ -139,7 +139,7 @@
                             <input cFormControl type="text" name="date" [attr.type]="inputType"
                                 formControlName="docdate" [(ngModel)]="docdate"
                                 (change)="onDocDateChange(); onDataChange()" (focus)="onInputFocus()"
-                                (blur)="onInputBlur()" [readonly]="duedateReadOnly" />
+                                (blur)="onInputBlur()" readonly="true" />
                         </c-input-group>
                     </c-col>
                 </c-row>

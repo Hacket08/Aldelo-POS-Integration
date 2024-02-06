@@ -1,8 +1,90 @@
-<!-- <app-supplier-data-list (passedEvent)="eventNewTransaction($event)" *ngIf="!isListViewHidden"></app-supplier-data-list>
-<app-supplier-data-entry [supplierData]="supplierParentData" (passedEvent)="eventListTransaction()" *ngIf="!isTransactionViewHidden"></app-supplier-data-entry>
- -->
- <app-supplier-data-list  (outputEvent)="eventNewTransaction($event)" *ngIf="isListViewHidden"></app-supplier-data-list>
- <app-supplier-data-entry  [dataList]="parentData" (outputEvent)="eventListTransaction()" *ngIf="isTransactionViewHidden"></app-supplier-data-entry>
+<c-card>
+    <div class="d-flex justify-content-end">
+        <button cButton color="success" size="sm" (click)="create()">
+            <strong>Create New User</strong>
+        </button>
+    </div>
+</c-card>
+<!-- 
+<c-card>
+    <c-row>
+        <c-col lg="4" md="6" xs="12">
+            <c-input-group class="mb-1" sizing="sm">
+                <input aria-describedby="button-addon2" aria-label="User Name" cFormControl placeholder="User Name" />
+            </c-input-group>
 
- 
- 
+            <c-input-group class="mb-1" sizing="sm">
+                <input aria-describedby="button-addon2" aria-label="Full Name" cFormControl placeholder="Full Name" />
+            </c-input-group>
+
+        </c-col>
+
+        <c-col lg="4" md="6" xs="12">
+
+            <c-input-group class="mb-1" sizing="sm">
+                <input aria-describedby="button-addon2" aria-label="Email Address" cFormControl
+                    placeholder="Email Address" />
+            </c-input-group>
+        </c-col>
+        <c-col lg="4" md="6" xs="12"></c-col>
+    </c-row>
+</c-card> -->
+
+<c-card class="table-responsive">
+    <table cTable [hover]="true" [striped]="true" size="sm">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Username" cFormControl
+                            placeholder="Username" [(ngModel)]="filterCardCode"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Full Name" cFormControl
+                            placeholder="Full Name" [(ngModel)]="filterCardName"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Email Address" cFormControl
+                            placeholder="Email Address" [(ngModel)]="filterContactPerson"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col">
+                    <c-input-group class="mb-1" sizing="sm">
+                        <input aria-describedby="button-addon2" aria-label="Role Name" cFormControl
+                            placeholder="Role Name" [(ngModel)]="filterPhone"
+                            (ngModelChange)="filterTransactions()" />
+                    </c-input-group>
+                </th>
+                <th scope="col"></th>
+            </tr>
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Contact Person</th>
+                <th scope="col">Contact Number</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let o of visibleUser" style="padding: 0;">
+                <td>{{ o.ins_CardCode }}</td>
+                <td>{{ o.ins_CardName }}</td>
+                <td>{{ o.ins_ContactPerson }}</td>
+                <td>{{ o.ins_Phone }}</td>
+                <td>
+                    <button (click)="edit(o)" cButton color="info" size="sm"
+                        style="margin-left: 0.25rem; margin-bottom: 0.25rem">
+                        <svg cIcon name="cil-pencil" size="sm"></svg>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</c-card>

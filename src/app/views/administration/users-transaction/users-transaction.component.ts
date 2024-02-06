@@ -21,6 +21,8 @@ import { ObjectType } from 'src/app_shared/enums/object-type';
 
 import { UserAccount } from 'src/app_shared/models/user-account';
 import { UserSupplier } from 'src/app_shared/models/user-supplier';
+import { UserBranch } from 'src/app_shared/models/user-branch';
+
 import { UserApprover } from '../../../../_model/userapprover';
 
 enum UserAction {
@@ -48,10 +50,13 @@ export class UsersTransactionComponent implements OnInit {
 
   approverLines: UserApprover[] = [];
   userSupplier: UserSupplier[] = [];
+  userBranch: UserBranch[] = [];
 
   documentForm = new FormGroup({
     userid: new FormControl(''),
     inactive: new FormControl(''),
+    allowsupplier: new FormControl(''),
+    allowbranch: new FormControl(''),
     useemail: new FormControl(''),
 
     username: new FormControl(''),
@@ -84,7 +89,6 @@ export class UsersTransactionComponent implements OnInit {
   rolecode: string = '';
   rolename: string = '';
 
-  inactive: number = 1;
   username: string = '';
   firstname: string = '';
   middleinitial: string = '';
@@ -95,6 +99,10 @@ export class UsersTransactionComponent implements OnInit {
   emailaddress: string = '';
   fullname: string = '';
 
+  
+  inactive: boolean = false;
+  allowsupplier: boolean = false;
+  allowbranch: boolean = false;
 
   badge: string = '';
   badgename: string = '';
@@ -110,6 +118,8 @@ export class UsersTransactionComponent implements OnInit {
   backToListHidden: boolean = false;
 
 
+  branchDisable: boolean = false;
+  supplierDisable: boolean = false;
 
   constructor(private activeroute: ActivatedRoute,
     private router: Router,
@@ -148,7 +158,9 @@ export class UsersTransactionComponent implements OnInit {
 
     this.documentForm.setValue({
       userid: this.userid,
-      inactive: 1,
+      inactive: this.inactive,
+      allowsupplier: this.allowsupplier,
+      allowbranch: this.allowbranch,
       username: this.username,
       firstname: this.firstname,
       middleinitial: this.middleinitial,
@@ -173,7 +185,7 @@ export class UsersTransactionComponent implements OnInit {
 
 
     this.userid = userid;
-    this.inactive = response.ins_InActive;
+    this.inactive = (response.ins_InActive === 1) ? true : false;
     this.username = response.ins_UserName;
     this.firstname = response.ins_FirstName;
     this.middleinitial = response.ins_MiddleInitial;
@@ -192,10 +204,15 @@ export class UsersTransactionComponent implements OnInit {
     this.rolecode = response.ins_RoleCode;
     this.rolename = response.ins_RoleName;
 
+    this.supplierDisable = this.allowsupplier = (response.ins_AllowAllSupplier === 1) ? true : false;
+    this.branchDisable = this.allowbranch = (response.ins_AllowAllBranch === 1) ? true : false;
+
 
     this.documentForm.patchValue({
       userid: this.userid,
       inactive: this.inactive,
+      allowsupplier: this.allowsupplier,
+      allowbranch: this.allowbranch,
       username: this.username,
 
       firstname: this.firstname,
@@ -227,6 +244,20 @@ export class UsersTransactionComponent implements OnInit {
       this.userSupplier.push(newSupplier);
     }
 
+
+    this.userBranch = [];
+    for (var v of response.ins_UserBranch) {
+
+      console.log("v", v);
+      let useraccountid = v.ins_UserAccountID;
+      let branchcode = v.ins_BranchCode;
+      let branchname = v.ins_BranchName;
+      let linenum = v.ins_LineNum;
+
+      let newBranch = new UserBranch(useraccountid, branchcode, branchname, linenum);
+      this.userBranch.push(newBranch);
+    }
+
   }
 
 
@@ -237,6 +268,8 @@ export class UsersTransactionComponent implements OnInit {
 
     let trans = this.buildTransaction();
 
+    console.log(trans);
+    
     switch (this.userAction) {
       case UserAction.ADD:
         this.apiservice.postData(trans,
@@ -281,7 +314,6 @@ export class UsersTransactionComponent implements OnInit {
   buildTransaction() {
 
     let usersupplier: UserSupplier[] = [];
-
     let index = 0;
     for (var v of this.userSupplier) {
       let newsupplier = new UserSupplier(
@@ -292,10 +324,22 @@ export class UsersTransactionComponent implements OnInit {
       index++;
     }
 
-    let newTransaction = new UserAccount(this.userid, this.inactive, this.username, this.firstname, this.middleinitial, this.lastname, this.fullname ,
+
+    let userbranch: UserBranch[] = [];
+    index = 0;
+    for (var x of this.userBranch) {
+      let newbranch = new UserBranch(
+        x.ins_UserAccountID, x.ins_BranchCode, x.ins_BranchName, index
+      );
+
+      userbranch.push(newbranch);
+      index++;
+    }
+
+    let newTransaction = new UserAccount(this.userid, ((this.inactive) ? 1 : 0), this.username, this.firstname, this.middleinitial, this.lastname, this.fullname ,
       this.securitylevel, this.password, this.retrypassword, 
       this.emailaddress, this.branchcode, this.branchname, 
-      this.rolecode, this.rolename, usersupplier
+      this.rolecode, this.rolename, ((this.allowsupplier) ? 1 : 0), ((this.allowbranch) ? 1 : 0), usersupplier, userbranch
     );
 
     return newTransaction;
@@ -332,10 +376,12 @@ export class UsersTransactionComponent implements OnInit {
   onDataChange() {
     this.printerHidden = true;
     this.saveHidden = false;
+
+    this.supplierDisable = this.allowsupplier;
+    this.branchDisable = this.allowbranch;
   }
 
   onItemRemove(index: any) {
-
     this.approverLines.splice(index, 1);
   }
 
@@ -363,10 +409,29 @@ export class UsersTransactionComponent implements OnInit {
     let newSupplier = new UserSupplier(useraccountid, cardcode, cardname, 0);
 
     this.userSupplier.push(newSupplier);
+    this.onDataChange();
   }
 
-  onSupplierRemove(index: any) {
+  onPartnerRemove(index: any) {
 
     this.userSupplier.splice(index, 1);
+    this.onDataChange();
+  }
+
+  
+  BranchListEvent(val: any) {
+    let useraccountid = val.ins_UserAccountID;
+    let branchcode = val.ins_BranchCode;
+    let branchname = val.ins_BranchName;
+    let newBranch = new UserBranch(useraccountid, branchcode, branchname, 0);
+
+    this.userBranch.push(newBranch);
+    this.onDataChange();
+  }
+
+  onBranchRemove(index: any) {
+
+    this.userBranch.splice(index, 1);
+    this.onDataChange();
   }
 }

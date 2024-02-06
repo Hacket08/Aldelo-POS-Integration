@@ -17,6 +17,7 @@ export class JsonAppConfigService  extends AppConfig{
       .toPromise()
       .then(data => {
         this.APIBaseUrl = data?.APIBaseUrl;
+        this.ReportBaseUrl = data?.ReportBaseUrl;
       })
       .catch(() => {
         console.error('Could not load configuration');

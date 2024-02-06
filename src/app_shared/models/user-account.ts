@@ -1,4 +1,5 @@
 import { UserSupplier } from "./user-supplier";
+import { UserBranch } from "./user-branch";
 
 export class UserAccount {
     constructor(
@@ -17,7 +18,11 @@ export class UserAccount {
         public ins_BranchName: string,
         public ins_RoleCode: string,
         public ins_RoleName: string,
+        
+        public ins_AllowAllSupplier: number,
+        public ins_AllowAllBranch: number,
 
-        public ins_UserSupplier: UserSupplier[]
+        public ins_UserSupplier: UserSupplier[],
+        public ins_UserBranch: UserBranch[]
     ){}
 }

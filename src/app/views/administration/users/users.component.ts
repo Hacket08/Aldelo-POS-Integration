@@ -23,6 +23,13 @@ export class UsersComponent implements OnInit {
   inputType = 'text';
   datepipe: DatePipe = new DatePipe('en-US');
 
+  
+  filterUsername: string = '';
+  filterBranchName: string = '';
+  filterRoleName: string = '';
+  filterEmailAddress: string = '';
+  filterFullName: string = '';
+
   constructor(private router: Router,
     private user: Users,
     private apiservice: GlobalApiService) { }
@@ -60,5 +67,16 @@ export class UsersComponent implements OnInit {
 
   edit(v: any) {
     this.router.navigate([`${this.docurl}-transaction/${v.ins_Id}`]);
+  }
+
+  filterTransactions() {
+    this.visibleUser = this.users.filter(trans =>
+      trans.ins_UserName.toLowerCase().includes(this.filterUsername.toLowerCase())
+      && trans.ins_FullName.toLowerCase().includes(this.filterFullName.toLowerCase())
+      && trans.ins_EmailAddress.toLowerCase().includes(this.filterEmailAddress.toLowerCase())
+      && trans.ins_RoleName.toLowerCase().includes(this.filterRoleName.toLowerCase())
+      && trans.ins_BranchName.toLowerCase().includes(this.filterBranchName.toLowerCase())
+    );
+
   }
 }

@@ -9,7 +9,8 @@ import {
   ProgressModule,
   SharedModule,
   ListGroupModule,
-  WidgetModule
+  WidgetModule, 
+  TableModule,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
@@ -28,6 +29,7 @@ import { WidgetsEComponent } from './widgets-e/widgets-e.component';
 import { WidgetsSalesComponent } from './widgets-sales/widgets-sales.component';
 import { WidgetSalesDashboardComponent } from './widget-sales-dashboard/widget-sales-dashboard.component';
 import { WidgetsPurchaseComponent } from './widgets-purchase/widgets-purchase.component';
+import { WidgetsBranchDataMonitoringComponent } from './widgets-branch-data-monitoring/widgets-branch-data-monitoring.component';
 
 
 
@@ -40,7 +42,8 @@ import { WidgetsPurchaseComponent } from './widgets-purchase/widgets-purchase.co
     WidgetsEComponent,
     WidgetsSalesComponent,
     WidgetSalesDashboardComponent,
-    WidgetsPurchaseComponent
+    WidgetsPurchaseComponent,
+    WidgetsBranchDataMonitoringComponent
   ],
   imports: [
     CommonModule,
@@ -55,14 +58,16 @@ import { WidgetsPurchaseComponent } from './widgets-purchase/widgets-purchase.co
     DocsComponentsModule,
     ProgressModule,
     ListGroupModule,
-    ChartjsModule
+    ChartjsModule,
+    TableModule
   ],
   exports: [
     WidgetsBrandComponent,
     WidgetsDropdownComponent,
     WidgetsSalesComponent,
     WidgetSalesDashboardComponent,
-    WidgetsPurchaseComponent
+    WidgetsPurchaseComponent,
+    WidgetsBranchDataMonitoringComponent
   ]
 })
 export class WidgetsModule {
